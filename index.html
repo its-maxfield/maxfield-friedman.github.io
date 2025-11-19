@@ -7,16 +7,16 @@
   <meta name="description" content="Portfolio — Gameplay & XR Engineer" />
   <link rel="icon" href="assets/favicon.png" />
 
+  <!-- GLOBAL THEME & RESET -->
   <style>
     :root {
-      /* ===== Global Theme ===== */
-      --background:#0f1210;              /* Warm dark background */
-      --text:#e7d9b8;                    /* Soft sandy text */
-      --muted:#c3b79b;                   /* Muted sandy */
-      --accent:#001702;                  /* Your chosen moss green accent */
-      
-      --card-top:rgba(0,0,0,0.78);       /* Dark glass */
-      --card-bottom:rgba(80,80,80,0.40); /* Grey glass */
+      --background:#0f1210;
+      --text:#e7d9b8;
+      --muted:#c3b79b;
+      --accent:#001702;
+
+      --card-top:rgba(0,0,0,0.78);
+      --card-bottom:rgba(80,80,80,0.40);
 
       --radius:14px;
       --max-width:1100px;
@@ -25,7 +25,6 @@
       color-scheme:dark;
     }
 
-    /* ===== Base ===== */
     html, body {
       margin:0;
       padding:0;
@@ -33,8 +32,14 @@
       color:var(--text);
     }
 
-    * { box-sizing:border-box }
-    a { color:inherit; text-decoration:none; }
+    * {
+      box-sizing:border-box;
+    }
+
+    a {
+      color:inherit;
+      text-decoration:none;
+    }
 
     .container {
       max-width:var(--max-width);
@@ -42,7 +47,7 @@
       padding:28px;
     }
 
-    /* ===== Header ===== */
+    /* HEADER */
     header {
       display:flex;
       align-items:center;
@@ -87,7 +92,7 @@
       background:rgba(255,255,255,0.18);
     }
 
-    /* ===== Hero ===== */
+    /* HERO SECTION */
     .hero {
       margin-top:32px;
       display:grid;
@@ -119,6 +124,9 @@
       border-radius:10px;
       font-weight:600;
       color:#fff;
+      cursor:pointer;
+      border:none;
+      display:inline-block;
     }
 
     .ghost {
@@ -127,9 +135,11 @@
       border:1px solid rgba(255,255,255,0.25);
       color:var(--muted);
       background:transparent;
+      cursor:pointer;
+      display:inline-block;
     }
 
-    /* ===== Solid Hero Card ===== */
+    /* SOLID HERO CARD */
     .card-hero {
       background:#000;
       color:#fff;
@@ -137,7 +147,7 @@
       padding:20px;
     }
 
-    /* ===== Glass Cards ===== */
+    /* REUSABLE GLASS CARD STYLE */
     .card {
       background:linear-gradient(180deg, var(--card-top), var(--card-bottom));
       color:var(--text);
@@ -146,7 +156,7 @@
       backdrop-filter:blur(8px);
     }
 
-    /* ===== Skills Grid ===== */
+    /* SKILLS SECTION */
     #skillsWrap {
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
@@ -164,7 +174,7 @@
       border:1px solid rgba(255,255,255,0.06);
     }
 
-    /* ===== Projects ===== */
+    /* PROJECTS SECTION */
     .projects-grid {
       margin-top:20px;
       display:grid;
@@ -172,7 +182,7 @@
       gap:20px;
     }
 
-    .project {
+    .project-card {
       background:linear-gradient(180deg, var(--card-top), var(--card-bottom));
       border-radius:var(--radius);
       overflow:hidden;
@@ -194,9 +204,12 @@
       width:100%;
       height:100%;
       object-fit:cover;
+      display:block;
     }
 
-    .project-body { padding:16px; }
+    .project-body {
+      padding:16px;
+    }
 
     .project-title {
       font-weight:700;
@@ -205,10 +218,21 @@
       margin-bottom:6px;
     }
 
+    .project-subtitle {
+      font-size:14px;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+
+    .tags {
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-top:6px;
+    }
+
     .tag {
       display:inline-block;
-      margin-right:6px;
-      margin-top:6px;
       padding:6px 10px;
       background:rgba(255,255,255,0.12);
       border-radius:8px;
@@ -216,12 +240,28 @@
       font-size:12px;
     }
 
-    /* ===== Experience ===== */
-    .experience-item {
-      padding:20px;
-      border-radius:var(--radius);
+    /* EXPERIENCE SECTION */
+    #experienceCard {
+      margin-top:20px;
       background:linear-gradient(180deg, var(--card-top), var(--card-bottom));
+      padding:24px;
+      border-radius:var(--radius);
+      backdrop-filter:blur(8px);
+    }
+
+    .company-card {
+      background:linear-gradient(180deg, var(--card-top), var(--card-bottom));
+      border-radius:var(--radius);
+      padding:20px;
       margin-bottom:20px;
+      border:1px solid rgba(255,255,255,0.05);
+    }
+
+    .company-card:last-child {
+      margin-bottom:0;
+    }
+
+    .experience-item {
       display:flex;
       gap:16px;
     }
@@ -232,9 +272,38 @@
       border-radius:8px;
       object-fit:contain;
       background:#00000055;
+      flex-shrink:0;
     }
 
-    /* ===== Contact ===== */
+    .company-name {
+      font-size:18px;
+      font-weight:700;
+      color:#fff;
+      margin-bottom:4px;
+      display:inline-block;
+    }
+
+    .role-block {
+      margin-top:10px;
+    }
+
+    .role-title {
+      font-weight:600;
+      color:#fff;
+    }
+
+    .role-date {
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .role-desc {
+      margin-top:4px;
+      font-size:15px;
+      color:var(--text);
+    }
+
+    /* CONTACT SECTION */
     .social-link {
       padding:10px 14px;
       background:rgba(255,255,255,0.12);
@@ -244,17 +313,104 @@
       display:inline-block;
     }
 
-    /* ===== Footer ===== */
+    /* FOOTER */
     footer {
       margin-top:48px;
       padding:24px 0;
       display:flex;
       justify-content:space-between;
       color:var(--muted);
+      font-size:14px;
     }
 
-    @media(max-width:900px){
-      .hero { grid-template-columns:1fr; }
+    /* PROJECT MODAL */
+    .modal-backdrop {
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.7);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:50;
+      padding:20px;
+    }
+
+    .modal {
+      background:#111;
+      color:var(--text);
+      max-width:900px;
+      width:100%;
+      border-radius:16px;
+      padding:20px;
+      box-shadow:0 18px 50px rgba(0,0,0,0.6);
+    }
+
+    .modal-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:12px;
+    }
+
+    .modal-title {
+      font-size:18px;
+      font-weight:700;
+      color:#fff;
+    }
+
+    .modal-close {
+      background:transparent;
+      border:none;
+      color:var(--muted);
+      font-size:18px;
+      cursor:pointer;
+    }
+
+    .modal-media {
+      height:360px;
+      background:#000;
+      border-radius:12px;
+      overflow:hidden;
+      margin-bottom:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .modal-media img,
+    .modal-media video,
+    .modal-media iframe {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      border:0;
+      display:block;
+    }
+
+    .modal-subtitle {
+      color:var(--muted);
+      font-size:14px;
+      margin-bottom:8px;
+    }
+
+    .modal-desc {
+      font-size:15px;
+      margin-bottom:10px;
+    }
+
+    @media(max-width:900px) {
+      .hero {
+        grid-template-columns:1fr;
+      }
+
+      .modal-media {
+        height:260px;
+      }
+
+      footer {
+        flex-direction:column;
+        gap:8px;
+      }
     }
   </style>
 </head>
@@ -280,7 +436,7 @@
       </nav>
     </header>
 
-    <!-- HERO -->
+    <!-- HERO SECTION -->
     <section class="hero">
       <div>
         <h2>Hi — I'm <span id="heroName">Maxfield Friedman</span></h2>
@@ -292,7 +448,7 @@
         </div>
       </div>
 
-      <!-- Hero Stat Card -->
+      <!-- HERO STAT CARD -->
       <aside class="card-hero">
         <div style="display:flex;gap:14px;align-items:center;">
           <div style="
@@ -304,7 +460,9 @@
             justify-content:center;
             font-size:28px;
             font-weight:700;
-            color:#fff;">MF</div>
+            color:#fff;">
+            MF
+          </div>
 
           <div>
             <div id="cardName" style="font-weight:700;font-size:18px;">Maxfield Friedman</div>
@@ -316,7 +474,7 @@
       </aside>
     </section>
 
-    <!-- SKILLS -->
+    <!-- SKILLS SECTION -->
     <section id="skills">
       <div class="card">
         <h3 style="margin-top:0;color:#fff;">Skills</h3>
@@ -325,19 +483,19 @@
       </div>
     </section>
 
-    <!-- PROJECTS -->
+    <!-- PROJECTS SECTION -->
     <section id="projects">
       <h3 style="color:#fff;">Projects</h3>
       <div class="projects-grid" id="projectsGrid"></div>
     </section>
 
-    <!-- EXPERIENCE -->
+    <!-- EXPERIENCE SECTION -->
     <section id="experience">
       <h3 style="color:#fff;">Experience</h3>
-      <div id="experienceWrap"></div>
+      <div id="experienceCard"></div>
     </section>
 
-    <!-- CONTACT -->
+    <!-- CONTACT SECTION -->
     <section id="contact">
       <div class="card" style="display:flex;gap:24px;flex-wrap:wrap;align-items:center;">
         <div style="flex:1;min-width:260px;">
@@ -356,143 +514,304 @@
       </div>
     </section>
 
+    <!-- FOOTER -->
     <footer>
       <div>© <span id="year"></span> Maxfield Friedman</div>
       <div>Here for a good time and to make great experiences</div>
     </footer>
-
   </div>
 
-<script>
-  const SITE_CONFIG = {
-    name:"Maxfield Friedman",
-    tag:"Gameplay/XR Engineer",
-    bio:"Bio coming soon...",
-    email:"maxfield.friedman12@gmail.com",
-
-    skills:[
-      "C#", "C++", "Unreal Engine", "Unity", "UEFN", "Blueprints",
-      "Verse", "Networking", "Gameplay Systems", "VR/XR",
-      "SteamVR", "OpenXR", "3D Math", "Game AI", "UI/UX"
-    ],
-
-    stats:[
-      {label:"Experience", value:"3+ Years"},
-      {label:"Engines", value:"Unity + Unreal + UEFN"},
-      {label:"Specialty", value:"Gameplay & XR Systems"}
-    ],
-
-    projects:[],
-
-    experience:[
-      {
-        company:"Force Multiplier Studios",
-        logo:"assets/logos/fmsLogo.png",
-        roles:[
-          {title:"Gameplay Engineer", date:"Jun. 2025 - Present", desc:""}
-        ]
-      },
-      {
-        company:"Launchvox Inc",
-        logo:"assets/logos/lvLogo.png",
-        roles:[
-          {
-            title:"XR Software Engineer",
-            date:"Jan. 2024 - Jun. 2025",
-            desc:"Worked on Unity/Unreal systems, Photon networking, VR interaction design, and optimization."
-          },
-          {
-            title:"Contract Software Engineer",
-            date:"Sep. 2023 - Dec. 2023",
-            desc:"Assisted production teams across Unity & Unreal."
-          }
-        ]
-      },
-      {
-        company:"Elara Systems Inc",
-        logo:"assets/logos/esiLogo.png",
-        roles:[
-          {
-            title:"XR Software Engineer",
-            date:"Jan. 2022 - Mar. 2023",
-            desc:"Expanded VR training systems with IK, pathfinding, ambient state machines, and multiplayer UI flow."
-          }
-        ]
-      }
-    ],
-
-    social:[
-      {label:"LinkedIn", href:"https://linkedin.com/in/maxfield-friedman"},
-      {label:"GitHub", href:"https://github.com"}
-    ]
-  };
-
-  /* ===== Inject Content ===== */
-
-  document.getElementById("year").textContent = new Date().getFullYear();
-
-  document.getElementById("siteName").textContent = SITE_CONFIG.name;
-  document.getElementById("heroName").textContent = SITE_CONFIG.name;
-  document.getElementById("heroBio").textContent = SITE_CONFIG.bio;
-  document.getElementById("siteTag").textContent = SITE_CONFIG.tag;
-  document.getElementById("cardName").textContent = SITE_CONFIG.name;
-  document.getElementById("cardTag").textContent = SITE_CONFIG.tag;
-
-  document.getElementById("emailLink").href = `mailto:${SITE_CONFIG.email}`;
-  document.getElementById("emailBtn").href = `mailto:${SITE_CONFIG.email}`;
-
-  /* Skills */
-  const skillsWrap = document.getElementById("skillsWrap");
-  SITE_CONFIG.skills.forEach(s=>{
-    const d=document.createElement("div");
-    d.className="skill";
-    d.textContent=s;
-    skillsWrap.appendChild(d);
-  });
-
-  /* Stats */
-  const stats = document.getElementById("quickStats");
-  SITE_CONFIG.stats.forEach(s=>{
-    const el=document.createElement("div");
-    el.style.marginTop="10px";
-    el.innerHTML = `<div class="sub">${s.label}</div>
-                    <div style="font-weight:700;font-size:18px">${s.value}</div>`;
-    stats.appendChild(el);
-  });
-
-  /* Experience */
-  const expWrap = document.getElementById("experienceWrap");
-  SITE_CONFIG.experience.forEach(e=>{
-    const div=document.createElement("div");
-    div.className="experience-item";
-    div.innerHTML = `
-      <img src="${e.logo}" />
-      <div>
-        <div style="font-weight:700;font-size:18px;color:#fff;">${e.company}</div>
-        ${e.roles.map(r=>`
-          <div style="margin-top:6px;">
-            <div style="font-weight:600;color:#fff;">${r.title}</div>
-            <div class="sub" style="font-size:14px;">${r.date}</div>
-            <div style="margin-top:4px;color:var(--text);font-size:15px;">${r.desc}</div>
-          </div>
-        `).join("")}
+  <!-- PROJECT MODAL -->
+  <div class="modal-backdrop" id="projectModalBackdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">Project Title</div>
+        <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
       </div>
-    `;
-    expWrap.appendChild(div);
-  });
+      <div class="modal-media" id="modalMedia"></div>
+      <div class="modal-subtitle" id="modalSubtitle"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="tags" id="modalTags"></div>
+    </div>
+  </div>
 
-  /* Social */
-  const social = document.getElementById("socialLinks");
-  SITE_CONFIG.social.forEach(s=>{
-    const a=document.createElement("a");
-    a.className="social-link";
-    a.href=s.href;
-    a.target="_blank";
-    a.textContent=s.label;
-    social.appendChild(a);
-  });
+  <!-- SCRIPT SECTION -->
+  <script>
+    const SITE_CONFIG = {
+      name:"Maxfield Friedman",
+      tag:"Gameplay/XR Engineer",
+      bio:"Bio coming soon...",
+      email:"maxfield.friedman12@gmail.com",
 
-</script>
+      skills:[
+        "C#", "C++", "Unreal Engine", "Unity", "UEFN",
+        "Blueprints", "Verse", "Networking", "Gameplay Systems",
+        "VR/XR", "SteamVR", "OpenXR", "3D Math",
+        "Game AI", "UI/UX"
+      ],
 
+      stats:[
+        {label:"Experience", value:"3+ Years"},
+        {label:"Engines", value:"Unity + Unreal + UEFN"},
+        {label:"Specialty", value:"Gameplay & XR Systems"}
+      ],
+
+      /* Example projects: fill these out later */
+      projects:[
+        /*
+        {
+          title:"VR Surgery Trainer",
+          subtitle:"Interactive cataract surgery training in VR",
+          thumb:"assets/projects/vrtrain.png",
+          video:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          desc:"Built core interaction systems, haptics, and performance optimizations for a VR surgery trainer.",
+          tags:["Unity","VR","Interaction"]
+        },
+        {
+          title:"FPS Movement Prototype",
+          subtitle:"High-mobility FPS prototype in Unreal",
+          img:"assets/projects/fpsproto.png",
+          desc:"Implemented air-strafing, wall-jumps, and slide mechanics in C++ and Blueprint.",
+          tags:["Unreal","C++","Physics"]
+        }
+        */
+      ],
+
+      experience:[
+        {
+          company:"Force Multiplier Studios",
+          link:"https://forcemultiplierstudios.com",
+          logo:"assets/logos/fmsLogo.png",
+          roles:[
+            {
+              title:"Gameplay Engineer",
+              date:"Jun. 2025 - Present",
+              desc:""
+            }
+          ]
+        },
+        {
+          company:"Launchvox Inc",
+          link:"https://launchvox.com",
+          logo:"assets/logos/lvLogo.png",
+          roles:[
+            {
+              title:"XR Software Engineer",
+              date:"Jan. 2024 - Jun. 2025",
+              desc:"Worked on Unity/Unreal systems, Photon networking, VR interaction design, and optimization."
+            },
+            {
+              title:"Contract Software Engineer",
+              date:"Sep. 2023 - Dec. 2023",
+              desc:"Assisted production teams across Unity & Unreal."
+            }
+          ]
+        },
+        {
+          company:"Elara Systems Inc",
+          link:"https://elarasystems.com",
+          logo:"assets/logos/esiLogo.png",
+          roles:[
+            {
+              title:"XR Software Engineer",
+              date:"Jan. 2022 - Mar. 2023",
+              desc:"Expanded VR training systems with IK, pathfinding, ambient state machines, and multiplayer UI flow."
+            }
+          ]
+        }
+      ],
+
+      social:[
+        {label:"LinkedIn", href:"https://linkedin.com/in/maxfield-friedman"},
+        {label:"GitHub", href:"https://github.com"}
+      ]
+    };
+
+    // BASIC TEXT INJECTION
+    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("siteName").textContent = SITE_CONFIG.name;
+    document.getElementById("heroName").textContent = SITE_CONFIG.name;
+    document.getElementById("heroBio").textContent = SITE_CONFIG.bio;
+    document.getElementById("siteTag").textContent = SITE_CONFIG.tag;
+    document.getElementById("cardName").textContent = SITE_CONFIG.name;
+    document.getElementById("cardTag").textContent = SITE_CONFIG.tag;
+    document.getElementById("emailLink").href = `mailto:${SITE_CONFIG.email}`;
+    document.getElementById("emailBtn").href = `mailto:${SITE_CONFIG.email}`;
+
+    // SKILLS
+    const skillsWrap = document.getElementById("skillsWrap");
+    SITE_CONFIG.skills.forEach(skill => {
+      const el = document.createElement("div");
+      el.className = "skill";
+      el.textContent = skill;
+      skillsWrap.appendChild(el);
+    });
+
+    // HERO STATS
+    const stats = document.getElementById("quickStats");
+    SITE_CONFIG.stats.forEach(stat => {
+      const el = document.createElement("div");
+      el.style.marginTop = "10px";
+      el.innerHTML = `
+        <div class="sub">${stat.label}</div>
+        <div style="font-weight:700;font-size:18px">${stat.value}</div>
+      `;
+      stats.appendChild(el);
+    });
+
+    // PROJECT MODAL ELEMENTS
+    const modalBackdrop = document.getElementById("projectModalBackdrop");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalMedia = document.getElementById("modalMedia");
+    const modalSubtitle = document.getElementById("modalSubtitle");
+    const modalDesc = document.getElementById("modalDesc");
+    const modalTags = document.getElementById("modalTags");
+    const modalClose = document.getElementById("modalClose");
+
+    function openProjectModal(project) {
+      modalTitle.textContent = project.title || "";
+      modalSubtitle.textContent = project.subtitle || "";
+      modalDesc.textContent = project.desc || "";
+
+      // tags
+      modalTags.innerHTML = "";
+      if (project.tags && project.tags.length) {
+        project.tags.forEach(t => {
+          const tagEl = document.createElement("span");
+          tagEl.className = "tag";
+          tagEl.textContent = t;
+          modalTags.appendChild(tagEl);
+        });
+      }
+
+      // media
+      modalMedia.innerHTML = "";
+      const { video, img, thumb } = project;
+
+      if (video) {
+        const v = video;
+        if (v.includes("youtube.com") || v.includes("youtu.be")) {
+          let id = "";
+          if (v.includes("youtu.be")) {
+            id = v.split("/").pop().split("?")[0];
+          } else {
+            const url = new URL(v);
+            id = url.searchParams.get("v") || "";
+          }
+          const iframe = document.createElement("iframe");
+          iframe.src = `https://www.youtube.com/embed/${id}`;
+          iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+          iframe.allowFullscreen = true;
+          modalMedia.appendChild(iframe);
+        } else if (v.includes("vimeo.com")) {
+          const id = v.split("/").pop();
+          const iframe = document.createElement("iframe");
+          iframe.src = `https://player.vimeo.com/video/${id}`;
+          iframe.allow = "autoplay; fullscreen; picture-in-picture";
+          iframe.allowFullscreen = true;
+          modalMedia.appendChild(iframe);
+        } else {
+          const vid = document.createElement("video");
+          vid.src = v;
+          vid.controls = true;
+          vid.preload = "metadata";
+          modalMedia.appendChild(vid);
+        }
+      } else if (img || thumb) {
+        const image = document.createElement("img");
+        image.src = img || thumb;
+        image.alt = project.title || "Project image";
+        modalMedia.appendChild(image);
+      } else {
+        modalMedia.textContent = "No media available.";
+      }
+
+      modalBackdrop.style.display = "flex";
+    }
+
+    function closeProjectModal() {
+      modalBackdrop.style.display = "none";
+      modalMedia.innerHTML = "";
+    }
+
+    modalClose.addEventListener("click", closeProjectModal);
+    modalBackdrop.addEventListener("click", (e) => {
+      if (e.target === modalBackdrop) closeProjectModal();
+    });
+
+    // PROJECTS GRID
+    const projectsGrid = document.getElementById("projectsGrid");
+    SITE_CONFIG.projects.forEach(project => {
+      const card = document.createElement("div");
+      card.className = "project-card";
+
+      let mediaHTML = "";
+      if (project.thumb) {
+        mediaHTML = `<img src="${project.thumb}" alt="${project.title || ""}" />`;
+      } else if (project.img) {
+        mediaHTML = `<img src="${project.img}" alt="${project.title || ""}" />`;
+      }
+
+      const tagsHTML = project.tags
+        ? project.tags.map(t => `<span class="tag">${t}</span>`).join("")
+        : "";
+
+      card.innerHTML = `
+        <div class="project-media">${mediaHTML}</div>
+        <div class="project-body">
+          <div class="project-title">${project.title || ""}</div>
+          <div class="project-subtitle">${project.subtitle || ""}</div>
+          <div class="tags">${tagsHTML}</div>
+        </div>
+      `;
+
+      card.addEventListener("click", () => openProjectModal(project));
+      projectsGrid.appendChild(card);
+    });
+
+    // EXPERIENCE (BIG CARD + SUB-CARDS)
+    const expCard = document.getElementById("experienceCard");
+    SITE_CONFIG.experience.forEach(company => {
+      const companyCard = document.createElement("div");
+      companyCard.className = "company-card";
+
+      const rolesHTML = (company.roles || [])
+        .map(role => `
+          <div class="role-block">
+            <div class="role-title">${role.title || ""}</div>
+            <div class="role-date">${role.date || ""}</div>
+            <div class="role-desc">${role.desc || ""}</div>
+          </div>
+        `)
+        .join("");
+
+      companyCard.innerHTML = `
+        <div class="experience-item">
+          <img src="${company.logo || ""}" alt="${company.company || ""}" />
+          <div>
+            ${
+              company.link
+                ? `<a href="${company.link}" target="_blank" class="company-name">${company.company}</a>`
+                : `<span class="company-name">${company.company}</span>`
+            }
+            ${rolesHTML}
+          </div>
+        </div>
+      `;
+
+      expCard.appendChild(companyCard);
+    });
+
+    // SOCIAL LINKS
+    const social = document.getElementById("socialLinks");
+    SITE_CONFIG.social.forEach(s => {
+      const a = document.createElement("a");
+      a.className = "social-link";
+      a.href = s.href;
+      a.target = "_blank";
+      a.textContent = s.label;
+      social.appendChild(a);
+    });
+  </script>
 </body>
 </html>
