@@ -1,16 +1,3 @@
-<!--
-Game Developer Portfolio Template — Easy-Edit + Video Embeds
-File: index.html
-
-HOW TO EDIT (quick):
-1. Edit the SITE_CONFIG JavaScript object below — it's the single place to change your name, bio, contact, and projects.
-2. For each project add: title, subtitle, img (path), video (youtube/vimeo URL or local asset path), demo, repo, desc, tags (comma-separated).
-3. Put images/videos/resume into the /assets folder.
-4. Save and push to GitHub Pages (detailed steps in the chat below).
-
-This single-file template auto-builds the page from SITE_CONFIG so you don't need to touch HTML/CSS later — just edit the JS object.
--->
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -19,162 +6,157 @@ This single-file template auto-builds the page from SITE_CONFIG so you don't nee
   <title>YOUR NAME — Game Dev Portfolio</title>
   <meta name="description" content="Portfolio — Game Developer" />
   <link rel="icon" href="assets/favicon.png" />
+
   <style>
-    :root{--bg:#7E846B;--card:#080e0c;--muted:#d8e9e6;--accent:#acafa9;--glass:rgba(255,255,255,0.03);--max-width:1100px;--radius:12px;color-scheme:dark;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
-    *{box-sizing:border-box}html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#0a2c01);color:#d6d297}
-    a{color:inherit} .container{max-width:var(--max-width);margin:0 auto;padding:28px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    :root{
+      --bg:#252422;
+      --card:#080e0c;
+      --muted:#d8e9e6;
+      --accent:#acafa9;
+      --glass:rgba(255,255,255,0.03);
+      --max-width:1100px;
+      --radius:12px;
+      color-scheme:dark;
+      font-family:Inter,system-ui,Segoe UI,Roboto,Arial
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#DDD8B8);color:#d6d297}
+    a{color:inherit}
+
+    .container{max-width:var(--max-width);margin:0 auto;padding:28px}
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px
+    }
+
     .brand{display:flex;gap:12px;align-items:center}
-    .logo{height:56px;width:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#0a2c01);display:flex;align-items:center;justify-content:center;font-weight:700}
+    .logo{
+      height:56px;width:56px;border-radius:10px;
+      background:linear-gradient(135deg,var(--accent),#0a2c01);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700
+    }
+
     nav{display:flex;gap:10px;align-items:center}
-    nav a{padding:8px 12px;border-radius:8px;color:var(--muted);font-size:14px}
+    nav a{
+      padding:8px 12px;
+      border-radius:8px;
+      color:var(--muted);
+      font-size:14px
+    }
 
-    .hero{display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:center;padding:24px 0}
+    .hero{
+      display:grid;
+      grid-template-columns:1fr 360px;
+      gap:24px;
+      align-items:center;
+      padding:24px 0
+    }
+
     .hero-left h2{margin:0;font-size:34px}
-    .muted{color:var(--muted)}.sub{margin-top:10px;font-size:15px}
+    .muted{color:var(--muted)}
+    .sub{margin-top:10px;font-size:15px}
     .cta{margin-top:16px;display:flex;gap:10px}
-    .btn{background:linear-gradient(90deg,var(--accent),#0a2c01);padding:10px 14px;border-radius:10px;color:#201f1d;font-weight:600}
-    .ghost{padding:10px 14px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
 
-    .card{background:var(--card);border-radius:var(--radius);padding:16px}
+    .btn{
+      background:linear-gradient(90deg,var(--accent),#0a2c01);
+      padding:10px 14px;border-radius:10px;
+      color:#201f1d;font-weight:600
+    }
+    .ghost{
+      padding:10px 14px;border-radius:10px;
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.04);
+      color:var(--muted)
+    }
+
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:16px
+    }
+
     .skills{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-    .skill{background:var(--glass);padding:8px 10px;border-radius:8px;font-size:13px;color:var(--muted)}
+    .skill{
+      background:var(--glass);
+      padding:8px 10px;
+      border-radius:8px;
+      font-size:13px;
+      color:var(--muted)
+    }
 
-    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
-    .project{border-radius:10px;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);cursor:pointer;display:flex;flex-direction:column}
-    .project-media{height:160px;background:#071022;display:flex;align-items:center;justify-content:center}
+    .projects-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:14px;margin-top:14px
+    }
+
+    .project{
+      border-radius:10px;
+      overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      cursor:pointer;display:flex;flex-direction:column
+    }
+
+    .project-media{
+      height:160px;background:#071022;
+      display:flex;align-items:center;justify-content:center
+    }
+
     .project-media img{width:100%;height:100%;object-fit:cover}
+
     .project-body{padding:12px}
     .project-title{font-weight:700}
+
     .tags{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
-    .tag{font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.03);color:var(--muted)}
+    .tag{
+      font-size:12px;padding:6px 8px;border-radius:8px;
+      background:rgba(255,255,255,0.03);color:var(--muted)
+    }
 
-    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;padding:20px}
-    .modal{background:linear-gradient(180deg,#071126,#0f1724);max-width:900px;width:100%;border-radius:10px;padding:16px}
-    .modal-media{height:320px;background:#000;border-radius:8px;overflow:hidden}
-    .modal-media iframe,.modal-media video{width:100%;height:100%;border:0}
+    .modal-backdrop{
+      position:fixed;inset:0;
+      background:rgba(0,0,0,0.6);
+      display:none;align-items:center;justify-content:center;
+      padding:20px
+    }
 
-    footer{margin-top:36px;padding:20px 0;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
-    @media(max-width:900px){.hero{grid-template-columns:1fr}.nav{display:none}}
-  
-/* === Enhanced Theme Styling Based on Updated Palette === */
+    .modal{
+      background:linear-gradient(180deg,#071126,#0f1724);
+      max-width:900px;width:100%;
+      border-radius:10px;padding:16px
+    }
 
-/* Smooth transitions */
-* {
-  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
-}
+    .modal-media{
+      height:320px;background:#000;
+      border-radius:8px;overflow:hidden
+    }
 
-/* Nav hover updated */
-nav a:hover {
-  background: #7E846B55;
-  color: #D0DDD7;
-}
+    footer{
+      margin-top:36px;padding:20px 0;
+      color:var(--muted);
+      display:flex;justify-content:space-between;
+      align-items:center
+    }
 
-/* Button restyle */
-.btn {
-  background: #7E846B;
-  color: #2F2504;
-  border: 1px solid #A5AE9E55;
-}
-.btn:hover {
-  background: #594E36;
-  color: #D0DDD7;
-}
+    /* Skills grid override */
+    #skillsWrap {
+      display:grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(150px,1fr)) !important;
+      gap:14px !important;
+    }
 
-/* Ghost button updated */
-.ghost {
-  border: 1px solid #A5AE9E66;
-  color: #D0DDD7AA;
-}
-.ghost:hover {
-  background: #7E846B33;
-  color: #D0DDD7;
-}
-
-/* Retint cards with updated palette */
-.card, 
-.project-card,
-.company-card,
-#experienceCard {
-  background: linear-gradient(
-    180deg,
-    rgba(47,37,4,0.85),
-    rgba(121,112,77,0.35)
-  );
-  border: 1px solid #594E36AA;
-}
-
-/* Modal tint updates */
-.modal {
-  background: #2F2504EE;
-  border: 1px solid #594E36;
-}
-.modal-media {
-  background: #594E36;
-}
-
-/* Tag color updates */
-.tag {
-  background: #7E846B55;
-  color: #D0DDD7;
-}
-
-/* Social link tint */
-.social-link {
-  background: #594E3655;
-  color: #D0DDD7;
-}
-.social-link:hover {
-  background: #7E846B88;
-}
-
-/* Highlight project hover */
-.project-card:hover {
-  border-color: #7E846B;
-  background: linear-gradient(
-    180deg,
-    rgba(47,37,4,0.75),
-    rgba(121,112,77,0.55)
-  );
-}
-
-
-/* === OVERRIDES TO RESTORE SKILLS GRID & PALETTE === */
-#skillsWrap {
-  display:grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(150px,1fr)) !important;
-  gap:14px !important;
-}
-
-/* Restrict cards to palette-based neutral gradient */
-.card, .project-card, .company-card, #experienceCard {
-  background: linear-gradient(180deg, #2F2504, #594E36) !important;
-  border: 1px solid #7E846B !important;
-}
-
-.modal {
-  background: #2F2504 !important;
-  border: 1px solid #594E36 !important;
-}
-
-.btn {
-  background: #7E846B !important;
-  color: #2F2504 !important;
-}
-
-.btn:hover {
-  background: #594E36 !important;
-  color: #D0DDD7 !important;
-}
-
-.ghost:hover {
-  background: #7E846B55 !important;
-}
-
-</style>
+  </style>
 </head>
+
 <body>
   <div class="container">
+
+    <!-- HEADER -->
     <header>
       <div class="brand">
         <div class="logo">GD</div>
@@ -183,6 +165,7 @@ nav a:hover {
           <div class="muted" id="siteTag">Game Developer — Engine | Systems | Tools</div>
         </div>
       </div>
+
       <nav>
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
@@ -192,45 +175,42 @@ nav a:hover {
       </nav>
     </header>
 
+    <!-- HERO -->
     <section class="hero">
       <div>
         <h2 id="heroTitle">Hi — I'm <span id="heroName">YOUR NAME</span></h2>
-        <div class="sub muted" id="heroBio">I build performant gameplay systems and tools for modern games.</div>
+        <div class="sub muted" id="heroBio">
+          I build performant gameplay systems and tools for modern games.
+        </div>
+
         <div class="cta">
           <a class="btn" href="#projects">View Projects</a>
           <a class="ghost" id="emailLink" href="mailto:you@example.com">Contact</a>
         </div>
 
-        <div class="skills" id="skillList" style="margin-top:18px">
-          <!-- skills inserted dynamically -->
-        </div>
+        <div class="skills" id="skillList" style="margin-top:18px"></div>
       </div>
 
+      <!-- UPDATED: Pure stats widget (no name/image/title) -->
       <aside class="card">
-        <div style="display:flex;gap:12px;align-items:center">
-          <div style="height:72px;width:72px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:26px" id="logoText">GD</div>
-          <div>
-            <div id="cardName" style="font-weight:700">YOUR NAME</div>
-            <div class="muted" id="cardTag">Gameplay Engineer</div>
-          </div>
-        </div>
-        <div style="margin-top:12px" id="quickStats">
-          <!-- stats inserted dynamically -->
-        </div>
+        <div id="quickStats"></div>
       </aside>
     </section>
 
+    <!-- SKILLS (HEADER MOVED OUTSIDE CARD) -->
     <section id="skills" class="section">
+      <h3>Skills</h3>
       <div class="card">
-        <h3>Skills</h3>
         <p class="muted">A snapshot of tools and systems I use.</p>
         <div id="skillsWrap" style="margin-top:12px"></div>
       </div>
     </section>
 
+    <!-- PROJECTS -->
     <section id="projects" class="section">
       <div style="display:flex;align-items:center;justify-content:space-between">
         <h3>Projects</h3>
+
         <div style="display:flex;gap:8px;align-items:center">
           <label class="muted">Filter:</label>
           <select id="filterTags" style="padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)">
@@ -248,6 +228,7 @@ nav a:hover {
           <div class="modal-media" id="modalMedia"></div>
           <p class="muted" id="modalSubtitle"></p>
           <p id="modalDesc"></p>
+
           <div style="margin-top:12px;display:flex;gap:8px">
             <a class="btn" id="modalDemo" href="#" target="_blank">Live demo</a>
             <a class="ghost" id="modalRepo" href="#" target="_blank">Source</a>
@@ -256,21 +237,27 @@ nav a:hover {
       </div>
     </section>
 
+    <!-- EXPERIENCE -->
     <section id="experience" class="section">
       <h3>Experience</h3>
       <div class="card" id="experienceWrap"></div>
     </section>
 
-    <section id="contact" class="section">
+    <!-- CONTACT (ADDED SPACING ABOVE) -->
+    <section id="contact" class="section" style="margin-top:40px">
       <div class="card" style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
         <div style="flex:1;min-width:260px">
           <h3>Contact</h3>
-          <p class="muted">Email me or download my resume. Add GitHub, LinkedIn, or a demo reel below.</p>
+          <p class="muted">
+            Email me or download my resume.  
+            Add GitHub, LinkedIn, or a demo reel below.
+          </p>
           <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
             <a class="btn" id="emailBtn" href="mailto:you@example.com">Email</a>
             <a class="ghost" id="resumeBtn" href="assets/Resume.pdf" target="_blank">Resume</a>
           </div>
         </div>
+
         <div style="min-width:260px">
           <h4 class="muted">Social</h4>
           <div style="display:flex;gap:8px;margin-top:8px" id="socialLinks"></div>
@@ -282,11 +269,12 @@ nav a:hover {
       <div>© <span id="year"></span> Maxfield Friedman — Gameplay/XR Engineer</div>
       <div class="muted">Here for a good time and to make great experiences</div>
     </footer>
+
   </div>
 
   <script>
-    // ========== SITE CONFIG (EDIT HERE) ===========
-    // Edit only this object to change content. Keep the structure.
+    document.getElementById('year').textContent = new Date().getFullYear();
+
     const SITE_CONFIG = {
       name: 'Maxfield Friedman',
       tag: 'Gameplay/XR Engineer',
@@ -294,7 +282,9 @@ nav a:hover {
       email: 'maxfield.friedman12@gmail.com',
       resume: 'assets/Maxfield_Friedman_CV.pdf',
       skills: [
-        'C#','C++','Unreal Engine','Unity','UEFN','Blueprints','Verse','Networking','Gameplay Systems','VR/XR','SteamVR','OpenXR','3D Math','Game AI','UI/UX'
+        'C#','C++','Unreal Engine','Unity','UEFN','Blueprints','Verse',
+        'Networking','Gameplay Systems','VR/XR','SteamVR','OpenXR',
+        '3D Math','Game AI','UI/UX'
       ],
       stats: [
         {label:'Experience',value:'3+ Years'},
@@ -307,13 +297,11 @@ nav a:hover {
           company:'Force Multiplier Studios',
           logo:'assets/logos/fmsLogo.png',
           link:'https://www.forcemultiplierstudios.com',
-          roles:[
-            {
-              title:'Gameplay Engineer',
-              date:'Jun. 2025 - Present',
-              desc:''
-            }
-          ]
+          roles:[{
+            title:'Gameplay Engineer',
+            date:'Jun. 2025 - Present',
+            desc:''
+          }]
         },
         {
           company:'Launchvox Inc',
@@ -336,13 +324,11 @@ nav a:hover {
           company:'Elara Systems Inc',
           logo:'assets/logos/esiLogo.png',
           link:'https://www.elarasystems.com',
-          roles:[
-            {
-              title:'XR Software Engineer',
-              date:'Jan. 2022 - Mar. 2023',
-              desc:'Led expansion of drill-based VR training simulator; <br>integrated IK, pathfinding, and ambient state systems; built interactive medical VR video player; created dynamic environmental events; redesigned multiplayer flow and collaborated with art teams on new network UI.'
-            }
-          ]
+          roles:[{
+            title:'XR Software Engineer',
+            date:'Jan. 2022 - Mar. 2023',
+            desc:'Led expansion of drill-based VR training simulator; <br>integrated IK, pathfinding, and ambient state systems; built interactive medical VR video player; created dynamic environmental events; redesigned multiplayer flow and collaborated with art teams on new network UI.'
+          }]
         }
       ],
       social: [
@@ -350,169 +336,43 @@ nav a:hover {
         {label:'GitHub',href:'https://github.com'}
       ]
     };
-    // ========== END CONFIG ===========
 
-    // Small DOM builder: you don't need to touch anything below
-    document.getElementById('year').textContent = new Date().getFullYear();
     document.getElementById('siteName').textContent = SITE_CONFIG.name;
     document.getElementById('siteTag').textContent = SITE_CONFIG.tag;
     document.getElementById('heroName').textContent = SITE_CONFIG.name;
     document.getElementById('heroBio').textContent = SITE_CONFIG.bio;
+
     document.getElementById('emailLink').href = `mailto:${SITE_CONFIG.email}`;
     document.getElementById('emailBtn').href = `mailto:${SITE_CONFIG.email}`;
     document.getElementById('resumeBtn').href = SITE_CONFIG.resume;
     document.getElementById('resumeLink').href = SITE_CONFIG.resume;
-    document.getElementById('cardName').textContent = SITE_CONFIG.name;
-    document.getElementById('cardTag').textContent = SITE_CONFIG.tag;
-    document.getElementById('logoText').textContent = SITE_CONFIG.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
 
-    // skills
     const skillsWrap = document.getElementById('skillsWrap');
     SITE_CONFIG.skills.forEach(s=>{
-      const d = document.createElement('div'); d.className='skill'; d.textContent=s; skillsWrap.appendChild(d);
+      const d=document.createElement('div');
+      d.className='skill'; d.textContent=s;
+      skillsWrap.appendChild(d);
     });
 
-    // stats
     const stats = document.getElementById('quickStats');
     SITE_CONFIG.stats.forEach(s=>{
-      const el = document.createElement('div'); el.style.marginTop='8px'; el.innerHTML=`<div class=\"muted\">${s.label}</div><div style=\"font-weight:700\">${s.value}</div>`; stats.appendChild(el);
+      const el=document.createElement('div');
+      el.style.marginTop='8px';
+      el.innerHTML=`<div class="muted">${s.label}</div><div style="font-weight:700">${s.value}</div>`;
+      stats.appendChild(el);
     });
 
-    // filter tags
-    const filter = document.getElementById('filterTags');
-    const tagsSet = new Set(); tagsSet.add('all');
-
-    // projects
-    const grid = document.getElementById('projectsGrid');
-    SITE_CONFIG.projects.forEach((p,idx)=>{
-      // collect tags
-      (p.tags||'').split(',').map(t=>t.trim()).filter(Boolean).forEach(t=>tagsSet.add(t));
-
-      const card = document.createElement('div'); card.className='project card'; card.dataset.index=idx;
-      card.dataset.tags = p.tags || '';
-
-      const media = document.createElement('div'); media.className='project-media';
-      if(p.img){ const img = document.createElement('img'); img.src=p.img; img.alt = p.title; media.appendChild(img);} else { media.textContent='No image' }
-      card.appendChild(media);
-
-      const body = document.createElement('div'); body.className='project-body';
-      body.innerHTML=`<div class=\"project-title\">${p.title}</div><div class=\"muted\" style=\"font-size:13px\">${p.subtitle||''}</div>`;
-      const tagWrap = document.createElement('div'); tagWrap.className='tags'; (p.tags||'').split(',').map(t=>t.trim()).filter(Boolean).forEach(t=>{ const tg=document.createElement('div'); tg.className='tag'; tg.textContent=t; tagWrap.appendChild(tg)});
-      body.appendChild(tagWrap);
-      card.appendChild(body);
-
-      // store data for modal
-      card.dataset.desc = p.desc || '';
-      card.dataset.demo = p.demo || '';
-      card.dataset.repo = p.repo || '';
-      card.dataset.video = p.video || '';
-
-      card.addEventListener('click', ()=> openModal(card));
-      grid.appendChild(card);
-    });
-
-    // populate filter select
-    Array.from(tagsSet).sort().forEach(t=>{
-      const opt = document.createElement('option'); opt.value=t; opt.textContent = t[0].toUpperCase()+t.slice(1); filter.appendChild(opt);
-    });
-
-    filter.addEventListener('change', ()=>{
-      const val = filter.value;
-      document.querySelectorAll('.project').forEach(p=>{
-        if(val==='all') return p.style.display='flex';
-        p.style.display = (p.dataset.tags||'').includes(val) ? 'flex' : 'none';
-      });
-    });
-
-    // modal
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalMedia = document.getElementById('modalMedia');
-    const modalSubtitle = document.getElementById('modalSubtitle');
-    const modalDesc = document.getElementById('modalDesc');
-    const modalDemo = document.getElementById('modalDemo');
-    const modalRepo = document.getElementById('modalRepo');
-    const closeModal = document.getElementById('closeModal');
-
-    function openModal(card){
-      const idx = card.dataset.index; const p = SITE_CONFIG.projects[idx];
-      modalTitle.textContent = p.title;
-      modalSubtitle.textContent = p.subtitle || '';
-      modalDesc.textContent = p.desc || '';
-      modalDemo.href = p.demo || '#'; modalRepo.href = p.repo || '#';
-
-      // clear media
-      modalMedia.innerHTML = '';
-      const v = p.video || '';
-      if(!v){ modalMedia.textContent = 'No media provided'; }
-      else if(v.includes('youtube.com') || v.includes('youtu.be') || v.includes('vimeo.com')){
-        // construct embed iframe for youtube or vimeo
-        let embed = '';
-        if(v.includes('youtube')){
-          // support youtu.be short links too
-          const id = (v.includes('youtu.be') ? v.split('/').pop() : (new URL(v)).searchParams.get('v')) || '';
-          embed = `https://www.youtube.com/embed/${id}`;
-        } else if(v.includes('vimeo')){
-          // naive vimeo id
-          const id = v.split('/').pop(); embed = `https://player.vimeo.com/video/${id}`;
-        }
-        const iframe = document.createElement('iframe'); iframe.src = embed; iframe.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'; iframe.allowFullscreen = true; modalMedia.appendChild(iframe);
-      } else {
-        // assume local asset — use <video>
-        const video = document.createElement('video'); video.src = v; video.controls = true; video.preload='metadata'; modalMedia.appendChild(video);
-      }
-
-      modalBackdrop.style.display = 'flex';
-    }
-
-    closeModal.addEventListener('click', ()=> modalBackdrop.style.display = 'none');
-    modalBackdrop.addEventListener('click', (e)=>{ if(e.target===modalBackdrop) modalBackdrop.style.display='none' });
-
-    // experience
-    const expWrap = document.getElementById('experienceWrap');
-    SITE_CONFIG.experience.forEach(e=>{
-      const item = document.createElement('div');
-      item.style.marginBottom='24px';
-      item.style.display='flex';
-      item.style.gap='12px';
-      item.style.alignItems='flex-start';
-
-      const logo = e.logo 
-        ? `<img src="${e.logo}" style="width:48px;height:48px;border-radius:6px;object-fit:contain;background:#0002;flex-shrink:0" />`
-        : '';
-
-      const company = e.link
-        ? `<a href="${e.link}" target="_blank" style="font-weight:700;font-size:16px;display:block;margin-bottom:4px;">${e.company}</a>`
-        : `<div style="font-weight:700;font-size:16px;margin-bottom:4px;">${e.company}</div>`;
-
-      let rolesHTML = '';
-      if(e.roles && e.roles.length){
-        rolesHTML = e.roles.map(r=>`
-          <div style="margin-bottom:10px;">
-            <div style="font-weight:600">${r.title}</div>
-            <div class="muted" style="font-size:13px">${r.date || ''}</div>
-            <div class="muted" style="margin-top:4px">${r.desc || ''}</div>
-          </div>
-        `).join('');
-      }
-
-      item.innerHTML = `
-        ${logo}
-        <div>
-          ${company}
-          ${rolesHTML}
-        </div>
-      `;
-
-      expWrap.appendChild(item);
-    });
-
-    // social
     const social = document.getElementById('socialLinks');
-    SITE_CONFIG.social.forEach(s=>{ const a=document.createElement('a'); a.className='ghost'; a.href=s.href; a.target='_blank'; a.style.padding='8px 10px'; a.textContent=s.label; social.appendChild(a); });
+    SITE_CONFIG.social.forEach(s=>{
+      const a=document.createElement('a');
+      a.className='ghost';
+      a.href=s.href; a.target='_blank';
+      a.style.padding='8px 10px';
+      a.textContent=s.label;
+      social.appendChild(a);
+    });
 
-    // Helpful: console instructions for editing quickly
-    console.log('Edit SITE_CONFIG at top of this file to update content. Add assets into /assets folder.');
   </script>
+
 </body>
 </html>
