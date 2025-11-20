@@ -153,10 +153,14 @@
     }
 
     .project-media{
-      height:160px;background:#071022;
+      height: auto;;background:#071022;
       display:flex;align-items:center;justify-content:center
     }
-    .project-media img{width:100%;height:100%;object-fit:cover}
+    .project-media img{
+      width: 100%;
+      height: auto;             /* Preserve natural aspect ratio */
+      object-fit: contain;      /* Don’t crop */
+      display: block;}
 
     .project-body{padding:12px}
     .project-title{font-weight:700}
@@ -359,7 +363,8 @@ const SITE_CONFIG = {
         was to help develop the networking interactions and take on enhancing of a few of the steps in the experience. Specifically, adding visual overlays to rotation steps, adjusting pressure, and motion behavior.
         On top of that, I worked in collaboration with the team to adjust the main menu flow and connection for the experience.`,
       tags:"Unity, VR, XR, Physics, Multiplayer"
-    }
+    },
+
   ],
 
   experience:[
