@@ -1,822 +1,485 @@
+<!--
+Game Developer Portfolio Template — Easy-Edit + Video Embeds
+File: index.html
+
+HOW TO EDIT (quick):
+1. Edit the SITE_CONFIG JavaScript object below — it's the single place to change your name, bio, contact, and projects.
+2. For each project add: title, subtitle, img (path), video (youtube/vimeo URL or local asset path), demo, repo, desc, tags (comma-separated).
+3. Put images/videos/resume into the /assets folder.
+4. Save and push to GitHub Pages (detailed steps in the chat below).
+
+This single-file template auto-builds the page from SITE_CONFIG so you don't need to touch HTML/CSS later — just edit the JS object.
+-->
+
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Maxfield Friedman — Game Dev Portfolio</title>
-  <meta name="description" content="Portfolio — Gameplay & XR Engineer" />
+  <title>YOUR NAME — Game Dev Portfolio</title>
+  <meta name="description" content="Portfolio — Game Developer" />
   <link rel="icon" href="assets/favicon.png" />
-
-  <!-- GLOBAL THEME & RESET -->
   <style>
-    :root {
-      --background:#0f1210;
-      --text:#e7d9b8;
-      --muted:#c3b79b;
-      --accent:#001702;
+    :root{--bg:#4d6d3f;--card:#080e0c;--muted:#d8e9e6;--accent:#acafa9;--glass:rgba(255,255,255,0.03);--max-width:1100px;--radius:12px;color-scheme:dark;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+    *{box-sizing:border-box}html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#0a2c01);color:#d6d297}
+    a{color:inherit} .container{max-width:var(--max-width);margin:0 auto;padding:28px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{height:56px;width:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#0a2c01);display:flex;align-items:center;justify-content:center;font-weight:700}
+    nav{display:flex;gap:10px;align-items:center}
+    nav a{padding:8px 12px;border-radius:8px;color:var(--muted);font-size:14px}
 
-      --card-top:rgba(0,0,0,0.78);
-      --card-bottom:rgba(80,80,80,0.40);
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:center;padding:24px 0}
+    .hero-left h2{margin:0;font-size:34px}
+    .muted{color:var(--muted)}.sub{margin-top:10px;font-size:15px}
+    .cta{margin-top:16px;display:flex;gap:10px}
+    .btn{background:linear-gradient(90deg,var(--accent),#0a2c01);padding:10px 14px;border-radius:10px;color:#201f1d;font-weight:600}
+    .ghost{padding:10px 14px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
 
-      --radius:14px;
-      --max-width:1100px;
+    .card{background:var(--card);border-radius:var(--radius);padding:16px}
+    .skills{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .skill{background:var(--glass);padding:8px 10px;border-radius:8px;font-size:13px;color:var(--muted)}
 
-      font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
-      color-scheme:dark;
-    }
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+    .project{border-radius:10px;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);cursor:pointer;display:flex;flex-direction:column}
+    .project-media{height:160px;background:#071022;display:flex;align-items:center;justify-content:center}
+    .project-media img{width:100%;height:100%;object-fit:cover}
+    .project-body{padding:12px}
+    .project-title{font-weight:700}
+    .tags{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+    .tag{font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.03);color:var(--muted)}
 
-    html, body {
-      margin:0;
-      padding:0;
-      background:var(--background);
-      color:var(--text);
-    }
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;padding:20px}
+    .modal{background:linear-gradient(180deg,#071126,#0f1724);max-width:900px;width:100%;border-radius:10px;padding:16px}
+    .modal-media{height:320px;background:#000;border-radius:8px;overflow:hidden}
+    .modal-media iframe,.modal-media video{width:100%;height:100%;border:0}
 
-    * {
-      box-sizing:border-box;
-    }
+    footer{margin-top:36px;padding:20px 0;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+    @media(max-width:900px){.hero{grid-template-columns:1fr}.nav{display:none}}
+  
+/* === Enhanced Theme Styling Based on Updated Palette === */
 
-    a {
-      color:inherit;
-      text-decoration:none;
-    }
+/* Smooth transitions */
+* {
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
 
-    .container {
-      max-width:var(--max-width);
-      margin:0 auto;
-      padding:28px;
-    }
+/* Nav hover updated */
+nav a:hover {
+  background: #7E846B55;
+  color: #D0DDD7;
+}
 
-    /* HEADER */
-    header {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:8px 0;
-    }
+/* Button restyle */
+.btn {
+  background: #7E846B;
+  color: #2F2504;
+  border: 1px solid #A5AE9E55;
+}
+.btn:hover {
+  background: #594E36;
+  color: #D0DDD7;
+}
 
-    .brand {
-      display:flex;
-      align-items:center;
-      gap:14px;
-    }
+/* Ghost button updated */
+.ghost {
+  border: 1px solid #A5AE9E66;
+  color: #D0DDD7AA;
+}
+.ghost:hover {
+  background: #7E846B33;
+  color: #D0DDD7;
+}
 
-    .logo {
-      width:56px;
-      height:56px;
-      background:var(--accent);
-      color:#fff;
-      border-radius:10px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:700;
-      font-size:22px;
-    }
+/* Retint cards with updated palette */
+.card, 
+.project-card,
+.company-card,
+#experienceCard {
+  background: linear-gradient(
+    180deg,
+    rgba(47,37,4,0.85),
+    rgba(121,112,77,0.35)
+  );
+  border: 1px solid #594E36AA;
+}
 
-    nav {
-      display:flex;
-      gap:14px;
-    }
+/* Modal tint updates */
+.modal {
+  background: #2F2504EE;
+  border: 1px solid #594E36;
+}
+.modal-media {
+  background: #594E36;
+}
 
-    nav a {
-      padding:8px 14px;
-      border-radius:8px;
-      background:rgba(255,255,255,0.1);
-      color:var(--accent);
-      font-weight:600;
-      transition:0.2s;
-    }
+/* Tag color updates */
+.tag {
+  background: #7E846B55;
+  color: #D0DDD7;
+}
 
-    nav a:hover {
-      background:rgba(255,255,255,0.18);
-    }
+/* Social link tint */
+.social-link {
+  background: #594E3655;
+  color: #D0DDD7;
+}
+.social-link:hover {
+  background: #7E846B88;
+}
 
-    /* HERO SECTION */
-    .hero {
-      margin-top:32px;
-      display:grid;
-      grid-template-columns:1fr 360px;
-      gap:32px;
-    }
+/* Highlight project hover */
+.project-card:hover {
+  border-color: #7E846B;
+  background: linear-gradient(
+    180deg,
+    rgba(47,37,4,0.75),
+    rgba(121,112,77,0.55)
+  );
+}
 
-    h2 {
-      margin:0;
-      font-size:36px;
-      color:#fff;
-    }
-
-    .sub {
-      color:var(--muted);
-      margin-top:10px;
-      font-size:17px;
-    }
-
-    .cta {
-      margin-top:20px;
-      display:flex;
-      gap:12px;
-    }
-
-    .btn {
-      background:var(--accent);
-      padding:12px 18px;
-      border-radius:10px;
-      font-weight:600;
-      color:#fff;
-      cursor:pointer;
-      border:none;
-      display:inline-block;
-    }
-
-    .ghost {
-      padding:12px 18px;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,0.25);
-      color:var(--muted);
-      background:transparent;
-      cursor:pointer;
-      display:inline-block;
-    }
-
-    /* SOLID HERO CARD */
-    .card-hero {
-      background:#000;
-      color:#fff;
-      border-radius:var(--radius);
-      padding:20px;
-    }
-
-    /* REUSABLE GLASS CARD STYLE */
-    .card {
-      background:linear-gradient(180deg, var(--card-top), var(--card-bottom));
-      color:var(--text);
-      border-radius:var(--radius);
-      padding:20px;
-      backdrop-filter:blur(8px);
-    }
-
-    /* SKILLS SECTION */
-    #skillsWrap {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-      gap:14px;
-      margin-top:18px;
-    }
-
-    .skill {
-      background:rgba(255,255,255,0.10);
-      padding:10px 14px;
-      text-align:center;
-      border-radius:10px;
-      font-weight:600;
-      color:var(--text);
-      border:1px solid rgba(255,255,255,0.06);
-    }
-
-    /* PROJECTS SECTION */
-    .projects-grid {
-      margin-top:20px;
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:20px;
-    }
-
-    .project-card {
-      background:linear-gradient(180deg, var(--card-top), var(--card-bottom));
-      border-radius:var(--radius);
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-      cursor:pointer;
-      backdrop-filter:blur(6px);
-    }
-
-    .project-media {
-      height:180px;
-      background:#00000055;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .project-media img {
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .project-body {
-      padding:16px;
-    }
-
-    .project-title {
-      font-weight:700;
-      color:#fff;
-      font-size:18px;
-      margin-bottom:6px;
-    }
-
-    .project-subtitle {
-      font-size:14px;
-      color:var(--muted);
-      margin-bottom:8px;
-    }
-
-    .tags {
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      margin-top:6px;
-    }
-
-    .tag {
-      display:inline-block;
-      padding:6px 10px;
-      background:rgba(255,255,255,0.12);
-      border-radius:8px;
-      color:var(--text);
-      font-size:12px;
-    }
-
-    /* EXPERIENCE SECTION */
-    #experienceCard {
-      margin-top:20px;
-      background:linear-gradient(180deg, var(--card-top), var(--card-bottom));
-      padding:24px;
-      border-radius:var(--radius);
-      backdrop-filter:blur(8px);
-    }
-
-    .company-card {
-      background:linear-gradient(180deg, var(--card-top), var(--card-bottom));
-      border-radius:var(--radius);
-      padding:20px;
-      margin-bottom:20px;
-      border:1px solid rgba(255,255,255,0.05);
-    }
-
-    .company-card:last-child {
-      margin-bottom:0;
-    }
-
-    .experience-item {
-      display:flex;
-      gap:16px;
-    }
-
-    .experience-item img {
-      width:48px;
-      height:48px;
-      border-radius:8px;
-      object-fit:contain;
-      background:#00000055;
-      flex-shrink:0;
-    }
-
-    .company-name {
-      font-size:18px;
-      font-weight:700;
-      color:#fff;
-      margin-bottom:4px;
-      display:inline-block;
-      text-decoration: underline;
-    }
-
-    .role-block {
-      margin-top:10px;
-    }
-
-    .role-title {
-      font-weight:600;
-      color:#fff;
-    }
-
-    .role-date {
-      font-size:14px;
-      color:var(--muted);
-    }
-
-    .role-desc {
-      margin-top:4px;
-      font-size:15px;
-      color:var(--text);
-    }
-
-    /* CONTACT SECTION */
-    .social-link {
-      padding:10px 14px;
-      background:rgba(255,255,255,0.12);
-      color:var(--accent);
-      border-radius:8px;
-      font-weight:600;
-      display:inline-block;
-    }
-
-    /* FOOTER */
-    footer {
-      margin-top:48px;
-      padding:24px 0;
-      display:flex;
-      justify-content:space-between;
-      color:var(--muted);
-      font-size:14px;
-    }
-
-    /* PROJECT MODAL */
-    .modal-backdrop {
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,0.7);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:50;
-      padding:20px;
-    }
-
-    .modal {
-      background:#111;
-      color:var(--text);
-      max-width:900px;
-      width:100%;
-      border-radius:16px;
-      padding:20px;
-      box-shadow:0 18px 50px rgba(0,0,0,0.6);
-    }
-
-    .modal-header {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:12px;
-    }
-
-    .modal-title {
-      font-size:18px;
-      font-weight:700;
-      color:#fff;
-    }
-
-    .modal-close {
-      background:transparent;
-      border:none;
-      color:var(--muted);
-      font-size:18px;
-      cursor:pointer;
-    }
-
-    .modal-media {
-      height:360px;
-      background:#000;
-      border-radius:12px;
-      overflow:hidden;
-      margin-bottom:12px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    h2, h3 {
-      text-decoration: underline;
-    }
-
-    .modal-media img,
-    .modal-media video,
-    .modal-media iframe {
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      border:0;
-      display:block;
-    }
-
-    .modal-subtitle {
-      color:var(--muted);
-      font-size:14px;
-      margin-bottom:8px;
-    }
-
-    .modal-desc {
-      font-size:15px;
-      margin-bottom:10px;
-    }
-
-    @media(max-width:900px) {
-      .hero {
-        grid-template-columns:1fr;
-      }
-
-      .modal-media {
-        height:260px;
-      }
-
-      footer {
-        flex-direction:column;
-        gap:8px;
-      }
-    }
-  </style>
+</style>
 </head>
-
 <body>
   <div class="container">
-
-    <!-- HEADER -->
     <header>
       <div class="brand">
-        <div class="logo">MF</div>
+        <div class="logo">GD</div>
         <div>
-          <h1 id="siteName">Maxfield Friedman</h1>
-          <div class="sub" id="siteTag">Gameplay/XR Engineer</div>
+          <h1 id="siteName">YOUR NAME</h1>
+          <div class="muted" id="siteTag">Game Developer — Engine | Systems | Tools</div>
         </div>
       </div>
-
       <nav>
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
         <a href="#experience">Experience</a>
         <a href="#contact">Contact</a>
+        <a class="ghost" id="resumeLink" href="assets/Resume.pdf" target="_blank">Resume</a>
       </nav>
     </header>
 
-    <!-- HERO SECTION -->
     <section class="hero">
       <div>
-        <h2>A bit about me<span id="heroName"></span></h2>
-        <p class="sub" id="heroBio">Bio coming soon...</p>
-
+        <h2 id="heroTitle">Hi — I'm <span id="heroName">YOUR NAME</span></h2>
+        <div class="sub muted" id="heroBio">I build performant gameplay systems and tools for modern games.</div>
         <div class="cta">
           <a class="btn" href="#projects">View Projects</a>
-          <a class="ghost" id="emailLink" href="mailto:maxfield.friedman12@gmail.com">Contact</a>
+          <a class="ghost" id="emailLink" href="mailto:you@example.com">Contact</a>
+        </div>
+
+        <div class="skills" id="skillList" style="margin-top:18px">
+          <!-- skills inserted dynamically -->
         </div>
       </div>
 
-      <!-- HERO STAT CARD -->
-      <aside class="card-hero">
-        <div style="display:flex;gap:14px;align-items:center;">
-          <div style="
-            width:72px;height:72px;
-            background:var(--accent);
-            border-radius:10px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:28px;
-            font-weight:700;
-            color:#fff;">
-            MF
+      <aside class="card">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div style="height:72px;width:72px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#3b82f6);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:26px" id="logoText">GD</div>
+          <div>
+            <div id="cardName" style="font-weight:700">YOUR NAME</div>
+            <div class="muted" id="cardTag">Gameplay Engineer</div>
           </div>
         </div>
-
-        <div id="quickStats" style="margin-top:16px;"></div>
+        <div style="margin-top:12px" id="quickStats">
+          <!-- stats inserted dynamically -->
+        </div>
       </aside>
     </section>
 
-    <!-- SKILLS SECTION -->
-    <section id="skills">
+    <section id="skills" class="section">
       <div class="card">
-        <h3 style="margin-top:0;color:#fff;">Skills</h3>
-        <p style="color:var(--muted)">A snapshot of tools and systems I use.</p>
-        <div id="skillsWrap"></div>
+        <h3>Skills</h3>
+        <p class="muted">A snapshot of tools and systems I use.</p>
+        <div id="skillsWrap" style="margin-top:12px"></div>
       </div>
     </section>
 
-    <!-- PROJECTS SECTION -->
-    <section id="projects">
-      <h3 style="color:#fff;">Projects</h3>
+    <section id="projects" class="section">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <h3>Projects</h3>
+        <div style="display:flex;gap:8px;align-items:center">
+          <label class="muted">Filter:</label>
+          <select id="filterTags" style="padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)">
+            <option value="all">All</option>
+          </select>
+        </div>
+      </div>
+
       <div class="projects-grid" id="projectsGrid"></div>
-    </section>
 
-    <!-- EXPERIENCE SECTION -->
-    <section id="experience">
-      <h3 style="color:#fff;">Experience</h3>
-      <div id="experienceCard"></div>
-    </section>
-
-    <!-- CONTACT SECTION -->
-    <section id="contact">
-      <div class="card" style="display:flex;gap:24px;flex-wrap:wrap;align-items:center;">
-        <div style="flex:1;min-width:260px;">
-          <h3 style="color:#fff;">Contact</h3>
-          <p style="color:var(--muted)">Reach out or download my resume.</p>
-
-          <div style="display:flex;gap:12px;margin-top:12px;">
-            <a class="btn" id="emailBtn" href="mailto:maxfield.friedman12@gmail.com">Email</a>
-  <a class="ghost" id="viewResume" target="_blank">View Resume</a>
-  <a class="ghost" id="downloadResume" download>Download Resume</a>
+      <div class="modal-backdrop" id="modalBackdrop">
+        <div class="modal">
+          <button id="closeModal" style="float:right;">Close</button>
+          <h3 id="modalTitle">Project Title</h3>
+          <div class="modal-media" id="modalMedia"></div>
+          <p class="muted" id="modalSubtitle"></p>
+          <p id="modalDesc"></p>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <a class="btn" id="modalDemo" href="#" target="_blank">Live demo</a>
+            <a class="ghost" id="modalRepo" href="#" target="_blank">Source</a>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div style="min-width:260px;">
-          <h4 style="color:#fff;">Social</h4>
-          <div id="socialLinks" style="display:flex;gap:12px;margin-top:10px;"></div>
+    <section id="experience" class="section">
+      <h3>Experience</h3>
+      <div class="card" id="experienceWrap"></div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="card" style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
+        <div style="flex:1;min-width:260px">
+          <h3>Contact</h3>
+          <p class="muted">Email me or download my resume. Add GitHub, LinkedIn, or a demo reel below.</p>
+          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+            <a class="btn" id="emailBtn" href="mailto:you@example.com">Email</a>
+            <a class="ghost" id="resumeBtn" href="assets/Resume.pdf" target="_blank">Resume</a>
+          </div>
+        </div>
+        <div style="min-width:260px">
+          <h4 class="muted">Social</h4>
+          <div style="display:flex;gap:8px;margin-top:8px" id="socialLinks"></div>
         </div>
       </div>
     </section>
 
-    <!-- FOOTER -->
     <footer>
-      <div>© <span id="year"></span> Maxfield Friedman</div>
-      <div>Here for a good time and to make great experiences</div>
+      <div>© <span id="year"></span> Maxfield Friedman — Gameplay/XR Engineer</div>
+      <div class="muted">Here for a good time and to make great experiences</div>
     </footer>
   </div>
 
-  <!-- PROJECT MODAL -->
-  <div class="modal-backdrop" id="projectModalBackdrop">
-    <div class="modal">
-      <div class="modal-header">
-        <div class="modal-title" id="modalTitle">Project Title</div>
-        <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
-      </div>
-      <div class="modal-media" id="modalMedia"></div>
-      <div class="modal-subtitle" id="modalSubtitle"></div>
-      <div class="modal-desc" id="modalDesc"></div>
-      <div class="tags" id="modalTags"></div>
-    </div>
-  </div>
-
-  <!-- SCRIPT SECTION -->
   <script>
+    // ========== SITE CONFIG (EDIT HERE) ===========
+    // Edit only this object to change content. Keep the structure.
     const SITE_CONFIG = {
-  resume: "assets/Maxfield_Friedman_CV.pdf",
-      name:"Maxfield Friedman",
-      tag:"Gameplay/XR Engineer",
-      bio:"Testing bio update",
-      email:"maxfield.friedman12@gmail.com",
-
-      skills:[
-        "C#", "C++", "Unreal Engine", "Unity", "UEFN",
-        "Blueprints", "Verse", "Networking", "Gameplay Systems",
-        "VR/XR", "SteamVR", "OpenXR", "3D Math",
-        "Game AI", "UI/UX"
+      name: 'Maxfield Friedman',
+      tag: 'Gameplay/XR Engineer',
+      bio: 'Bio coming soon...',
+      email: 'maxfield.friedman12@gmail.com',
+      resume: 'assets/Maxfield_Friedman_CV.pdf',
+      skills: [
+        'C#','C++','Unreal Engine','Unity','UEFN','Blueprints','Verse','Networking','Gameplay Systems','VR/XR','SteamVR','OpenXR','3D Math','Game AI','UI/UX'
       ],
-
-      stats:[
-        {label:"Experience", value:"3+ Years"},
-        {label:"Engines", value:"Unity + Unreal + UEFN"},
-        {label:"Specialty", value:"Gameplay & XR Systems"}
+      stats: [
+        {label:'Experience',value:'3+ Years'},
+        {label:'Engines',value:'Unity + Unreal + UEFN'},
+        {label:'Specialty',value:'Gameplay & XR Systems'}
       ],
-
-      /* Example projects: fill these out later */
-      projects:[
-        /*
+      projects: [],
+      experience: [
         {
-          title:"VR Surgery Trainer",
-          subtitle:"Interactive cataract surgery training in VR",
-          thumb:"assets/projects/vrtrain.png",
-          video:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          desc:"Built core interaction systems, haptics, and performance optimizations for a VR surgery trainer.",
-          tags:["Unity","VR","Interaction"]
-        },
-        {
-          title:"FPS Movement Prototype",
-          subtitle:"High-mobility FPS prototype in Unreal",
-          img:"assets/projects/fpsproto.png",
-          desc:"Implemented air-strafing, wall-jumps, and slide mechanics in C++ and Blueprint.",
-          tags:["Unreal","C++","Physics"]
-        }
-          */
-      ],
-
-      experience:[
-        {
-          company:"Force Multiplier Studios",
-          link:"https://forcemultiplierstudios.com",
-          logo:"assets/logos/fmsLogo.png",
+          company:'Force Multiplier Studios',
+          logo:'assets/logos/fmsLogo.png',
+          link:'https://www.forcemultiplierstudios.com',
           roles:[
             {
-              title:"Gameplay Engineer",
-              date:"Jun. 2025 - Present",
-              desc:""
+              title:'Gameplay Engineer',
+              date:'Jun. 2025 - Present',
+              desc:''
             }
           ]
         },
         {
-          company:"Launchvox Inc",
-          link:"https://launchvox.com",
-          logo:"assets/logos/lvLogo.png",
+          company:'Launchvox Inc',
+          logo:'assets/logos/lvLogo.png',
+          link:'https://www.launchvox.com/',
           roles:[
             {
-              title:"XR Software Engineer",
-              date:"Jan. 2024 - Jun. 2025",
-              desc:"Worked on Unity/Unreal systems, Photon networking, VR interaction design, and optimization."
+              title:'XR Software Engineer',
+              date:'Jan. 2024 - Jun. 2025',
+              desc:'Collaborated on an analytics system using DynamoDB; implemented multiplayer networking in Unity with Photon; developed a cross-engine plugin supporting persistent network connections in Unity and Unreal; designed and implemented a drag-and-drop interaction system; optimized performance in a cataract surgery simulator; and integrated reusable VR UI components.'
             },
             {
-              title:"Contract Software Engineer",
-              date:"Sep. 2023 - Dec. 2023",
-              desc:"Assisted production teams across Unity & Unreal."
+              title:'Contract Software Engineer',
+              date:'Sep. 2023 - Dec. 2023',
+              desc:'Supported product development across both Unity and Unreal environments as contract engineer.'
             }
           ]
         },
         {
-          company:"Elara Systems Inc",
-          link:"https://elarasystems.com",
-          logo:"assets/logos/esiLogo.png",
+          company:'Elara Systems Inc',
+          logo:'assets/logos/esiLogo.png',
+          link:'https://www.elarasystems.com',
           roles:[
             {
-              title:"XR Software Engineer",
-              date:"Jan. 2022 - Mar. 2023",
-              desc:"Expanded VR training systems with IK, pathfinding, ambient state machines, and multiplayer UI flow."
+              title:'XR Software Engineer',
+              date:'Jan. 2022 - Mar. 2023',
+              desc:'Led expansion of drill-based VR training simulator; <br>integrated IK, pathfinding, and ambient state systems; built interactive medical VR video player; created dynamic environmental events; redesigned multiplayer flow and collaborated with art teams on new network UI.'
             }
           ]
         }
       ],
-
-      social:[
-        {label:"LinkedIn", href:"https://linkedin.com/in/maxfield-friedman"},
-        {label:"GitHub", href:"https://github.com"}
+      social: [
+        {label:'LinkedIn',href:'https://linkedin.com/in/maxfield-friedman'},
+        {label:'GitHub',href:'https://github.com'}
       ]
     };
+    // ========== END CONFIG ===========
 
-    // BASIC TEXT INJECTION
-    document.getElementById("year").textContent = new Date().getFullYear();
-    document.getElementById("siteName").textContent = SITE_CONFIG.name;
-    document.getElementById("heroName").textContent = SITE_CONFIG.name;
-    document.getElementById("heroBio").textContent = SITE_CONFIG.bio;
-    document.getElementById("siteTag").textContent = SITE_CONFIG.tag;
-    document.getElementById("cardName").textContent = SITE_CONFIG.name;
-    document.getElementById("cardTag").textContent = SITE_CONFIG.tag;
-    document.getElementById("emailLink").href = `mailto:${SITE_CONFIG.email}`;
-    document.getElementById("emailBtn").href = `mailto:${SITE_CONFIG.email}`;
-    document.getElementById("viewResume").href = SITE_CONFIG.resume;
-    document.getElementById("downloadResume").href = SITE_CONFIG.resume;
+    // Small DOM builder: you don't need to touch anything below
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('siteName').textContent = SITE_CONFIG.name;
+    document.getElementById('siteTag').textContent = SITE_CONFIG.tag;
+    document.getElementById('heroName').textContent = SITE_CONFIG.name;
+    document.getElementById('heroBio').textContent = SITE_CONFIG.bio;
+    document.getElementById('emailLink').href = `mailto:${SITE_CONFIG.email}`;
+    document.getElementById('emailBtn').href = `mailto:${SITE_CONFIG.email}`;
+    document.getElementById('resumeBtn').href = SITE_CONFIG.resume;
+    document.getElementById('resumeLink').href = SITE_CONFIG.resume;
+    document.getElementById('cardName').textContent = SITE_CONFIG.name;
+    document.getElementById('cardTag').textContent = SITE_CONFIG.tag;
+    document.getElementById('logoText').textContent = SITE_CONFIG.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
 
-    // SKILLS
-    const skillsWrap = document.getElementById("skillsWrap");
-    SITE_CONFIG.skills.forEach(skill => {
-      const el = document.createElement("div");
-      el.className = "skill";
-      el.textContent = skill;
-      skillsWrap.appendChild(el);
+    // skills
+    const skillsWrap = document.getElementById('skillsWrap');
+    SITE_CONFIG.skills.forEach(s=>{
+      const d = document.createElement('div'); d.className='skill'; d.textContent=s; skillsWrap.appendChild(d);
     });
 
-    // HERO STATS
-    const stats = document.getElementById("quickStats");
-    SITE_CONFIG.stats.forEach(stat => {
-      const el = document.createElement("div");
-      el.style.marginTop = "10px";
-      el.innerHTML = `
-        <div class="sub">${stat.label}</div>
-        <div style="font-weight:700;font-size:18px">${stat.value}</div>
-      `;
-      stats.appendChild(el);
+    // stats
+    const stats = document.getElementById('quickStats');
+    SITE_CONFIG.stats.forEach(s=>{
+      const el = document.createElement('div'); el.style.marginTop='8px'; el.innerHTML=`<div class=\"muted\">${s.label}</div><div style=\"font-weight:700\">${s.value}</div>`; stats.appendChild(el);
     });
 
-    // PROJECT MODAL ELEMENTS
-    const modalBackdrop = document.getElementById("projectModalBackdrop");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalMedia = document.getElementById("modalMedia");
-    const modalSubtitle = document.getElementById("modalSubtitle");
-    const modalDesc = document.getElementById("modalDesc");
-    const modalTags = document.getElementById("modalTags");
-    const modalClose = document.getElementById("modalClose");
+    // filter tags
+    const filter = document.getElementById('filterTags');
+    const tagsSet = new Set(); tagsSet.add('all');
 
-    function openProjectModal(project) {
-      modalTitle.textContent = project.title || "";
-      modalSubtitle.textContent = project.subtitle || "";
-      modalDesc.textContent = project.desc || "";
+    // projects
+    const grid = document.getElementById('projectsGrid');
+    SITE_CONFIG.projects.forEach((p,idx)=>{
+      // collect tags
+      (p.tags||'').split(',').map(t=>t.trim()).filter(Boolean).forEach(t=>tagsSet.add(t));
 
-      // tags
-      modalTags.innerHTML = "";
-      if (project.tags && project.tags.length) {
-        project.tags.forEach(t => {
-          const tagEl = document.createElement("span");
-          tagEl.className = "tag";
-          tagEl.textContent = t;
-          modalTags.appendChild(tagEl);
-        });
-      }
+      const card = document.createElement('div'); card.className='project card'; card.dataset.index=idx;
+      card.dataset.tags = p.tags || '';
 
-      // media
-      modalMedia.innerHTML = "";
-      const { video, img, thumb } = project;
+      const media = document.createElement('div'); media.className='project-media';
+      if(p.img){ const img = document.createElement('img'); img.src=p.img; img.alt = p.title; media.appendChild(img);} else { media.textContent='No image' }
+      card.appendChild(media);
 
-      if (video) {
-        const v = video;
-        if (v.includes("youtube.com") || v.includes("youtu.be")) {
-          let id = "";
-          if (v.includes("youtu.be")) {
-            id = v.split("/").pop().split("?")[0];
-          } else {
-            const url = new URL(v);
-            id = url.searchParams.get("v") || "";
-          }
-          const iframe = document.createElement("iframe");
-          iframe.src = `https://www.youtube.com/embed/${id}`;
-          iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-          iframe.allowFullscreen = true;
-          modalMedia.appendChild(iframe);
-        } else if (v.includes("vimeo.com")) {
-          const id = v.split("/").pop();
-          const iframe = document.createElement("iframe");
-          iframe.src = `https://player.vimeo.com/video/${id}`;
-          iframe.allow = "autoplay; fullscreen; picture-in-picture";
-          iframe.allowFullscreen = true;
-          modalMedia.appendChild(iframe);
-        } else {
-          const vid = document.createElement("video");
-          vid.src = v;
-          vid.controls = true;
-          vid.preload = "metadata";
-          modalMedia.appendChild(vid);
+      const body = document.createElement('div'); body.className='project-body';
+      body.innerHTML=`<div class=\"project-title\">${p.title}</div><div class=\"muted\" style=\"font-size:13px\">${p.subtitle||''}</div>`;
+      const tagWrap = document.createElement('div'); tagWrap.className='tags'; (p.tags||'').split(',').map(t=>t.trim()).filter(Boolean).forEach(t=>{ const tg=document.createElement('div'); tg.className='tag'; tg.textContent=t; tagWrap.appendChild(tg)});
+      body.appendChild(tagWrap);
+      card.appendChild(body);
+
+      // store data for modal
+      card.dataset.desc = p.desc || '';
+      card.dataset.demo = p.demo || '';
+      card.dataset.repo = p.repo || '';
+      card.dataset.video = p.video || '';
+
+      card.addEventListener('click', ()=> openModal(card));
+      grid.appendChild(card);
+    });
+
+    // populate filter select
+    Array.from(tagsSet).sort().forEach(t=>{
+      const opt = document.createElement('option'); opt.value=t; opt.textContent = t[0].toUpperCase()+t.slice(1); filter.appendChild(opt);
+    });
+
+    filter.addEventListener('change', ()=>{
+      const val = filter.value;
+      document.querySelectorAll('.project').forEach(p=>{
+        if(val==='all') return p.style.display='flex';
+        p.style.display = (p.dataset.tags||'').includes(val) ? 'flex' : 'none';
+      });
+    });
+
+    // modal
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMedia = document.getElementById('modalMedia');
+    const modalSubtitle = document.getElementById('modalSubtitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalDemo = document.getElementById('modalDemo');
+    const modalRepo = document.getElementById('modalRepo');
+    const closeModal = document.getElementById('closeModal');
+
+    function openModal(card){
+      const idx = card.dataset.index; const p = SITE_CONFIG.projects[idx];
+      modalTitle.textContent = p.title;
+      modalSubtitle.textContent = p.subtitle || '';
+      modalDesc.textContent = p.desc || '';
+      modalDemo.href = p.demo || '#'; modalRepo.href = p.repo || '#';
+
+      // clear media
+      modalMedia.innerHTML = '';
+      const v = p.video || '';
+      if(!v){ modalMedia.textContent = 'No media provided'; }
+      else if(v.includes('youtube.com') || v.includes('youtu.be') || v.includes('vimeo.com')){
+        // construct embed iframe for youtube or vimeo
+        let embed = '';
+        if(v.includes('youtube')){
+          // support youtu.be short links too
+          const id = (v.includes('youtu.be') ? v.split('/').pop() : (new URL(v)).searchParams.get('v')) || '';
+          embed = `https://www.youtube.com/embed/${id}`;
+        } else if(v.includes('vimeo')){
+          // naive vimeo id
+          const id = v.split('/').pop(); embed = `https://player.vimeo.com/video/${id}`;
         }
-      } else if (img || thumb) {
-        const image = document.createElement("img");
-        image.src = img || thumb;
-        image.alt = project.title || "Project image";
-        modalMedia.appendChild(image);
+        const iframe = document.createElement('iframe'); iframe.src = embed; iframe.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'; iframe.allowFullscreen = true; modalMedia.appendChild(iframe);
       } else {
-        modalMedia.textContent = "No media available.";
+        // assume local asset — use <video>
+        const video = document.createElement('video'); video.src = v; video.controls = true; video.preload='metadata'; modalMedia.appendChild(video);
       }
 
-      modalBackdrop.style.display = "flex";
+      modalBackdrop.style.display = 'flex';
     }
 
-    function closeProjectModal() {
-      modalBackdrop.style.display = "none";
-      modalMedia.innerHTML = "";
-    }
+    closeModal.addEventListener('click', ()=> modalBackdrop.style.display = 'none');
+    modalBackdrop.addEventListener('click', (e)=>{ if(e.target===modalBackdrop) modalBackdrop.style.display='none' });
 
-    modalClose.addEventListener("click", closeProjectModal);
-    modalBackdrop.addEventListener("click", (e) => {
-      if (e.target === modalBackdrop) closeProjectModal();
-    });
+    // experience
+    const expWrap = document.getElementById('experienceWrap');
+    SITE_CONFIG.experience.forEach(e=>{
+      const item = document.createElement('div');
+      item.style.marginBottom='24px';
+      item.style.display='flex';
+      item.style.gap='12px';
+      item.style.alignItems='flex-start';
 
-    // PROJECTS GRID
-    const projectsGrid = document.getElementById("projectsGrid");
-    SITE_CONFIG.projects.forEach(project => {
-      const card = document.createElement("div");
-      card.className = "project-card";
+      const logo = e.logo 
+        ? `<img src="${e.logo}" style="width:48px;height:48px;border-radius:6px;object-fit:contain;background:#0002;flex-shrink:0" />`
+        : '';
 
-      let mediaHTML = "";
-      if (project.thumb) {
-        mediaHTML = `<img src="${project.thumb}" alt="${project.title || ""}" />`;
-      } else if (project.img) {
-        mediaHTML = `<img src="${project.img}" alt="${project.title || ""}" />`;
+      const company = e.link
+        ? `<a href="${e.link}" target="_blank" style="font-weight:700;font-size:16px;display:block;margin-bottom:4px;">${e.company}</a>`
+        : `<div style="font-weight:700;font-size:16px;margin-bottom:4px;">${e.company}</div>`;
+
+      let rolesHTML = '';
+      if(e.roles && e.roles.length){
+        rolesHTML = e.roles.map(r=>`
+          <div style="margin-bottom:10px;">
+            <div style="font-weight:600">${r.title}</div>
+            <div class="muted" style="font-size:13px">${r.date || ''}</div>
+            <div class="muted" style="margin-top:4px">${r.desc || ''}</div>
+          </div>
+        `).join('');
       }
 
-      const tagsHTML = project.tags
-        ? project.tags.map(t => `<span class="tag">${t}</span>`).join("")
-        : "";
-
-      card.innerHTML = `
-        <div class="project-media">${mediaHTML}</div>
-        <div class="project-body">
-          <div class="project-title">${project.title || ""}</div>
-          <div class="project-subtitle">${project.subtitle || ""}</div>
-          <div class="tags">${tagsHTML}</div>
+      item.innerHTML = `
+        ${logo}
+        <div>
+          ${company}
+          ${rolesHTML}
         </div>
       `;
 
-      card.addEventListener("click", () => openProjectModal(project));
-      projectsGrid.appendChild(card);
+      expWrap.appendChild(item);
     });
 
-    // EXPERIENCE (BIG CARD + SUB-CARDS)
-    const expCard = document.getElementById("experienceCard");
-    SITE_CONFIG.experience.forEach(company => {
-      const companyCard = document.createElement("div");
-      companyCard.className = "company-card";
+    // social
+    const social = document.getElementById('socialLinks');
+    SITE_CONFIG.social.forEach(s=>{ const a=document.createElement('a'); a.className='ghost'; a.href=s.href; a.target='_blank'; a.style.padding='8px 10px'; a.textContent=s.label; social.appendChild(a); });
 
-      const rolesHTML = (company.roles || [])
-        .map(role => `
-          <div class="role-block">
-            <div class="role-title">${role.title || ""}</div>
-            <div class="role-date">${role.date || ""}</div>
-            <div class="role-desc">${role.desc || ""}</div>
-          </div>
-        `)
-        .join("");
-
-      companyCard.innerHTML = `
-        <div class="experience-item">
-          <img src="${company.logo || ""}" alt="${company.company || ""}" />
-          <div>
-            ${
-              company.link
-                ? `<a href="${company.link}" target="_blank" class="company-name">${company.company}</a>`
-                : `<span class="company-name">${company.company}</span>`
-            }
-            ${rolesHTML}
-          </div>
-        </div>
-      `;
-
-      expCard.appendChild(companyCard);
-    });
-
-    // SOCIAL LINKS
-    const social = document.getElementById("socialLinks");
-    SITE_CONFIG.social.forEach(s => {
-      const a = document.createElement("a");
-      a.className = "social-link";
-      a.href = s.href;
-      a.target = "_blank";
-      a.textContent = s.label;
-      social.appendChild(a);
-    });
+    // Helpful: console instructions for editing quickly
+    console.log('Edit SITE_CONFIG at top of this file to update content. Add assets into /assets folder.');
   </script>
 </body>
 </html>
