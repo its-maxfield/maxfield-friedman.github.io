@@ -138,6 +138,39 @@ nav a:hover {
   );
 }
 
+
+/* === OVERRIDES TO RESTORE SKILLS GRID & PALETTE === */
+#skillsWrap {
+  display:grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(150px,1fr)) !important;
+  gap:14px !important;
+}
+
+/* Restrict cards to palette-based neutral gradient */
+.card, .project-card, .company-card, #experienceCard {
+  background: linear-gradient(180deg, #2F2504, #594E36) !important;
+  border: 1px solid #7E846B !important;
+}
+
+.modal {
+  background: #2F2504 !important;
+  border: 1px solid #594E36 !important;
+}
+
+.btn {
+  background: #7E846B !important;
+  color: #2F2504 !important;
+}
+
+.btn:hover {
+  background: #594E36 !important;
+  color: #D0DDD7 !important;
+}
+
+.ghost:hover {
+  background: #7E846B55 !important;
+}
+
 </style>
 </head>
 <body>
