@@ -307,6 +307,10 @@
     <section id="experience" class="section">
       <h3>Experience</h3>
       <div class="card" id="experienceWrap"></div>
+    
+    <section id="hobbies" class="section" style="margin-top:40px">
+      <h3>Hobbies</h3>
+      <div class="card" id="hobbiesWrap"></div>
     </section>
 
     <section id="contact" class="section" style="margin-top:40px">
@@ -407,6 +411,24 @@ const SITE_CONFIG = {
           date:'Jan. 2022 - Mar. 2023',
           desc:'Collaborate with a cross-functional team to design and develop interactive XR experiences using Unity or Unreal Engine, tailored to the chosen XR medium. Maintain high-quality standards through version control, consistent formatting practices, and regular progress reporting to the project manager. Actively participate in agile workflows, including code sprints, to ensure timely delivery of enterprise-focused solutions (More details in resume).'
         }
+      ]
+    }
+  ],
+
+  hobbies:[
+    {
+      hobby: "Running",
+      img: "assets/hobbies/running.jpg",
+      accomplishments: [
+        { title: "Half Marathon — 2:15:32", img: "assets/hobbies/half.jpg" },
+        { title: "5K Personal Best — 26:40", img: null }
+      ]
+    },
+    {
+      hobby: "Baking",
+      img: null,
+      accomplishments: [
+        { title: "Sourdough Bread", img: "assets/hobbies/sourdough.jpg" }
       ]
     }
   ],
@@ -587,6 +609,47 @@ SITE_CONFIG.experience.forEach(e=>{
   item.innerHTML=`${logo}<div>${company}${rolesHTML}</div>`;
   expWrap.appendChild(item);
 });
+
+
+/* ================================
+   HOBBIES + ACCOMPLISHMENTS
+================================ */
+const hobbiesWrap = document.getElementById("hobbiesWrap");
+
+SITE_CONFIG.hobbies?.forEach(h => {
+  const container = document.createElement("div");
+  container.style.marginBottom = "24px";
+
+  let hobbyImgHTML = "";
+  if (h.img) {
+    hobbyImgHTML = `
+      <img src="${h.img}"
+           style="width:100%;max-width:320px;border-radius:8px;
+                  margin-top:10px;object-fit:cover" />
+    `;
+  }
+
+  let accomplishmentsHTML = "";
+  if (h.accomplishments?.length > 0) {
+    accomplishmentsHTML = h.accomplishments.map(a => `
+      <div style="margin-top:12px;padding-left:10px;border-left:2px solid #7E846B">
+        <div style="font-weight:600">${a.title}</div>
+        ${a.img ? `<img src="${a.img}" 
+                       style="width:100%;max-width:260px;border-radius:8px;
+                              margin-top:6px;object-fit:cover" />` : ""}
+      </div>
+    `).join("");
+  }
+
+  container.innerHTML = `
+    <div style="font-size:18px;font-weight:700">${h.hobby}</div>
+    ${hobbyImgHTML}
+    ${accomplishmentsHTML}
+  `;
+
+  hobbiesWrap.appendChild(container);
+});
+
 
 /* Social */
 const social=document.getElementById('socialLinks');
