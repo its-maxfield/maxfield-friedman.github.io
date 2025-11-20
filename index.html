@@ -504,6 +504,8 @@
 
           <div style="display:flex;gap:12px;margin-top:12px;">
             <a class="btn" id="emailBtn" href="mailto:maxfield.friedman12@gmail.com">Email</a>
+  <a class="ghost" id="viewResume" target="_blank">View Resume</a>
+  <a class="ghost" id="downloadResume" download>Download Resume</a>
           </div>
         </div>
 
@@ -538,6 +540,7 @@
   <!-- SCRIPT SECTION -->
   <script>
     const SITE_CONFIG = {
+  resume: "assets/Maxfield_Friedman_Resume.pdf",
       name:"Maxfield Friedman",
       tag:"Gameplay/XR Engineer",
       bio:"Bio coming soon...",
@@ -637,6 +640,8 @@
     document.getElementById("cardTag").textContent = SITE_CONFIG.tag;
     document.getElementById("emailLink").href = `mailto:${SITE_CONFIG.email}`;
     document.getElementById("emailBtn").href = `mailto:${SITE_CONFIG.email}`;
+    document.getElementById("viewResume").href = SITE_CONFIG.resume;
+    document.getElementById("downloadResume").href = SITE_CONFIG.resume;
 
     // SKILLS
     const skillsWrap = document.getElementById("skillsWrap");
