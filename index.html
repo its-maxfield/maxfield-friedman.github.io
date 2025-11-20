@@ -418,6 +418,7 @@ const SITE_CONFIG = {
   hobbies:[
     {
       hobby: "Running",
+      description: "I love endurance sports—running helps me clear my mind, stay disciplined, and push my limits. I'm currently training for a marathon and gradually working on improving pacing and form.",
       img: "assets/hobbies/running.jpg",
       accomplishments: [
         { title: "Half Marathon — 2:15:32", img: "assets/hobbies/half.jpg" },
@@ -426,6 +427,7 @@ const SITE_CONFIG = {
     },
     {
       hobby: "Baking",
+      description: "Baking is my creative outlet. I enjoy experimenting with fermentation, hydration, and creativity in dough shaping.",
       img: null,
       accomplishments: [
         { title: "Sourdough Bread", img: "assets/hobbies/sourdough.jpg" }
@@ -618,31 +620,41 @@ const hobbiesWrap = document.getElementById("hobbiesWrap");
 
 SITE_CONFIG.hobbies?.forEach(h => {
   const container = document.createElement("div");
-  container.style.marginBottom = "24px";
+  container.style.marginBottom = "32px";
 
-  let hobbyImgHTML = "";
-  if (h.img) {
-    hobbyImgHTML = `
-      <img src="${h.img}"
-           style="width:100%;max-width:320px;border-radius:8px;
-                  margin-top:10px;object-fit:cover" />
-    `;
-  }
+  const descHTML = h.description ? `
+    <div style="
+      background: rgba(255,255,255,0.04);
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin-top: 8px;
+      color: var(--muted);
+      line-height: 1.45;
+    ">
+      ${h.description}
+    </div>
+  ` : "";
 
-  let accomplishmentsHTML = "";
-  if (h.accomplishments?.length > 0) {
-    accomplishmentsHTML = h.accomplishments.map(a => `
-      <div style="margin-top:12px;padding-left:10px;border-left:2px solid #7E846B">
+  const hobbyImgHTML = h.img ? `
+    <img src="${h.img}"
+         style="width:100%;max-width:360px;border-radius:8px;
+                margin-top:12px;object-fit:cover" />
+  ` : "";
+
+  const accomplishmentsHTML = (h.accomplishments?.length > 0)
+    ? h.accomplishments.map(a => `
+      <div style="margin-top:14px;padding-left:12px;border-left:2px solid #7E846B">
         <div style="font-weight:600">${a.title}</div>
         ${a.img ? `<img src="${a.img}" 
                        style="width:100%;max-width:260px;border-radius:8px;
                               margin-top:6px;object-fit:cover" />` : ""}
       </div>
-    `).join("");
-  }
+    `).join("")
+    : "";
 
   container.innerHTML = `
     <div style="font-size:18px;font-weight:700">${h.hobby}</div>
+    ${descHTML}
     ${hobbyImgHTML}
     ${accomplishmentsHTML}
   `;
