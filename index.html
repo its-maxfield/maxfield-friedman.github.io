@@ -228,7 +228,7 @@
 
     <header>
       <div class="brand">
-        <div class="logo">GE</div>
+        <div class="logo">GD</div>
         <div>
           <h1 id="siteName">Maxfield Friedman</h1>
           <div class="muted" id="siteTag">Game Developer — Engine | Systems | Tools</div>
@@ -239,13 +239,13 @@
         <a href="#projects">Projects</a>        
         <a href="#experience">Experience</a>
         <a href="#contact">Contact</a>
-        <a class="ghost" id="resumeLink" href="assets/Resume.pdf" target="_blank">Resume</a>
+        <a class="ghost" id="resumeLink" href="assets/Maxfield_Friedman_CV.pdf" target="_blank">Resume</a>
       </nav>
     </header>
 
     <section class="hero">
       <div>
-        <h2 id="heroTitle">Hi — I'm <span id="heroName">YOUR NAME</span></h2>
+        <h2 id="heroTitle">Hi — <!--I'm <span id="heroName">YOUR NAME</span>--></h2>
         <div class="sub muted" id="heroBio">
           I build performant gameplay systems and tools for modern games.
         </div>
@@ -347,9 +347,9 @@ const SITE_CONFIG = {
   resume:'assets/Maxfield_Friedman_CV.pdf',
 
   skills:[
-    'C#','C++','Unreal Engine','Unity','UEFN','Blueprints','Verse',
-    'Networking','Gameplay Systems','VR/XR','SteamVR','OpenXR',
-    '3D Math','Game AI','UI/UX', "Mobile Dev", "Photon", 'Deployment'
+    'C#','Unity','Unreal Engine','C++','UEFN','Blueprints','Verse',
+    'Multiplayer','Gameplay Systems','VR/XR','SteamVR','OpenXR',
+    '3D Math','Game AI','UI/UX', "Android Mobile Dev", "Photon Networking", 'Game Dev'
   ],
 
   stats:[
@@ -368,7 +368,7 @@ const SITE_CONFIG = {
       desc:`A unique surigical simulator experience taking you through the 12 main steps of cataract surgery. My role on the project
         was to help develop the networking interactions and take on enhancing of a few of the steps in the experience. Specifically, adding visual overlays to rotation steps, adjusting pressure, and motion behavior.
         On top of that, I worked in collaboration with the team to adjust the main menu flow and connection for the experience.`,
-      tags:"Unity, VR, XR, Physics, Multiplayer"
+      tags:"Unity, VR, XR, Multiplayer"
     },
     {
       title:"Axon Drill Training Simulator",
@@ -377,7 +377,7 @@ const SITE_CONFIG = {
       video:null,
       demo:null,
       desc:"",
-      tags:"Unity, VR, XR, Physics, Multiplayer"
+      tags:"Unity, VR, XR, Multiplayer, Game AI"
     },
     {
       title:"Karnivus: Rooftop Rumble",
@@ -386,7 +386,7 @@ const SITE_CONFIG = {
       video:null,
       demo:null,
       desc:"",
-      tags:"Unity, VR, XR, Physics, Multiplayer"
+      tags:"UEFN, Game Development"
     },
     {
       title: "Karnivus: Tournament of Champions",
@@ -395,7 +395,7 @@ const SITE_CONFIG = {
       video:null,
       demo:null,
       desc:"",
-      tags:"Unity, VR, XR, Physics, Multiplayer"
+      tags:"UEFN, Game Development"
     },  
     {
       title: "Alcn CS/VCS Experience",
@@ -404,7 +404,7 @@ const SITE_CONFIG = {
       video:null,
       demo:null,
       desc:"",
-      tags:"Unity, VR, XR, Physics, Multiplayer"
+      tags:"Unity, Unreal, VR, XR, Multiplayer, Intents and Extras"
     }
   ],
 
@@ -417,12 +417,12 @@ const SITE_CONFIG = {
         {
           title:'Gameplay Engineer (Full-time Contract)',
           date:'Jul. 2025 - Present',
-          desc:'Contracted as a Gameplay Engineer on the Karnivus: Rooftop Rumble and Tournament of Champions experiences for FMS. Developed in UEFN using the Verse programming language. Responsible for developing core functionality, build processing, and handling version notes.'
+          desc:'Contracted as a Gameplay Engineer on the Karnivus: Rooftop Rumble and Tournament of Champions experiences for FMS. Developed in UEFN using the Verse programming language. I have been responsible for developing core functionality, build processing, and any other updates needed from debugging to new game flows.'
         },
         {
           title: 'Freelance Contractor',
           date: 'Jul. 2024 - Jun. 2025',
-          desc: null
+          desc: 'Before coming on to FMS in a larger contract capacity. I used some of my free-time outside of work at Launchvox to learn a bit more about the gaming industry and tackle some different types of challenges I had not seen before with XR work. Though this was sparsely done throughout the week and mostly on the weeks it worked as a great compliment to bring gamification to medical XR and the unique problem solving of XR to games!'
         }
       ]
     },
@@ -439,7 +439,7 @@ const SITE_CONFIG = {
         {
           title:'Contract Software Engineer',
           date:'Sep. 2023 - Dec. 2023',
-          desc:'Starting off, I began as a contracted engineer for the team. Working on tasks for our primary surgical simulator. In a unique sort of job interview. I tackled graphing in VR using a heat map plugin, networking, and adjusting interactions for the steps of the primary simulator.'
+          desc:'I began as a contracted engineer for the team. Working on tasks for our primary surgical simulator. I tackled graphing in VR using a heat map plugin, networking, and adjusting interactions for the steps of the primary simulator. This time was a sort of unique job interview and eventually led to my full-time offer with the team after the new year.'
         }
       ]
     },
@@ -451,7 +451,7 @@ const SITE_CONFIG = {
         {
           title:'XR Software Engineer',
           date:'Jan. 2022 - Mar. 2023',
-          desc:'Collaborate with a cross-functional team to design and develop interactive XR experiences using Unity or Unreal Engine, tailored to the chosen XR medium. Maintain high-quality standards through version control, consistent formatting practices, and regular progress reporting to the project manager. Actively participate in agile workflows, including code sprints, to ensure timely delivery of enterprise-focused solutions (More details in resume).'
+          desc:'Collaborated with a cross-functional team to design and develop interactive XR experiences using Unity or Unreal Engine, tailored to the chosen XR medium. Maintain high-quality standards through version control, consistent formatting practices, and regular progress reporting to the project manager. Actively participate in agile workflows, including code sprints, to ensure timely delivery of enterprise-focused solutions (More details in resume).'
         }
       ]
     }
@@ -460,19 +460,20 @@ const SITE_CONFIG = {
   hobbies:[
     {
       hobby: "Running",
-      description: "I love endurance sports—running helps me clear my mind, stay disciplined, and push my limits. I'm currently training for a marathon and gradually working on improving pacing and form.",
-      img: "assets/hobbies/running.jpg",
+      description: "A new hobby to the list in 2025. My goal was to run a marathon this year. A literal couch to marathon journey. When I started I couldn’t even get a mile in. The ups and downs (there’s a lot of hills out there) have helped me grow both mentally and physically stronger. I’ve seen so much crossover into other aspects of my life that this has become less of a hobby and more of a routine. I’m looking forward to continuing to push myself in the world of endurance to see truly what the body and more importantly, my mind, is capable of! (See some of the races I've done below)",
+      img: null,
       accomplishments: [
-        { title: "Half Marathon — 2:15:32", img: "assets/hobbies/half.jpg" },
-        { title: "5K Personal Best — 26:40", img: null }
+        { title: "SF Marathon", img: null },
+        { title: "Berkeley Half Marathon", img: null }
       ]
     },
     {
-      hobby: "Baking",
-      description: "Baking is my creative outlet. I enjoy experimenting with fermentation, hydration, and creativity in dough shaping.",
+      hobby: "Baking and Cooking",
+      description: "Ever since I was young I’ve loved being in a kitchen. Yes, the activities themselves are great. I've spent many years combined working in restaurants as well, from dishwasher to server and most positions in the front and back of the house. Both cooking and baking are creative outlets that thrive off experimentation and iteration. They're hard to master and when you get it right, immensely rewarding in flavor. What really keeps this hobby going is what it does for those around me. Food breeds community. People love a good meal. I love making things for others. It really is a win-win. Everyone should do it and everyone can 100% learn to do it!",
       img: null,
       accomplishments: [
-        { title: "Sourdough Bread", img: "assets/hobbies/sourdough.jpg" }
+        { title: "Banana Bread", img: "assets/baking/bBread.jpeg" },
+        { title: "Tiramisu", img: "assets/baking/tmisu1.jpeg"}
       ]
     }
   ],
