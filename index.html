@@ -461,6 +461,8 @@
       padding: 20px;
       max-width: 900px;
       width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
       z-index: 10000;
       position: relative;
     }
@@ -478,6 +480,7 @@
       background: #0d0f12;
       border-radius: var(--radius);
       overflow: hidden;
+      position: relative;
     }
 
     .modal-media iframe,
@@ -485,6 +488,48 @@
       width: 100% !important;
       height: 100% !important;
       border: 0 !important;
+    }
+
+    .modal-media img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      margin: auto;
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      border: none;
+      font-size: 22px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+
+    .carousel-arrow:hover {
+      background: rgba(0,0,0,0.8);
+    }
+
+    .carousel-arrow.prev { left: 8px; }
+    .carousel-arrow.next { right: 8px; }
+
+    .carousel-counter {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 8px;
     }
 
     /* ============================================================
@@ -754,10 +799,6 @@
           </div>
           <div class="modal-media" id="modalMedia"></div>
           <p style="margin-top:12px;font-size:14px;line-height:1.6;color:var(--text-muted)" id="modalDesc"></p>
-          <div style="margin-top:14px;display:flex;gap:8px">
-            <a class="btn" id="modalDemo" target="_blank">More Media</a>
-            <a class="btn-ghost" id="modalRepo" target="_blank"></a>
-          </div>
         </div>
       </div>
     </section>
@@ -831,8 +872,7 @@ const SITE_CONFIG = {
       title:"Alcon Fidelis Surgical Simulator",
       subtitle:"Worked on at both Elara and Launchvox.",
       img:"assets/alcon.png",
-      video:"assets/fidelis/Fidelis_PromoVideo_v3.mp4",
-      demo: "assets/fidelis/Alcon_SurgicalSimulator2.png",
+      media:[{type:'video',src:'assets/fidelis/Fidelis_PromoVideo_v3.mp4'},{type:'image',src:'assets/fidelis/Alcon_SurgicalSimulator2.png'}],
       desc:`A unique surigical simulator experience taking you through the 12 main steps of cataract surgery. My role on the project
         was to help develop the networking interactions and take on enhancing of a few of the steps in the experience. Specifically, adding visual overlays to rotation steps, adjusting pressure, and motion behavior.
         On top of that, I worked in collaboration with the team to adjust the main menu flow and connection for the experience.`,
@@ -842,8 +882,7 @@ const SITE_CONFIG = {
       title:"Axon Drill Training Simulator",
       subtitle:"Worked on at Elara Systems Inc.",
       img:null,
-      video:null,
-      demo:null,
+      media:[],
       desc:"The Axon training simulator was a contracted project we worked on to test the variation in experience between 3D and Stereoscopic video drills. I was tasked with taking on the 3D side of things integrating: a finite state machine, Djikstra's based pathfinding, inverse kinematics, and custom animation flow. It was a great experience to take ownership over a section of a product and really dive into the details to try and make it shine. I learned a lot about problem solving and debugging working on this. If Elara was still around and there was any way to find video reference or code I would!",
       tags:"Unity, XR, Multiplayer, Game AI, Complete"
     },
@@ -851,8 +890,7 @@ const SITE_CONFIG = {
       title:"Karnivus: Rooftop Rumble",
       subtitle: "Worked on at Force Multiplier.",
       img: "assets/fmsMedia/KARNIVUS-ROOFTOP-RUMBLE-THUMBNAIL-FINAL-4K.png",
-      video:"https://www.youtube.com/watch?v=UmTnhErvvPI",
-      demo:null,
+      media:[{type:'youtube',src:'https://www.youtube.com/watch?v=UmTnhErvvPI'}],
       desc:"The rooftop rumble experience was a standalone version of the 3rd stage of the Tournament of Champions. For this project I implemented core mechanics like overhauling the quantec behavior, adding wrecking balls, score tracking, and more! If you have fortnite installed, check it out at this island code here: 1086-9838-9592.",
       tags:"UEFN, Game Development, In Progress"
     },
@@ -860,8 +898,7 @@ const SITE_CONFIG = {
       title: "Karnivus: Tournament of Champions",
       subtitle: "Worked on at Force Multiplier.",
       img: "assets/fmsMedia/KARNIVUS_TOC_V1_ALT_FINAL_1920x1080.png",
-      video:"https://www.youtube.com/watch?v=AVAD8Q7S1QA",
-      demo:null,
+      media:[{type:'youtube',src:'https://www.youtube.com/watch?v=AVAD8Q7S1QA'}],
       desc:"This was the main project I worked on with Force Multiplier. On this project I worked on almost every aspect of the project. From design changes, level adjustments, UI updates, data tracking, mechanics implementation, and deployment. The base project had been built before my time then I came on with an intern for the company and together we took the tournament to the finish line! If you have fortnite installed, check it out at this island code here: 1875-2464-0254.",
       tags:"UEFN, Game Development, Complete"
     },
@@ -869,8 +906,7 @@ const SITE_CONFIG = {
       title: "Alcn CS/VCS Experience",
       subtitle: "Worked on at Launchvox.",
       img:"assets/cs_vcs/thumbnail1.png",
-      video:"assets/cs_vcs/vcscsDemo.mp4",
-      demo:"assets/cs_vcs/CS Pops.mp4",
+      media:[{type:'video',src:'assets/cs_vcs/vcscsDemo.mp4'},{type:'video',src:'assets/cs_vcs/CS Pops.mp4'}],
       desc:"This experience for Alcon expanded on the base framework for the Fidelis Cataract Simulator. On this project we focused on a new device from Alcon and showing all of the interactions and device attachements that came with it. My job was to implement the networking system using Photon for Unity to allow voice chat and real-time interactions for users. I also worked on the intents and extras system which allow users to view animations build and published in the Unreal Engine while maintaining group networked connection going in and out of the main experience. Check out some of the videos for an idea of what it's like!",
       tags:"Unity, Unreal, XR, Multiplayer, Complete"
     }
@@ -1092,8 +1128,6 @@ const modalBackdrop = document.getElementById('modalBackdrop');
 const modalTitle    = document.getElementById('modalTitle');
 const modalSubtitle = document.getElementById('modalSubtitle');
 const modalDesc     = document.getElementById('modalDesc');
-const modalDemo     = document.getElementById('modalDemo');
-const modalRepo     = document.getElementById('modalRepo');
 const modalMedia    = document.getElementById('modalMedia');
 
 function openModal(card) {
@@ -1101,34 +1135,78 @@ function openModal(card) {
   modalTitle.textContent = p.title;
   modalSubtitle.textContent = p.subtitle;
   modalDesc.innerHTML = p.desc;
-  modalDemo.href = p.demo || '#';
-  modalRepo.href = p.repo || '#';
 
   modalMedia.innerHTML = '';
-  const v = p.video;
+  const mediaItems = p.media || [];
+  let currentIndex = 0;
 
-  if (!v) {
-    modalMedia.textContent = 'No media provided';
-  } else if (v.includes('youtube') || v.includes('youtu.be')) {
-    const id = v.includes('youtu.be')
-      ? v.split('/').pop()
-      : (new URL(v)).searchParams.get('v');
-    const iframe = document.createElement('iframe');
-    iframe.src = `https://www.youtube.com/embed/${id}`;
-    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-    modalMedia.appendChild(iframe);
-  } else if (v.includes('vimeo')) {
-    const id = v.split('/').pop();
-    const iframe = document.createElement('iframe');
-    iframe.src = `https://player.vimeo.com/video/${id}`;
-    modalMedia.appendChild(iframe);
-  } else {
-    const video = document.createElement('video');
-    video.src = v;
-    video.controls = true;
-    modalMedia.appendChild(video);
+  function renderMediaItem(index) {
+    // Clear previous content
+    modalMedia.innerHTML = '';
+    if (mediaItems.length === 0) {
+      modalMedia.textContent = 'No media provided';
+      return;
+    }
+
+    const item = mediaItems[index];
+    const contentWrap = document.createElement('div');
+    contentWrap.style.cssText = 'width:100%;height:100%;display:flex;align-items:center;justify-content:center';
+
+    if (item.type === 'youtube') {
+      const src = item.src;
+      const id = src.includes('youtu.be')
+        ? src.split('/').pop()
+        : (new URL(src)).searchParams.get('v');
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube.com/embed/${id}`;
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      contentWrap.appendChild(iframe);
+    } else if (item.type === 'vimeo') {
+      const id = item.src.split('/').pop();
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://player.vimeo.com/video/${id}`;
+      iframe.allowFullscreen = true;
+      contentWrap.appendChild(iframe);
+    } else if (item.type === 'video') {
+      const video = document.createElement('video');
+      video.src = item.src;
+      video.controls = true;
+      contentWrap.appendChild(video);
+    } else if (item.type === 'image') {
+      const img = document.createElement('img');
+      img.src = item.src;
+      img.alt = p.title;
+      contentWrap.appendChild(img);
+    }
+
+    modalMedia.appendChild(contentWrap);
+
+    // Arrows (only if multiple items)
+    if (mediaItems.length > 1) {
+      if (index > 0) {
+        const prev = document.createElement('button');
+        prev.className = 'carousel-arrow prev';
+        prev.innerHTML = '&#8249;';
+        prev.onclick = (e) => { e.stopPropagation(); currentIndex--; renderMediaItem(currentIndex); };
+        modalMedia.appendChild(prev);
+      }
+      if (index < mediaItems.length - 1) {
+        const next = document.createElement('button');
+        next.className = 'carousel-arrow next';
+        next.innerHTML = '&#8250;';
+        next.onclick = (e) => { e.stopPropagation(); currentIndex++; renderMediaItem(currentIndex); };
+        modalMedia.appendChild(next);
+      }
+
+      const counter = document.createElement('div');
+      counter.className = 'carousel-counter';
+      counter.textContent = `${index + 1} / ${mediaItems.length}`;
+      modalMedia.appendChild(counter);
+    }
   }
 
+  renderMediaItem(0);
   modalBackdrop.style.display = 'flex';
 }
 
