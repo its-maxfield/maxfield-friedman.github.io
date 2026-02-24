@@ -6,222 +6,480 @@
   <title>Maxfield Friedman — Game Dev Portfolio</title>
   <meta name="description" content="Portfolio — Game Developer" />
   <link rel="icon" href="assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
 
   <style>
-    /* ============================================================
-       🌄 UNIFIED BACKGROUND GRADIENT (smooth top → bottom)
-    ============================================================ */
-    html {
-      background: linear-gradient(
-        180deg,
-        #3f4935 0%,
-        #3d3d2f 25%,
-        #2f3d34 60%,
-        #0D2818 100%
-      );
-
-      /* #3f4935 #3d3d2f #2f3d34*/
-      min-height: 100%;
+    :root {
+      --bg:           #16171a;
+      --sidebar-bg:   #1c1e21;
+      --surface:      #222428;
+      --surface-2:    #2a2d32;
+      --border:       #2e3138;
+      --border-accent:#5a6650;
+      --text-primary: #e8ece8;
+      --text-muted:   #8a9188;
+      --text-dim:     #505850;
+      --accent:       #7e9464;
+      --accent-dim:   #3d4e38;
+      --accent-text:  #b5c9a4;
+      --radius:       8px;
+      --radius-lg:    12px;
+      --sidebar-w:    220px;
+      --font-body:    'Inter', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, monospace;
     }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    a { color: inherit; text-decoration: none; }
+
     body {
-      background: transparent !important;
-      margin: 0;
-    }
-
-    :root{
-      --bg:#252422;
-      --card:#080e0c;
-      --muted:#d8e9e6;
-      --accent:#acafa9;
-      --glass:rgba(255,255,255,0.03);
-      --max-width:1100px;
-      --radius:12px;
-      color-scheme:dark;
-      font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
-    }
-
-    *{box-sizing:border-box}
-    a{color:inherit}
-
-    .container{max-width:var(--max-width);margin:0 auto;padding:28px}
-
-    header{
-      display:flex;align-items:center;justify-content:space-between;gap:16px
-    }
-
-    .brand{display:flex;gap:12px;align-items:center}
-
-    /* ===== PROFILE PHOTO INSTEAD OF GD TEXT ===== */
-    .logo{
-      height:125px;
-      width:125px;
-      border-radius:15px;
-      background:linear-gradient(135deg,var(--accent),#272209);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:700;
-      overflow:hidden; /* Make the image neatly clipped */
-    }
-    .logo img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    nav{display:flex;gap:10px;align-items:center}
-    nav a{
-      padding:8px 12px;border-radius:8px;
-      color:var(--muted);font-size:14px;
-      transition:0.25s ease;
-    }
-    nav a:hover{
-      background:#7E846B55;
-      color:#D0DDD7;
-    }
-
-    .hero{
-      display:grid;
-      grid-template-columns:1fr 360px;
-      gap:24px;
-      align-items:center;
-      padding:24px 0
-    }
-    @media(max-width:900px){.hero{grid-template-columns:1fr}}
-
-    .muted{color:var(--muted)}
-    .sub{margin-top:10px;font-size:15px}
-    .cta{margin-top:16px;display:flex;gap:10px}
-
-    .btn{
-      background:#7E846B;
-      color:#2F2504;
-      padding:10px 14px;
-      border-radius:10px;
-      font-weight:600;
-      border:1px solid #A5AE9E55;
-      transition:.25s ease;
-      cursor:pointer;
-    }
-    .btn:hover{
-      background:#594E36;
-      color:#D0DDD7;
-    }
-
-    .ghost{
-      padding:10px 14px;
-      border-radius:10px;
-      background:transparent;
-      border:1px solid #A5AE9E66;
-      color:#D0DDD7AA;
-      transition:.25s ease;
-      cursor:pointer;
-    }
-    .ghost:hover{
-      background:#7E846B33;
-      color:#D0DDD7;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      display: flex;
+      min-height: 100vh;
     }
 
     /* ============================================================
-       🍷 GLASS CARD STYLE
+       SIDEBAR (desktop)
     ============================================================ */
-    .card,
-    .project-card,
-    .company-card,
-    #experienceCard {
-      background: rgba(47, 37, 4, 0.55) !important;
-      border: 1px solid #7E846B !important;
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 16px;
+      z-index: 100;
+    }
+
+    .sidebar-profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .sidebar-avatar {
+      width: 80px;
+      height: 80px;
       border-radius: var(--radius);
-      padding: 16px;
-      backdrop-filter: blur(6px);
+      overflow: hidden;
+      margin-bottom: 12px;
+      border: 1px solid var(--border-accent);
     }
 
-    .skills{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-    .skill{
-      background:var(--glass);
-      padding:8px 10px;
-      border-radius:8px;
-      font-size:13px;color:var(--muted)
-    }
-
-    #skillsWrap{
-      display:grid !important;
-      grid-template-columns:repeat(auto-fit,minmax(150px,1fr)) !important;
-      gap:14px !important;
-    }
-
-    .projects-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-      gap:14px;
-      margin-top:14px
-    }
-
-    .project{
-      border-radius:10px;overflow:hidden;
-      background:rgba(255,255,255,0.03);
-      cursor:pointer;display:flex;flex-direction:column;
-      transition:.25s ease;
-    }
-    .project:hover{
-      background:rgba(255,255,255,0.06);
-      border-color:#7E846B;
-    }
-
-    .project-media{
-      height: auto;;background:#071022;
-      display:flex;align-items:center;justify-content:center
-    }
-    .project-media img{
+    .sidebar-avatar img {
       width: 100%;
-      height: auto;             /* Preserve natural aspect ratio */
-      object-fit: contain;      /* Don’t crop */
-      display: block;}
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
-    .project-body{padding:12px}
-    .project-title{font-weight:700}
+    .sidebar-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
 
-    .tags{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
-    .tag{
-      font-size:12px;padding:6px 8px;
-      border-radius:8px;background:#7E846B55;
-      color:#D0DDD7
+    .sidebar-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: var(--font-body);
+    }
+
+    .nav-item:hover {
+      background: var(--surface);
+      color: var(--text-primary);
+    }
+
+    .nav-item.active {
+      background: var(--accent-dim);
+      color: var(--accent-text);
+    }
+
+    .nav-icon {
+      font-size: 15px;
+      width: 18px;
+      text-align: center;
+    }
+
+    .sidebar-footer {
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
     }
 
     /* ============================================================
-       🎬 MODAL GLASS STYLE
+       TOPBAR (mobile only)
     ============================================================ */
-    .modal-backdrop{
-      position:fixed;inset:0;
-      background:rgba(0,0,0,0.6);
-      display:none;align-items:center;justify-content:center;
-      padding:20px;
-    }
-    .modal{
-      background: rgba(47, 37, 4, 0.75) !important;
-      border:1px solid #594E36 !important;
-      border-radius:10px;
-      padding:16px;
-      max-width:900px;width:100%;
-      backdrop-filter:blur(8px);
-    }
-    .modal-media{
-      height:320px;background:#594E36;
-      border-radius:8px;overflow:hidden;
+    .topbar {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
     }
 
-    /* ===== FIX MODAL LAYERING ===== */
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .topbar-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .topbar-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .topbar-name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .topbar-nav {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      flex: 1;
+    }
+
+    .topbar-nav .nav-item {
+      flex-shrink: 0;
+      padding: 6px 10px;
+      font-size: 13px;
+      width: auto;
+    }
+
+    /* ============================================================
+       MAIN CONTENT
+    ============================================================ */
+    .main-content {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      min-height: 100vh;
+    }
+
+    /* ============================================================
+       PAGES
+    ============================================================ */
+    .page {
+      display: none;
+      padding: 32px;
+      min-height: 100vh;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .page-title {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    /* ============================================================
+       CARDS + SURFACES
+    ============================================================ */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+    }
+
+    /* ============================================================
+       BUTTONS
+    ============================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent);
+      color: #1a2016;
+      padding: 9px 16px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn:hover { background: var(--accent-text); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      color: var(--text-muted);
+      padding: 9px 16px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      font-family: var(--font-body);
+    }
+
+    .btn-ghost:hover {
+      background: var(--surface-2);
+      color: var(--text-primary);
+    }
+
+    .btn-full { width: 100%; justify-content: center; }
+
+    /* ============================================================
+       ABOUT PAGE
+    ============================================================ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .bio-text {
+      line-height: 1.7;
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-row {
+      display: flex;
+      flex-direction: column;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat-row:last-child { border-bottom: none; }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-value {
+      font-weight: 700;
+      font-size: 15px;
+      margin-top: 2px;
+    }
+
+    .skills-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .skill-chip {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--accent-dim);
+      color: var(--accent-text);
+      padding: 4px 10px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-accent);
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+    }
+
+    /* ============================================================
+       PROJECTS PAGE
+    ============================================================ */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .project {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project:hover {
+      border-color: var(--border-accent);
+      background: var(--surface-2);
+    }
+
+    .project-media {
+      background: #0d0f12;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 140px;
+    }
+
+    .project-media img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .project-body { padding: 14px; }
+
+    .project-title {
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .project-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .tags {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: var(--surface-2);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .filter-select {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      padding: 7px 10px;
+      border-radius: var(--radius);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    /* ============================================================
+       MODAL
+    ============================================================ */
     .modal-backdrop {
-      z-index: 9999 !important;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
     }
 
     .modal {
-      z-index: 10000 !important;
+      background: var(--surface);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      max-width: 900px;
+      width: 100%;
+      z-index: 10000;
       position: relative;
     }
 
-    /* ===== FIX VIDEO SIZE ===== */
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      gap: 12px;
+    }
+
+    .modal-media {
+      height: 320px;
+      background: #0d0f12;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
     .modal-media iframe,
     .modal-media video {
       width: 100% !important;
@@ -229,133 +487,323 @@
       border: 0 !important;
     }
 
-    footer{
-      margin-top:36px;padding:20px 0;
-      color:var(--muted);
-      display:flex;justify-content:space-between;
-      align-items:center
+    /* ============================================================
+       EXPERIENCE PAGE
+    ============================================================ */
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .exp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+    }
+
+    .exp-header {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .exp-logo {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius);
+      object-fit: contain;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+    }
+
+    .exp-company {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .exp-roles {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .exp-role {
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .role-title {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .role-date {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent-text);
+      margin-top: 2px;
+    }
+
+    .role-desc {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-top: 6px;
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       HOBBIES PAGE
+    ============================================================ */
+    .hobby-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .hobby-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+    }
+
+    .hobby-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .hobby-desc {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .accomplishments-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .accomplishment {
+      padding: 10px 14px;
+      border-left: 2px solid var(--accent);
+      background: var(--surface-2);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
+    .accomplishment-title {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .accomplishment img {
+      width: 100%;
+      border-radius: var(--radius);
+      margin-top: 8px;
+      object-fit: cover;
+    }
+
+    /* ============================================================
+       CONTACT PAGE
+    ============================================================ */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .contact-email-display {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 12px;
+    }
+
+    .social-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .social-row:last-child { border-bottom: none; }
+
+    .social-label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* ============================================================
+       MOBILE
+    ============================================================ */
+    @media(max-width:768px) {
+      .sidebar { display: none; }
+      .topbar { display: flex; }
+      .main-content {
+        margin-left: 0;
+        margin-top: 56px;
+      }
+      .page { padding: 20px 16px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
     }
   </style>
-
 </head>
 <body>
-  <div class="container">
 
-    <header>
-      <div class="brand">
-        <!-- PROFILE PHOTO HERE -->
-        <div class="logo">
-          <img src="assets/profile.jpg" alt="Photo of Maxfield Friedman" />
-        </div>
+  <!-- SIDEBAR (desktop) -->
+  <aside class="sidebar">
+    <div class="sidebar-profile">
+      <div class="sidebar-avatar">
+        <img src="assets/profile.jpg" alt="Maxfield Friedman" />
+      </div>
+      <div class="sidebar-name" id="siteName">Maxfield Friedman</div>
+      <div class="sidebar-tag" id="siteTag">Gameplay &amp; XR Engineer</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-page="about">
+        <span class="nav-icon">⊙</span> About
+      </button>
+      <button class="nav-item" data-page="projects">
+        <span class="nav-icon">◈</span> Projects
+      </button>
+      <button class="nav-item" data-page="experience">
+        <span class="nav-icon">◎</span> Experience
+      </button>
+      <button class="nav-item" data-page="hobbies">
+        <span class="nav-icon">◇</span> Hobbies
+      </button>
+      <button class="nav-item" data-page="contact">
+        <span class="nav-icon">◉</span> Contact
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a class="btn-ghost btn-full" id="resumeLink" href="assets/Maxfield_Friedman_XR_Gameplay_Engineer.pdf" target="_blank">Resume ↗</a>
+    </div>
+  </aside>
+
+  <!-- TOPBAR (mobile) -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-avatar">
+        <img src="assets/profile.jpg" alt="Maxfield Friedman" />
+      </div>
+      <span class="topbar-name" id="topbarName">Maxfield Friedman</span>
+    </div>
+    <nav class="topbar-nav">
+      <button class="nav-item active" data-page="about">About</button>
+      <button class="nav-item" data-page="projects">Projects</button>
+      <button class="nav-item" data-page="experience">Experience</button>
+      <button class="nav-item" data-page="hobbies">Hobbies</button>
+      <button class="nav-item" data-page="contact">Contact</button>
+    </nav>
+  </header>
+
+  <main class="main-content">
+
+    <!-- ABOUT PAGE -->
+    <section class="page active" id="page-about">
+      <div class="about-grid">
         <div>
-          <h1 id="siteName">Maxfield Friedman</h1>
-          <div class="muted" id="siteTag">Game Developer — Engine | Systems | Tools</div>
-        </div>
-      </div>
-      <nav>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>        
-        <a href="#experience">Experience</a>
-        <a href="#contact">Contact</a>
-        <a class="ghost" id="resumeLink" href="assets/Maxfield_Friedman_XR_Gameplay_Engineer.pdf" target="_blank">Resume</a>
-      </nav>
-    </header>
-
-    <section class="hero">
-      <div>
-        <h2 id="heroTitle">Hi — I'm <span id="heroName">YOUR NAME</span></h2>
-        <div class="sub muted" id="heroBio">
-          I build performant gameplay systems and tools for modern games.
-        </div>
-        <div class="cta">
-          <a class="btn" href="#projects">View Projects</a>
-          <!-- This Contact button will copy email now -->
-          <a class="ghost" id="emailLink" href="mailto:you@example.com">Contact</a>
-        </div>
-        <div class="skills" id="skillList" style="margin-top:18px"></div>
-      </div>
-
-      <aside class="card">
-        <!-- Hidden name/title/image -->
-        <div style="display:none;gap:12px;align-items:center">
-          <div id="logoText" style="display:none"></div>
-          <div id="cardName" style="display:none"></div>
-          <div id="cardTag" style="display:none"></div>
+          <h1 style="font-size:26px;margin-bottom:12px" id="heroName">Maxfield Friedman</h1>
+          <p class="bio-text" id="heroBio"></p>
+          <div class="cta-row">
+            <button class="btn" onclick="showPage('projects')">View Projects</button>
+            <button class="btn-ghost" id="emailLink">Contact</button>
+          </div>
         </div>
 
-        <div style="margin-top:12px" id="quickStats"></div>
-      </aside>
-    </section>
-
-    <section id="skills" class="section">
-      <h3>Skills</h3>
-      <div class="card">
-        <p class="muted">A snapshot of tools and systems I use.</p>
-        <div id="skillsWrap" style="margin-top:12px"></div>
+        <div>
+          <div class="card" style="margin-bottom:16px" id="statsBlock"></div>
+          <div class="card">
+            <div class="section-label">Skills</div>
+            <div class="skills-chips" id="skillsWrap"></div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="projects" class="section">
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <h3>Projects— Click to learn more!</h3>
-        <div style="display:flex;gap:8px;align-items:center">
-          <label class="muted">Filter:</label>
-          <select id="filterTags" style="padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)">
-            <option value="all">All</option>
-          </select>
-        </div>
+    <!-- PROJECTS PAGE -->
+    <section class="page" id="page-projects">
+      <div class="page-header">
+        <h2 class="page-title">Projects</h2>
+        <select id="filterTags" class="filter-select">
+          <option value="all">All</option>
+        </select>
       </div>
-
       <div class="projects-grid" id="projectsGrid"></div>
 
       <div class="modal-backdrop" id="modalBackdrop">
         <div class="modal">
-          <button id="closeModal" style="float:right;">Close</button>
-          <h3 id="modalTitle"></h3>
+          <div class="modal-header">
+            <div>
+              <h3 id="modalTitle"></h3>
+              <p class="project-sub" id="modalSubtitle" style="margin-top:4px"></p>
+            </div>
+            <button class="btn-ghost" id="closeModal" style="flex-shrink:0">Close</button>
+          </div>
           <div class="modal-media" id="modalMedia"></div>
-          <p class="muted" id="modalSubtitle"></p>
-          <p id="modalDesc"></p>
-          <div style="margin-top:12px;display:flex;gap:8px">
+          <p style="margin-top:12px;font-size:14px;line-height:1.6;color:var(--text-muted)" id="modalDesc"></p>
+          <div style="margin-top:14px;display:flex;gap:8px">
             <a class="btn" id="modalDemo" target="_blank">More Media</a>
-            <a class="ghost" id="modalRepo" target="_blank"></a>
+            <a class="btn-ghost" id="modalRepo" target="_blank"></a>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="experience" class="section">
-      <h3>Experience</h3>
-      <div class="card" id="experienceWrap"></div>
-    
-    <section id="hobbies" class="section" style="margin-top:40px">
-      <h3>Hobbies</h3>
-      <div class="card" id="hobbiesWrap"></div>
+    <!-- EXPERIENCE PAGE -->
+    <section class="page" id="page-experience">
+      <div class="page-header">
+        <h2 class="page-title">Experience</h2>
+      </div>
+      <div class="exp-list" id="experienceWrap"></div>
     </section>
 
-    <section id="contact" class="section" style="margin-top:40px">
-      <div class="card" style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
-        <div style="flex:1;min-width:260px">
-          <h3>Contact</h3>
-          <p class="muted">Email me or download my resume. Visit my GitHub and LinkedIn too.</p>
-          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
-            <!-- This Email button will copy email now -->
-            <a class="btn" id="emailBtn">Email</a>
-            <a class="ghost" id="resumeBtn" target="_blank">Resume</a>
+    <!-- HOBBIES PAGE -->
+    <section class="page" id="page-hobbies">
+      <div class="page-header">
+        <h2 class="page-title">Hobbies</h2>
+      </div>
+      <div class="hobby-list" id="hobbiesWrap"></div>
+    </section>
+
+    <!-- CONTACT PAGE -->
+    <section class="page" id="page-contact">
+      <div class="page-header">
+        <h2 class="page-title">Contact</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="card">
+          <div class="section-label">Get in touch</div>
+          <p style="color:var(--text-muted);font-size:14px;margin-top:8px">
+            Email me or download my resume below.
+          </p>
+          <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
+            <button class="btn btn-full" id="emailBtn">Copy Email Address</button>
+            <a class="btn-ghost btn-full" id="resumeBtn" target="_blank">Download Resume ↗</a>
           </div>
+          <div class="contact-email-display" id="emailDisplay"></div>
         </div>
-        <div style="min-width:260px">
-          <h4 class="muted">Social</h4>
-          <div id="socialLinks" style="display:flex;gap:8px;margin-top:8px"></div>
+
+        <div class="card">
+          <div class="section-label">Links</div>
+          <div id="socialLinks" style="margin-top:8px"></div>
         </div>
       </div>
     </section>
 
-    <footer>
-      <div>© <span id="year"></span> Maxfield Friedman — Gameplay/XR Engineer</div>
-      <div class="muted">Ready to make some great experiences with you!</div>
-    </footer>
-
-  </div>
+  </main>
 
 <script>
 /* ========= SITE CONFIG ========= */
@@ -416,7 +864,7 @@ const SITE_CONFIG = {
       demo:null,
       desc:"This was the main project I worked on with Force Multiplier. On this project I worked on almost every aspect of the project. From design changes, level adjustments, UI updates, data tracking, mechanics implementation, and deployment. The base project had been built before my time then I came on with an intern for the company and together we took the tournament to the finish line! If you have fortnite installed, check it out at this island code here: 1875-2464-0254.",
       tags:"UEFN, Game Development, Complete"
-    },  
+    },
     {
       title: "Alcn CS/VCS Experience",
       subtitle: "Worked on at Launchvox.",
@@ -480,7 +928,7 @@ const SITE_CONFIG = {
   hobbies:[
     {
       hobby: "Running",
-      description: "A new hobby to the list in 2025. My goal was to run a marathon this year. A literal couch to marathon journey. When I started I couldn’t even get a mile in. The ups and downs (there’s a lot of hills out there) have helped me grow both mentally and physically stronger. I’ve seen so much crossover into other aspects of my life that this has become less of a hobby and more of a routine. I’m looking forward to continuing to push myself in the world of endurance to see truly what the body and more importantly, my mind, is capable of! (See some of the races I've done below)",
+      description: "A new hobby to the list in 2025. My goal was to run a marathon this year. A literal couch to marathon journey. When I started I couldn't even get a mile in. The ups and downs (there's a lot of hills out there) have helped me grow both mentally and physically stronger. I've seen so much crossover into other aspects of my life that this has become less of a hobby and more of a routine. I'm looking forward to continuing to push myself in the world of endurance to see truly what the body and more importantly, my mind, is capable of! (See some of the races I've done below)",
       img: null,
       accomplishments: [
         { title: "SF Marathon", img: null },
@@ -489,7 +937,7 @@ const SITE_CONFIG = {
     },
     {
       hobby: "Baking and Cooking",
-      description: "Ever since I was young I’ve loved being in a kitchen. Yes, the activities themselves are great. I've spent many years combined working in restaurants as well, from dishwasher to server and most positions in the front and back of the house. Both cooking and baking are creative outlets that thrive off experimentation and iteration. They're hard to master and when you get it right, immensely rewarding in flavor. What really keeps this hobby going is what it does for those around me. Food breeds community. People love a good meal. I love making things for others. It really is a win-win. Everyone should do it and everyone can 100% learn to do it!",
+      description: "Ever since I was young I've loved being in a kitchen. Yes, the activities themselves are great. I've spent many years combined working in restaurants as well, from dishwasher to server and most positions in the front and back of the house. Both cooking and baking are creative outlets that thrive off experimentation and iteration. They're hard to master and when you get it right, immensely rewarding in flavor. What really keeps this hobby going is what it does for those around me. Food breeds community. People love a good meal. I love making things for others. It really is a win-win. Everyone should do it and everyone can 100% learn to do it!",
       img: null,
       accomplishments: [
         { title: "Banana Bread", img: "assets/baking/bBread.jpeg" },
@@ -504,41 +952,50 @@ const SITE_CONFIG = {
   ]
 };
 
-/* ====================================================
-   DO NOT MODIFY BELOW (except where noted)
-==================================================== */
-document.getElementById('year').textContent=new Date().getFullYear();
+/* ============================================================
+   TAB SWITCHING
+============================================================ */
+const PAGES = ['about','projects','experience','hobbies','contact'];
 
-document.getElementById('siteName').textContent=SITE_CONFIG.name;
-document.getElementById('siteTag').textContent=SITE_CONFIG.tag;
-document.getElementById('heroName').textContent=SITE_CONFIG.name;
-document.getElementById('heroBio').textContent=SITE_CONFIG.bio;
+function showPage(pageId) {
+  PAGES.forEach(id => document.getElementById('page-'+id).classList.remove('active'));
+  document.getElementById('page-'+pageId).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(el =>
+    el.classList.toggle('active', el.dataset.page === pageId));
+  history.replaceState(null, '', '#' + pageId);
+}
 
-document.getElementById('emailLink').href=`mailto:${SITE_CONFIG.email}`;
-document.getElementById('emailBtn').href=`mailto:${SITE_CONFIG.email}`;
-document.getElementById('resumeBtn').href=SITE_CONFIG.resume;
-document.getElementById('resumeLink').href=SITE_CONFIG.resume;
+document.querySelectorAll('.nav-item').forEach(el =>
+  el.addEventListener('click', e => { e.preventDefault(); showPage(el.dataset.page); }));
 
-/* ===== Email copy-to-clipboard behavior ===== */
-function setupEmailCopy(id){
+showPage(PAGES.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'about');
+
+/* ============================================================
+   POPULATE STATIC CONTENT
+============================================================ */
+document.getElementById('siteName').textContent = SITE_CONFIG.name;
+document.getElementById('siteTag').textContent = SITE_CONFIG.tag;
+document.getElementById('topbarName').textContent = SITE_CONFIG.name;
+document.getElementById('heroName').textContent = SITE_CONFIG.name;
+document.getElementById('heroBio').textContent = SITE_CONFIG.bio;
+document.getElementById('emailDisplay').textContent = SITE_CONFIG.email;
+document.getElementById('resumeLink').href = SITE_CONFIG.resume;
+document.getElementById('resumeBtn').href = SITE_CONFIG.resume;
+
+/* ============================================================
+   EMAIL COPY
+============================================================ */
+function setupEmailCopy(id) {
   const el = document.getElementById(id);
-  if(!el) return;
-
-  el.addEventListener('click', function(e){
+  if (!el) return;
+  el.addEventListener('click', function(e) {
     e.preventDefault();
     const email = SITE_CONFIG.email;
-
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(email)
-        .then(() => {
-          alert(`Email copied to clipboard: ${email}`);
-        })
-        .catch(() => {
-          // Fallback to mail client if copy fails
-          window.location.href = `mailto:${email}`;
-        });
+        .then(() => { alert(`Email copied to clipboard: ${email}`); })
+        .catch(() => { window.location.href = `mailto:${email}`; });
     } else {
-      // Older browsers: just open mail client
       window.location.href = `mailto:${email}`;
     }
   });
@@ -547,223 +1004,213 @@ function setupEmailCopy(id){
 setupEmailCopy('emailBtn');
 setupEmailCopy('emailLink');
 
-/* Skills */
-SITE_CONFIG.skills.forEach(s=>{
-  const d=document.createElement('div');
-  d.className='skill';
-  d.textContent=s;
-  document.getElementById('skillsWrap').appendChild(d);
+/* ============================================================
+   STATS
+============================================================ */
+const statsBlock = document.getElementById('statsBlock');
+SITE_CONFIG.stats.forEach(s => {
+  const row = document.createElement('div');
+  row.className = 'stat-row';
+  row.innerHTML = `<span class="stat-label">${s.label}</span>
+                   <span class="stat-value">${s.value}</span>`;
+  statsBlock.appendChild(row);
 });
 
-/* Stats */
-SITE_CONFIG.stats.forEach(s=>{
-  const el=document.createElement('div');
-  el.style.marginTop='8px';
-  el.innerHTML=`<div class="muted">${s.label}</div>
-                <div style="font-weight:700">${s.value}</div>`;
-  document.getElementById('quickStats').appendChild(el);
+/* ============================================================
+   SKILLS
+============================================================ */
+SITE_CONFIG.skills.forEach(s => {
+  const chip = document.createElement('span');
+  chip.className = 'skill-chip';
+  chip.textContent = s;
+  document.getElementById('skillsWrap').appendChild(chip);
 });
 
-/* Project Rendering + Filters */
-const tagsSet=new Set(['all']);
-const grid=document.getElementById('projectsGrid');
+/* ============================================================
+   PROJECTS
+============================================================ */
+const tagsSet = new Set(['all']);
+const grid = document.getElementById('projectsGrid');
 
-SITE_CONFIG.projects.forEach((p,idx)=>{
-  p.tags.split(',').map(t=>t.trim()).filter(Boolean).forEach(t=>tagsSet.add(t));
+SITE_CONFIG.projects.forEach((p, idx) => {
+  p.tags.split(',').map(t => t.trim()).filter(Boolean).forEach(t => tagsSet.add(t));
 
-  const card=document.createElement('div');
-  card.className='project card';
-  card.dataset.index=idx;
-  card.dataset.tags=p.tags;
+  const card = document.createElement('div');
+  card.className = 'project';
+  card.dataset.index = idx;
+  card.dataset.tags = p.tags;
 
-  const media=document.createElement('div');
-  media.className='project-media';
-  if(p.img){
-    const im=document.createElement('img');
-    im.src=p.img; media.appendChild(im);
+  const media = document.createElement('div');
+  media.className = 'project-media';
+  if (p.img) {
+    const im = document.createElement('img');
+    im.src = p.img;
+    media.appendChild(im);
   }
   card.appendChild(media);
 
-  const body=document.createElement('div');
-  body.className='project-body';
-  body.innerHTML=`<div class="project-title">${p.title}</div>
-                  <div class="muted" style="font-size:13px">${p.subtitle}</div>`;
+  const body = document.createElement('div');
+  body.className = 'project-body';
 
-  const tagWrap=document.createElement('div');
-  tagWrap.className='tags';
-  p.tags.split(',').map(t=>t.trim()).forEach(t=>{
-    const tg=document.createElement('div');
-    tg.className='tag';
-    tg.textContent=t;
+  const tagWrap = document.createElement('div');
+  tagWrap.className = 'tags';
+  p.tags.split(',').map(t => t.trim()).forEach(t => {
+    const tg = document.createElement('span');
+    tg.className = 'tag';
+    tg.textContent = t;
     tagWrap.appendChild(tg);
   });
+
+  body.innerHTML = `<div class="project-title">${p.title}</div>
+                    <div class="project-sub">${p.subtitle}</div>`;
   body.appendChild(tagWrap);
   card.appendChild(body);
 
-  card.addEventListener('click',()=>openModal(card));
+  card.addEventListener('click', () => openModal(card));
   grid.appendChild(card);
 });
 
 /* Populate filter */
-Array.from(tagsSet).sort().forEach(t=>{
-  const opt=document.createElement('option');
-  opt.value=t;
-  opt.textContent=t[0].toUpperCase()+t.slice(1);
+Array.from(tagsSet).sort().forEach(t => {
+  const opt = document.createElement('option');
+  opt.value = t;
+  opt.textContent = t[0].toUpperCase() + t.slice(1);
   document.getElementById('filterTags').appendChild(opt);
 });
 
-/* Filtering */
-document.getElementById('filterTags').addEventListener('change',e=>{
-  const val=e.target.value;
-  document.querySelectorAll('.project').forEach(p=>{
-    if(val==='all') p.style.display='flex';
-    else p.style.display=p.dataset.tags.includes(val)?'flex':'none';
+document.getElementById('filterTags').addEventListener('change', e => {
+  const val = e.target.value;
+  document.querySelectorAll('.project').forEach(p => {
+    p.style.display = (val === 'all' || p.dataset.tags.includes(val)) ? '' : 'none';
   });
 });
 
-/* Modal */
-const modalBackdrop=document.getElementById('modalBackdrop');
-const modalTitle=document.getElementById('modalTitle');
-const modalSubtitle=document.getElementById('modalSubtitle');
-const modalDesc=document.getElementById('modalDesc');
-const modalDemo=document.getElementById('modalDemo');
-const modalRepo=document.getElementById('modalRepo');
-const modalMedia=document.getElementById('modalMedia');
+/* ============================================================
+   MODAL
+============================================================ */
+const modalBackdrop = document.getElementById('modalBackdrop');
+const modalTitle    = document.getElementById('modalTitle');
+const modalSubtitle = document.getElementById('modalSubtitle');
+const modalDesc     = document.getElementById('modalDesc');
+const modalDemo     = document.getElementById('modalDemo');
+const modalRepo     = document.getElementById('modalRepo');
+const modalMedia    = document.getElementById('modalMedia');
 
-function openModal(card){
-  const p=SITE_CONFIG.projects[card.dataset.index];
-  modalTitle.textContent=p.title;
-  modalSubtitle.textContent=p.subtitle;
-  modalDesc.innerHTML=p.desc;
-  modalDemo.href=p.demo||'#';
-  modalRepo.href=p.repo||'#';
+function openModal(card) {
+  const p = SITE_CONFIG.projects[card.dataset.index];
+  modalTitle.textContent = p.title;
+  modalSubtitle.textContent = p.subtitle;
+  modalDesc.innerHTML = p.desc;
+  modalDemo.href = p.demo || '#';
+  modalRepo.href = p.repo || '#';
 
-  modalMedia.innerHTML="";
-  const v=p.video;
+  modalMedia.innerHTML = '';
+  const v = p.video;
 
-  if(!v){
-    modalMedia.textContent='No media provided';
-  } else if(v.includes('youtube')||v.includes('youtu.be')){
+  if (!v) {
+    modalMedia.textContent = 'No media provided';
+  } else if (v.includes('youtube') || v.includes('youtu.be')) {
     const id = v.includes('youtu.be')
       ? v.split('/').pop()
       : (new URL(v)).searchParams.get('v');
-    const iframe=document.createElement('iframe');
-    iframe.src=`https://www.youtube.com/embed/${id}`;
-    iframe.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube.com/embed/${id}`;
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
     modalMedia.appendChild(iframe);
-  } else if(v.includes('vimeo')){
-    const id=v.split('/').pop();
-    const iframe=document.createElement('iframe');
-    iframe.src=`https://player.vimeo.com/video/${id}`;
+  } else if (v.includes('vimeo')) {
+    const id = v.split('/').pop();
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://player.vimeo.com/video/${id}`;
     modalMedia.appendChild(iframe);
   } else {
-    const video=document.createElement('video');
-    video.src=v; video.controls=true;
+    const video = document.createElement('video');
+    video.src = v;
+    video.controls = true;
     modalMedia.appendChild(video);
   }
 
-  modalBackdrop.style.display='flex';
+  modalBackdrop.style.display = 'flex';
 }
 
-document.getElementById('closeModal').onclick=()=>modalBackdrop.style.display='none';
-modalBackdrop.onclick=(e)=>{ if(e.target===modalBackdrop) modalBackdrop.style.display='none' }
+document.getElementById('closeModal').onclick = () => modalBackdrop.style.display = 'none';
+modalBackdrop.onclick = e => { if (e.target === modalBackdrop) modalBackdrop.style.display = 'none'; };
 
-/* Experience */
-const expWrap=document.getElementById('experienceWrap');
-SITE_CONFIG.experience.forEach(e=>{
-  const item=document.createElement('div');
-  item.style.marginBottom='24px';
-  item.style.display='flex';
-  item.style.gap='12px';
-  item.style.alignItems='flex-start';
+/* ============================================================
+   EXPERIENCE
+============================================================ */
+const expWrap = document.getElementById('experienceWrap');
+SITE_CONFIG.experience.forEach(e => {
+  const card = document.createElement('div');
+  card.className = 'exp-card';
 
-  const logo = e.logo
-      ? `<img src="${e.logo}" style="width:48px;height:48px;border-radius:6px;
-        object-fit:contain;background:#0002;flex-shrink:0" />`
-      : "";
+  const logoHTML = e.logo
+    ? `<img src="${e.logo}" class="exp-logo" alt="${e.company} logo" />`
+    : `<div class="exp-logo"></div>`;
 
-  const company=e.link
-    ? `<a href="${e.link}" target="_blank"
-        style="font-weight:700;font-size:16px;display:block;margin-bottom:4px">
-        ${e.company}</a>`
-    : `<div style="font-weight:700;font-size:16px;margin-bottom:4px">
-        ${e.company}</div>`;
+  const companyHTML = e.link
+    ? `<a href="${e.link}" target="_blank" class="exp-company" style="display:block">${e.company}</a>`
+    : `<div class="exp-company">${e.company}</div>`;
 
-  let rolesHTML="";
-  if(e.roles){
-    rolesHTML=e.roles.map(r=>`
-      <div style="margin-bottom:10px;">
-        <div style="font-weight:600">${r.title}</div>
-        <div class="muted" style="font-size:13px">${r.date||""}</div>
-        <div class="muted" style="margin-top:4px">${r.desc||""}</div>
-      </div>`).join('');
-  }
+  const rolesHTML = (e.roles || []).map((r, i) => `
+    <div class="exp-role" ${i === 0 ? 'style="border-top:none;padding-top:0"' : ''}>
+      <div class="role-title">${r.title}</div>
+      <div class="role-date">${r.date || ''}</div>
+      <div class="role-desc">${r.desc || ''}</div>
+    </div>
+  `).join('');
 
-  item.innerHTML=`${logo}<div>${company}${rolesHTML}</div>`;
-  expWrap.appendChild(item);
+  card.innerHTML = `
+    <div class="exp-header">
+      ${logoHTML}
+      ${companyHTML}
+    </div>
+    <div class="exp-roles">${rolesHTML}</div>
+  `;
+
+  expWrap.appendChild(card);
 });
 
-
-/* ================================
-   HOBBIES + ACCOMPLISHMENTS
-================================ */
-const hobbiesWrap = document.getElementById("hobbiesWrap");
-
+/* ============================================================
+   HOBBIES
+============================================================ */
+const hobbiesWrap = document.getElementById('hobbiesWrap');
 SITE_CONFIG.hobbies?.forEach(h => {
-  const container = document.createElement("div");
-  container.style.marginBottom = "32px";
-
-  const descHTML = h.description ? `
-    <div style="
-      background: rgba(255,255,255,0.04);
-      padding: 12px 14px;
-      border-radius: 8px;
-      margin-top: 8px;
-      color: var(--muted);
-      line-height: 1.45;
-    ">
-      ${h.description}
-    </div>
-  ` : "";
-
-  const hobbyImgHTML = h.img ? `
-    <img src="${h.img}"
-         style="width:100%;max-width:360px;border-radius:8px;
-                margin-top:12px;object-fit:cover" />
-  ` : "";
+  const card = document.createElement('div');
+  card.className = 'hobby-card';
 
   const accomplishmentsHTML = (h.accomplishments?.length > 0)
-    ? h.accomplishments.map(a => `
-      <div style="margin-top:14px;padding-left:12px;border-left:2px solid #7E846B">
-        <div style="font-weight:600">${a.title}</div>
-        ${a.img ? `<img src="${a.img}" 
-                       style="width:100%;max-width:260px;border-radius:8px;
-                              margin-top:6px;object-fit:cover" />` : ""}
-      </div>
-    `).join("")
-    : "";
+    ? `<div class="accomplishments-grid">
+        ${h.accomplishments.map(a => `
+          <div class="accomplishment">
+            <div class="accomplishment-title">${a.title}</div>
+            ${a.img ? `<img src="${a.img}" alt="${a.title}" />` : ''}
+          </div>
+        `).join('')}
+      </div>`
+    : '';
 
-  container.innerHTML = `
-    <div style="font-size:18px;font-weight:700">${h.hobby}</div>
-    ${descHTML}
-    ${hobbyImgHTML}
+  card.innerHTML = `
+    <div class="hobby-name">${h.hobby}</div>
+    <p class="hobby-desc">${h.description || ''}</p>
+    ${h.img ? `<img src="${h.img}" style="width:100%;max-width:360px;border-radius:8px;margin-top:12px;object-fit:cover" alt="${h.hobby}" />` : ''}
     ${accomplishmentsHTML}
   `;
 
-  hobbiesWrap.appendChild(container);
+  hobbiesWrap.appendChild(card);
 });
 
-
-/* Social */
-const social=document.getElementById('socialLinks');
-SITE_CONFIG.social.forEach(s=>{
-  const a=document.createElement('a');
-  a.className='ghost';
-  a.href=s.href;
-  a.target='_blank';
-  a.style.padding='8px 10px';
-  a.textContent=s.label;
-  social.appendChild(a);
+/* ============================================================
+   SOCIAL LINKS
+============================================================ */
+const socialWrap = document.getElementById('socialLinks');
+SITE_CONFIG.social.forEach(s => {
+  const row = document.createElement('div');
+  row.className = 'social-row';
+  row.innerHTML = `
+    <span class="social-label">${s.label}</span>
+    <a class="btn-ghost" href="${s.href}" target="_blank" style="padding:6px 12px;font-size:13px">Visit ↗</a>
+  `;
+  socialWrap.appendChild(row);
 });
 </script>
 
