@@ -186,19 +186,16 @@
       font-weight: 700;
     }
 
-    .topbar-nav {
-      display: flex;
-      gap: 4px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
+    .topbar-select {
       flex: 1;
-    }
-
-    .topbar-nav .nav-item {
-      flex-shrink: 0;
-      padding: 6px 10px;
+      font-family: var(--font-mono);
       font-size: 13px;
-      width: auto;
+      padding: 7px 10px;
+      border-radius: var(--radius);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      cursor: pointer;
     }
 
     /* ============================================================
@@ -745,13 +742,13 @@
       </div>
       <span class="topbar-name" id="topbarName">Maxfield Friedman</span>
     </div>
-    <nav class="topbar-nav">
-      <button class="nav-item active" data-page="about">About</button>
-      <button class="nav-item" data-page="projects">Projects</button>
-      <button class="nav-item" data-page="experience">Experience</button>
-      <button class="nav-item" data-page="hobbies">Hobbies</button>
-      <button class="nav-item" data-page="contact">Contact</button>
-    </nav>
+    <select class="topbar-select" id="topbarSelect">
+      <option value="about">About</option>
+      <option value="projects">Projects</option>
+      <option value="experience">Experience</option>
+      <option value="hobbies">Hobbies</option>
+      <option value="contact">Contact</option>
+    </select>
   </header>
 
   <main class="main-content">
@@ -764,7 +761,7 @@
           <p class="bio-text" id="heroBio"></p>
           <div class="cta-row">
             <button class="btn" onclick="showPage('projects')">View Projects</button>
-            <button class="btn-ghost" id="emailLink">Contact</button>
+            <button class="btn-ghost" onclick="showPage('contact')">Contact</button>
           </div>
         </div>
 
@@ -998,11 +995,15 @@ function showPage(pageId) {
   document.getElementById('page-'+pageId).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(el =>
     el.classList.toggle('active', el.dataset.page === pageId));
+  const topbarSelect = document.getElementById('topbarSelect');
+  if (topbarSelect) topbarSelect.value = pageId;
   history.replaceState(null, '', '#' + pageId);
 }
 
 document.querySelectorAll('.nav-item').forEach(el =>
   el.addEventListener('click', e => { e.preventDefault(); showPage(el.dataset.page); }));
+
+document.getElementById('topbarSelect').addEventListener('change', e => showPage(e.target.value));
 
 showPage(PAGES.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'about');
 
@@ -1038,7 +1039,6 @@ function setupEmailCopy(id) {
 }
 
 setupEmailCopy('emailBtn');
-setupEmailCopy('emailLink');
 
 /* ============================================================
    STATS
