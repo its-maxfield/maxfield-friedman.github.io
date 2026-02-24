@@ -330,11 +330,27 @@
       margin-top: 2px;
     }
 
+    .skills-group {
+      margin-top: 12px;
+    }
+
+    .skills-group:first-child {
+      margin-top: 0;
+    }
+
+    .skills-group-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
     .skills-chips {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 12px;
     }
 
     .skill-chip {
@@ -769,7 +785,7 @@
           <div class="card" style="margin-bottom:16px" id="statsBlock"></div>
           <div class="card">
             <div class="section-label">Skills</div>
-            <div class="skills-chips" id="skillsWrap"></div>
+            <div id="skillsWrap"></div>
           </div>
         </div>
       </div>
@@ -853,9 +869,9 @@ const SITE_CONFIG = {
   resume:'assets/MaxfieldFriedmanResume.pdf',
 
   skills:[
-    'C#','Unity','Unreal Engine','C++','UEFN','Blueprints','Verse',
-    'Multiplayer','Gameplay Systems','VR/XR','SteamVR','OpenXR',
-    '3D Math','Game AI','UI/UX', "Android Mobile Dev", "Photon Networking", 'Game Dev'
+    { group: 'Programming', items: ['C#', 'C++', 'Verse', 'Blueprints'] },
+    { group: 'Tools & Engines', items: ['Unity', 'Unreal Engine', 'UEFN', 'SteamVR', 'OpenXR', 'Photon Networking'] },
+    { group: 'Disciplines', items: ['Multiplayer', 'VR/XR', 'Gameplay Systems', '3D Math', 'Game AI', 'UI/UX', 'Android Mobile Dev', 'Game Dev'] },
   ],
 
   stats:[
@@ -1055,11 +1071,23 @@ SITE_CONFIG.stats.forEach(s => {
 /* ============================================================
    SKILLS
 ============================================================ */
-SITE_CONFIG.skills.forEach(s => {
-  const chip = document.createElement('span');
-  chip.className = 'skill-chip';
-  chip.textContent = s;
-  document.getElementById('skillsWrap').appendChild(chip);
+SITE_CONFIG.skills.forEach(group => {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'skills-group';
+  const label = document.createElement('div');
+  label.className = 'skills-group-label';
+  label.textContent = group.group;
+  wrapper.appendChild(label);
+  const chips = document.createElement('div');
+  chips.className = 'skills-chips';
+  group.items.forEach(s => {
+    const chip = document.createElement('span');
+    chip.className = 'skill-chip';
+    chip.textContent = s;
+    chips.appendChild(chip);
+  });
+  wrapper.appendChild(chips);
+  document.getElementById('skillsWrap').appendChild(wrapper);
 });
 
 /* ============================================================
