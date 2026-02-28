@@ -668,6 +668,68 @@
     }
 
     /* ============================================================
+       BLOG / DEV DIARY
+    ============================================================ */
+    .blog-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .blog-entry {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .blog-date {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent-text);
+    }
+
+    .blog-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+
+    .blog-body {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-top: 12px;
+    }
+
+    .blog-body p + p {
+      margin-top: 12px;
+    }
+
+    .blog-media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .blog-media-item {
+      aspect-ratio: 16 / 9;
+      background: var(--bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .blog-media-item img,
+    .blog-media-item video,
+    .blog-media-item iframe {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 0;
+    }
+
+    /* ============================================================
        CONTACT PAGE
     ============================================================ */
     .contact-grid {
@@ -712,6 +774,7 @@
       .about-grid { grid-template-columns: 1fr; }
       .contact-grid { grid-template-columns: 1fr; }
       .projects-grid { grid-template-columns: 1fr; }
+      .blog-media-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -730,6 +793,9 @@
     <nav class="sidebar-nav">
       <button class="nav-item active" data-page="about">
         <span class="nav-icon">⊙</span> About
+      </button>
+      <button class="nav-item" data-page="blog">
+        <span class="nav-icon">◆</span> Blog
       </button>
       <button class="nav-item" data-page="projects">
         <span class="nav-icon">◈</span> Projects
@@ -760,6 +826,7 @@
     </div>
     <select class="topbar-select" id="topbarSelect">
       <option value="about">About</option>
+      <option value="blog">Blog</option>
       <option value="projects">Projects</option>
       <option value="experience">Experience</option>
       <option value="hobbies">Hobbies</option>
@@ -789,6 +856,12 @@
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- BLOG PAGE -->
+    <section class="page" id="page-blog">
+      <div class="page-header"><h2 class="page-title">Blog</h2></div>
+      <div class="blog-list" id="blogWrap"></div>
     </section>
 
     <!-- PROJECTS PAGE -->
@@ -995,6 +1068,14 @@ const SITE_CONFIG = {
     }
   ],
 
+  blog:[
+    {
+      title: "Welcome to the Dev Diary",
+      date: "2026-02-27",
+      content: "I'm starting a dev diary to share updates on what I'm working on, things I'm learning, and life in general.\n\nStay tuned for posts about game development, XR experiments, and whatever else I'm getting into."
+    }
+  ],
+
   social:[
     {label:'LinkedIn',href:'https://linkedin.com/in/maxfield-friedman'},
     {label:'GitHub',href:'https://github.com/its-maxfield'}
@@ -1004,7 +1085,7 @@ const SITE_CONFIG = {
 /* ============================================================
    TAB SWITCHING
 ============================================================ */
-const PAGES = ['about','projects','experience','hobbies','contact'];
+const PAGES = ['about','blog','projects','experience','hobbies','contact'];
 
 function showPage(pageId) {
   PAGES.forEach(id => document.getElementById('page-'+id).classList.remove('active'));
@@ -1304,6 +1385,56 @@ SITE_CONFIG.hobbies?.forEach(h => {
 
   hobbiesWrap.appendChild(card);
 });
+
+/* ============================================================
+   BLOG / DEV DIARY
+============================================================ */
+const blogWrap = document.getElementById('blogWrap');
+(SITE_CONFIG.blog || [])
+  .slice()
+  .sort((a, b) => b.date.localeCompare(a.date))
+  .forEach(entry => {
+    const card = document.createElement('div');
+    card.className = 'blog-entry';
+
+    const dateStr = new Date(entry.date + 'T00:00:00').toLocaleDateString('en-US', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+
+    const bodyHTML = entry.content
+      .split('\n\n')
+      .map(p => `<p>${p}</p>`)
+      .join('');
+
+    let mediaHTML = '';
+    if (entry.media && entry.media.length) {
+      mediaHTML = '<div class="blog-media-grid">' + entry.media.map(m => {
+        if (m.type === 'youtube') {
+          const id = m.src.includes('youtu.be')
+            ? m.src.split('/').pop()
+            : (new URL(m.src)).searchParams.get('v');
+          return `<div class="blog-media-item"><iframe src="https://www.youtube.com/embed/${id}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+        } else if (m.type === 'vimeo') {
+          const id = m.src.split('/').pop();
+          return `<div class="blog-media-item"><iframe src="https://player.vimeo.com/video/${id}" allowfullscreen></iframe></div>`;
+        } else if (m.type === 'video') {
+          return `<div class="blog-media-item"><video src="${m.src}" controls></video></div>`;
+        } else if (m.type === 'image') {
+          return `<div class="blog-media-item"><img src="${m.src}" alt="" /></div>`;
+        }
+        return '';
+      }).join('') + '</div>';
+    }
+
+    card.innerHTML = `
+      <div class="blog-date">${dateStr}</div>
+      <div class="blog-title">${entry.title}</div>
+      <div class="blog-body">${bodyHTML}</div>
+      ${mediaHTML}
+    `;
+
+    blogWrap.appendChild(card);
+  });
 
 /* ============================================================
    SOCIAL LINKS
