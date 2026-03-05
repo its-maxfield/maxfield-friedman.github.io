@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Lock, MapPin, DollarSign } from "lucide-react";
 
-const EVENT_PASSWORD = "placeholder";
+const EVENT_PASSWORD = "3rdpatty";
 
 function BackLink() {
   return (
@@ -81,7 +81,11 @@ export default function EventPage() {
           </div>
           <div className="aspect-video rounded-lg overflow-hidden bg-surface-2 flex flex-col items-center justify-center gap-3 text-text-muted">
             <MapPin size={32} className="text-text-dim" />
-            <p className="text-sm">Map image coming soon</p>
+            <img
+              src="assets/PattyFinal.PNG"
+              alt="Location map"
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
 
@@ -91,7 +95,7 @@ export default function EventPage() {
             <h2 className="font-bold text-text-primary">Venmo</h2>
           </div>
           <a
-            href="https://venmo.com/placeholder"
+            href="https://venmo.com/u/maxfield_friedman"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-bg transition-colors hover:bg-accent-text"
