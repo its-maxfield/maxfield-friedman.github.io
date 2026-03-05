@@ -1,10 +1,24 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ArrowLeft, Lock, MapPin, DollarSign } from "lucide-react";
 
 const EVENT_PASSWORD = "3rdpatty";
+
+const bars = [
+  { name: "Harper & Rye",      addr: "1695 Polk St",       lat: 37.7922344, lng: -122.42132,  color: "#FF6B6B" },
+  { name: "Hi-Lo Club",        addr: "1423 Polk St",       lat: 37.7899543, lng: -122.42070,  color: "#FFD93D" },
+  { name: "McTeague's Saloon", addr: "1237 Polk St",       lat: 37.7883793, lng: -122.42050,  color: "#6BCB77" },
+  { name: "Wreck Room",        addr: "1390 California St", lat: 37.7912215, lng: -122.41716,  color: "#4D96FF" },
+  { name: "Jackalope",         addr: "1092 Post St",       lat: 37.7869831, lng: -122.41978,  color: "#FF922B" },
+  { name: "Ace's Bar",         addr: "998 Sutter St",      lat: 37.78831,   lng: -122.41671,  color: "#DA77FF" },
+  { name: "Peacekeeper",       addr: "925 Bush St",        lat: 37.7895456, lng: -122.41253,  color: "#FF6BD6" },
+  { name: "The Summer Place",  addr: "801 Bush St",        lat: 37.78985,   lng: -122.41060,  color: "#38D9A9" },
+];
+
+const BarMap = dynamic(() => import("@/components/ui/BarMap"), { ssr: false });
 
 function BackLink() {
   return (
@@ -79,14 +93,7 @@ export default function EventPage() {
             <MapPin size={18} className="text-accent" />
             <h2 className="font-bold text-text-primary">Location</h2>
           </div>
-          <div className="aspect-video rounded-lg overflow-hidden bg-surface-2 flex flex-col items-center justify-center gap-3 text-text-muted">
-            <MapPin size={32} className="text-text-dim" />
-            <img
-              src="/assets/PattyFinal.PNG"
-              alt="Location map"
-              className="w-full h-full object-cover"
-            />
-          </div>
+          <BarMap bars={bars} />
         </div>
 
         <div className="bg-surface border border-border rounded-xl p-6">
