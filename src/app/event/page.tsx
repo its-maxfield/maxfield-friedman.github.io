@@ -82,7 +82,7 @@ export default function EventPage() {
           <div className="aspect-video rounded-lg overflow-hidden bg-surface-2 flex flex-col items-center justify-center gap-3 text-text-muted">
             <MapPin size={32} className="text-text-dim" />
             <img
-              src="assets/PattyFinal.PNG"
+              src="/assets/PattyFinal.PNG"
               alt="Location map"
               className="w-full h-full object-cover"
             />
