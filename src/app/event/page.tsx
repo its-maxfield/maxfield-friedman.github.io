@@ -63,7 +63,7 @@ export default function EventPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
-              className="w-full rounded-lg bg-surface-2 border border-border px-4 py-2.5 text-sm text-text-primary placeholder:text-text-dim focus:outline-none focus:border-border-accent"
+              className="w-full rounded-lg bg-surface-2 border border-border px-4 py-2.5 text-base text-text-primary placeholder:text-text-dim focus:outline-none focus:border-border-accent"
             />
             {error && (
               <p className="text-xs text-red-400">Incorrect password. Try again.</p>
