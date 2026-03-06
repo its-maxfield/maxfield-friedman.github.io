@@ -20,18 +20,6 @@ const bars = [
 
 const BarMap = dynamic(() => import("@/components/ui/BarMap"), { ssr: false });
 
-function BackLink() {
-  return (
-    <Link
-      href="/"
-      className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text-primary transition-colors mb-8"
-    >
-      <ArrowLeft size={16} />
-      Back to Portfolio
-    </Link>
-  );
-}
-
 export default function EventPage() {
   const [authenticated, setAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
@@ -51,7 +39,6 @@ export default function EventPage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="bg-surface border border-border rounded-xl p-8 max-w-sm w-full">
-          <BackLink />
           <div className="flex items-center gap-2 mb-4">
             <Lock size={20} className="text-accent" />
             <h1 className="text-xl font-bold text-text-primary">Event Access</h1>
@@ -84,8 +71,7 @@ export default function EventPage() {
 
   return (
     <div className="min-h-screen px-4 py-24 max-w-3xl mx-auto">
-      <BackLink />
-      <h1 className="text-3xl font-bold text-text-primary mb-8">Event Details</h1>
+      <h1 className="text-3xl font-bold text-text-primary mb-8">The Leprechaun Hunt</h1>
 
       <div className="space-y-6">
         <div className="bg-surface border border-border rounded-xl p-6">
@@ -113,9 +99,43 @@ export default function EventPage() {
 
         <div className="bg-surface border border-border rounded-xl p-6">
           <h2 className="font-bold text-text-primary mb-2">Event Info</h2>
-          <p className="text-sm text-text-muted leading-relaxed">
-            Event details will be updated here. Check back for more information.
+         <div className="text-sm text-text-muted leading-relaxed space-y-4">
+          <p>
+            The game is simple. Find the Leprechaun as fast as you can! The sooner you do, the more you drink for free.
           </p>
+
+          <p className="font-semibold">Here's how you get started:</p>
+          <ol className="list-decimal list-inside space-y-1">
+            <li>Start by turning off your location. Tell your partner beforehand, we are not responsible for relationship problems that arise from this event.</li>
+            <li>Venmo $25 at the link above. This pools into the pot o' gold the Leprechaun takes to the bar!</li>
+          </ol>
+
+          <p>
+            Above you'll see 8 bars marked on a map. The Leprechaun will be at one of them. In small groups or large. It's really your prerogative. You'll select a bar to visit. Hopeful that you pegged the man behind and when you walk in your money grubbing friend is there.
+          </p>
+
+          <p className="font-semibold">If you get to the bar and the Leprechaun is NOT present:</p>
+          <ol className="list-decimal list-inside space-y-1">
+            <li>Order a drink. You can get a beer, shot, half pint, a sip, a bottle of tequila. You decide. Preferably for everyone, though it needs to be at least 1 person! This is a long day so if you're really with a shit group, share some drinks, absorb the beer via osmosis. Please drink responsibly and know your limits. This is fun, not pain.</li>
+            <li>Take a group picture at X bar and submit a photo to the Leprechaun (details provided soon).</li>
+            <li>After 1 and 2 are complete, pick your next bar and get the fuck outta there you're wasting time!</li>
+          </ol>
+
+          <p className="font-semibold">If you get to the bar and the Leprechaun IS present:</p>
+          <p>
+            Congratulations. You win! Well, somewhat. Quickly scan the bar for other players. The fewer, the better. Now that you've found the Leprechaun you have 1 simple task:
+          </p>
+          <ol className="list-decimal list-inside space-y-1">
+            <li>Using the gold reserves the Leprechaun brought to the bar in his pot. You drink! Have a few cocktails, take a round of shots, grab some chips from the snack rack at the bar (no that's not a hint you idiots). Enjoy the success of your team, revel in your luck, and make sure to stick it in people's face when they show up after you!</li>
+          </ol>
+
+          <p>We'll see you soon for the event! Good luck!</p>
+
+          <p className="italic">
+            Sláinte, 
+            Grove
+          </p>
+        </div>
         </div>
       </div>
     </div>
