@@ -111,19 +111,19 @@ export default function EventPage() {
           </ol>
 
           <p>
-            Above you'll see 8 bars marked on a map. The Leprechaun will be at one of them. In small groups or large. It's really your prerogative. You'll select a bar to visit. Hopeful that you pegged the man behind and when you walk in your money grubbing friend is there.
+            Above you'll see 8 bars marked on a map. The Leprechaun will be at one of them with your gold. In small groups or large. It's really your prerogative. You'll select a bar to visit. Hopeful that the green, money bastard is there.
           </p>
 
           <p className="font-semibold">If you get to the bar and the Leprechaun is NOT present:</p>
           <ol className="list-decimal list-inside space-y-1">
             <li>Order a drink. You can get a beer, shot, half pint, a sip, a bottle of tequila. You decide. Preferably for everyone, though it needs to be at least 1 person! This is a long day so if you're really with a shit group, share some drinks, absorb the beer via osmosis. Please drink responsibly and know your limits. This is fun, not pain.</li>
             <li>Take a group picture at X bar and submit a photo to the Leprechaun (details provided soon).</li>
-            <li>After 1 and 2 are complete, pick your next bar and get the fuck outta there you're wasting time!</li>
+            <li>After the above is complete, pick your next bar and get the fuck outta there you're wasting time!</li>
           </ol>
 
           <p className="font-semibold">If you get to the bar and the Leprechaun IS present:</p>
           <p>
-            Congratulations. You win! Well, somewhat. Quickly scan the bar for other players. The fewer, the better. Now that you've found the Leprechaun you have 1 simple task:
+            Congratulations. You win! Quickly scan the bar for other players to determine how much gold is available. The fewer, the better. Now that you've found the Leprechaun you have 1 simple task:
           </p>
           <ol className="list-decimal list-inside space-y-1">
             <li>Using the gold reserves the Leprechaun brought to the bar in his pot. You drink! Have a few cocktails, take a round of shots, grab some chips from the snack rack at the bar (no that's not a hint you idiots). Enjoy the success of your team, revel in your luck, and make sure to stick it in people's face when they show up after you!</li>
