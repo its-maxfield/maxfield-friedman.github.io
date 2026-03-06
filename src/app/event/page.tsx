@@ -7,15 +7,26 @@ import { ArrowLeft, Lock, MapPin, DollarSign } from "lucide-react";
 
 const EVENT_PASSWORD = "3rdpatty";
 
+//const bars = [
+  //{ name: "Harper & Rye",      addr: "1695 Polk St",       lat: 37.7922344, lng: -122.42132,  color: "#FF6B6B" },
+  //{ name: "Hi-Lo Club",        addr: "1423 Polk St",       lat: 37.7899543, lng: -122.42070,  color: "#FFD93D" },
+  //{ name: "McTeague's Saloon", addr: "1237 Polk St",       lat: 37.7883793, lng: -122.42050,  color: "#6BCB77" },
+  //{ name: "Wreck Room",        addr: "1390 California St", lat: 37.7912215, lng: -122.41716,  color: "#4D96FF" },
+  //{ name: "Jackalope",         addr: "1092 Post St",       lat: 37.7869831, lng: -122.41978,  color: "#FF922B" },
+  //{ name: "Ace's Bar",         addr: "998 Sutter St",      lat: 37.78831,   lng: -122.41671,  color: "#DA77FF" },
+  //{ name: "Peacekeeper",       addr: "925 Bush St",        lat: 37.7895456, lng: -122.41253,  color: "#FF6BD6" },
+  //{ name: "The Summer Place",  addr: "801 Bush St",        lat: 37.78985,   lng: -122.41060,  color: "#38D9A9" },
+//];
+
 const bars = [
   { name: "Harper & Rye",      addr: "1695 Polk St",       lat: 37.7922344, lng: -122.42132,  color: "#FF6B6B" },
   { name: "Hi-Lo Club",        addr: "1423 Polk St",       lat: 37.7899543, lng: -122.42070,  color: "#FFD93D" },
   { name: "McTeague's Saloon", addr: "1237 Polk St",       lat: 37.7883793, lng: -122.42050,  color: "#6BCB77" },
   { name: "Wreck Room",        addr: "1390 California St", lat: 37.7912215, lng: -122.41716,  color: "#4D96FF" },
-  { name: "Jackalope",         addr: "1092 Post St",       lat: 37.7869831, lng: -122.41978,  color: "#FF922B" },
+  { name: "Zeki's",            addr: "1319 California St", lat: 37.7908,    lng: -122.4188,   color: "#FF922B" },
   { name: "Ace's Bar",         addr: "998 Sutter St",      lat: 37.78831,   lng: -122.41671,  color: "#DA77FF" },
-  { name: "Peacekeeper",       addr: "925 Bush St",        lat: 37.7895456, lng: -122.41253,  color: "#FF6BD6" },
-  { name: "The Summer Place",  addr: "801 Bush St",        lat: 37.78985,   lng: -122.41060,  color: "#38D9A9" },
+  { name: "R Bar",             addr: "1176 Sutter St",     lat: 37.7878,    lng: -122.4196,   color: "#FF6BD6" },
+  { name: "Lush Lounge",       addr: "1221 Polk St",       lat: 37.7882,    lng: -122.4205,   color: "#38D9A9" },
 ];
 
 const BarMap = dynamic(() => import("@/components/ui/BarMap"), { ssr: false });
