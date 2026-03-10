@@ -25,7 +25,7 @@ const bars = [
   { name: "Wreck Room",        addr: "1390 California St", lat: 37.7912215, lng: -122.41716,    color: "#4D96FF" },
   { name: "Zeki's",            addr: "1319 California St", lat: 37.7910037, lng: -122.4161554,  color: "#FF922B" },
   { name: "Ace's Bar",         addr: "998 Sutter St",      lat: 37.78831,   lng: -122.41671,    color: "#DA77FF" },
-  { name: "R Bar",             addr: "1176 Sutter St",     lat: 37.7879077, lng: -122.4198890,  color: "#FF6BD6" },
+  { name: "Peacekeeper",       addr: "925 Bush St",        lat: 37.7895456, lng: -122.4125292,  color: "#FF6BD6" },
   { name: "Lush Lounge",       addr: "1221 Polk St",       lat: 37.7881262, lng: -122.4204128,  color: "#38D9A9" },
 ];
 
