@@ -39,13 +39,6 @@ export interface Hobby {
   accomplishments: Accomplishment[];
 }
 
-export interface BlogPost {
-  title: string;
-  date: string;
-  content: string;
-  media?: MediaItem[];
-}
-
 export interface SkillGroup {
   group: string;
   items: string[];
@@ -73,7 +66,6 @@ export interface SiteConfig {
   projects: Project[];
   experience: ExperienceEntry[];
   hobbies: Hobby[];
-  blog: BlogPost[];
   social: SocialLink[];
 }
 
@@ -248,21 +240,6 @@ export const siteConfig: SiteConfig = {
         { title: "Banana Bread", img: "/assets/baking/bBread.jpeg" },
         { title: "Tiramisu", img: "/assets/baking/tmisu1.jpeg" },
       ],
-    },
-  ],
-
-  blog: [
-    {
-      title: "March Begins!",
-      date: "2026-03-01",
-      content:
-        "Fun work and personal updates coming this month! We're building some new features for St. Patrick's Day at FMS with Rooftop Rumble. My training is ramping up for a future Ironman 70.3. I'm starting a blog/diary that may never be seen. \n\nKeep checking back if you are reading this. More in depth and focused posts coming soon!",
-    },
-    {
-      title: "Welcome to the Dev Diary",
-      date: "2026-02-27",
-      content:
-        "I'm starting a dev diary to share updates on what I'm working on, things I'm learning, and life in general.\n\nStay tuned for posts about game development, XR experiments, and whatever else I'm getting into.",
     },
   ],
 
