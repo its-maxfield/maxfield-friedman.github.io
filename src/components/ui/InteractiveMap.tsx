@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-interface Bar {
+interface MapPin {
   name: string;
   addr: string;
   lat: number;
@@ -27,9 +27,9 @@ function createIcon(color: string) {
   });
 }
 
-export default function BarMap({ bars }: { bars: Bar[] }) {
-  const centerLat = bars.reduce((s, b) => s + b.lat, 0) / bars.length;
-  const centerLng = bars.reduce((s, b) => s + b.lng, 0) / bars.length;
+export default function InteractiveMap({ pins }: { pins: MapPin[] }) {
+  const centerLat = pins.reduce((s, p) => s + p.lat, 0) / pins.length;
+  const centerLng = pins.reduce((s, p) => s + p.lng, 0) / pins.length;
 
   return (
     <div className="space-y-3">
@@ -44,12 +44,12 @@ export default function BarMap({ bars }: { bars: Bar[] }) {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {bars.map((bar) => (
-            <Marker key={bar.name} position={[bar.lat, bar.lng]} icon={createIcon(bar.color)}>
+          {pins.map((pin) => (
+            <Marker key={pin.name} position={[pin.lat, pin.lng]} icon={createIcon(pin.color)}>
               <Popup>
-                <strong>{bar.name}</strong>
+                <strong>{pin.name}</strong>
                 <br />
-                {bar.addr}
+                {pin.addr}
               </Popup>
             </Marker>
           ))}
@@ -57,14 +57,14 @@ export default function BarMap({ bars }: { bars: Bar[] }) {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        {bars.map((bar, i) => (
-          <div key={bar.name} className="flex items-center gap-2 text-xs text-text-muted">
+        {pins.map((pin, i) => (
+          <div key={pin.name} className="flex items-center gap-2 text-xs text-text-muted">
             <span
               className="w-3 h-3 rounded-full shrink-0"
-              style={{ backgroundColor: bar.color }}
+              style={{ backgroundColor: pin.color }}
             />
             <span>
-              {i + 1}. {bar.name}
+              {i + 1}. {pin.name}
             </span>
           </div>
         ))}
