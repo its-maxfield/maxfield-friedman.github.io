@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server/admin-api.mjs & next dev",
+    "dev:site": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "admin": "node server/admin-api.mjs"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",

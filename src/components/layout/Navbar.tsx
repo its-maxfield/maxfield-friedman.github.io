@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Menu, X } from "lucide-react";
 import { useActiveSection } from "@/hooks/useActiveSection";
-import { cn } from "@/lib/utils";
+import { cn, isDev } from "@/lib/utils";
+import { siteConfig } from "@/data/site-config";
 
-const NAV_ITEMS = [
+const ALL_NAV_ITEMS = [
   { id: "hero", label: "About" },
   { id: "blog", label: "Blog" },
   { id: "projects", label: "Projects" },
@@ -17,6 +18,13 @@ const NAV_ITEMS = [
 export default function Navbar() {
   const active = useActiveSection();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const NAV_ITEMS = useMemo(() => {
+    if (isDev) return ALL_NAV_ITEMS;
+    return ALL_NAV_ITEMS.filter(
+      (item) => item.id === "hero" || siteConfig.sections[item.id] !== false
+    );
+  }, []);
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur bg-bg/80 border-b border-border">

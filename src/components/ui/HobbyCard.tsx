@@ -1,8 +1,20 @@
 import type { Hobby } from "@/data/site-config";
+import { isDev } from "@/lib/utils";
 
 export default function HobbyCard({ hobby }: { hobby: Hobby }) {
+  const isHidden = isDev && hobby.visible === false;
+
   return (
-    <div className="bg-surface border border-border rounded-xl p-5">
+    <div
+      className={`bg-surface border rounded-xl p-5 relative ${
+        isHidden ? "border-dashed border-amber-500/60 opacity-60" : "border-border"
+      }`}
+    >
+      {isHidden && (
+        <span className="absolute top-2 right-2 z-10 bg-amber-500/90 text-black text-[10px] font-bold px-2 py-0.5 rounded">
+          DRAFT
+        </span>
+      )}
       <h3 className="text-lg font-bold mb-2.5 text-text-primary">{hobby.hobby}</h3>
       <p className="text-text-muted text-sm leading-[1.7]">{hobby.description}</p>
       {hobby.accomplishments.length > 0 && (

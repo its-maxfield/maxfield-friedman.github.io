@@ -5,21 +5,24 @@ import { siteConfig } from "@/data/site-config";
 import type { Project } from "@/data/site-config";
 import ProjectCard from "@/components/ui/ProjectCard";
 import ProjectModal from "@/components/ui/ProjectModal";
+import { visibleOnly, isDev } from "@/lib/utils";
 
 export default function Projects() {
   const [filter, setFilter] = useState("All");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
+  const projects = isDev ? siteConfig.projects : visibleOnly(siteConfig.projects);
+
   const allTags = useMemo(() => {
     const tags = new Set<string>();
-    siteConfig.projects.forEach((p) => p.tags.forEach((t) => tags.add(t)));
+    projects.forEach((p) => p.tags.forEach((t) => tags.add(t)));
     return ["All", ...Array.from(tags)];
-  }, []);
+  }, [projects]);
 
   const filtered =
     filter === "All"
-      ? siteConfig.projects
-      : siteConfig.projects.filter((p) => p.tags.includes(filter));
+      ? projects
+      : projects.filter((p) => p.tags.includes(filter));
 
   return (
     <div>

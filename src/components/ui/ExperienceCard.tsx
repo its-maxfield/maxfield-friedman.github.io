@@ -1,8 +1,20 @@
 import type { ExperienceEntry } from "@/data/site-config";
+import { isDev } from "@/lib/utils";
 
 export default function ExperienceCard({ entry }: { entry: ExperienceEntry }) {
+  const isHidden = isDev && entry.visible === false;
+
   return (
-    <div className="bg-surface border border-border rounded-xl p-5">
+    <div
+      className={`bg-surface border rounded-xl p-5 relative ${
+        isHidden ? "border-dashed border-amber-500/60 opacity-60" : "border-border"
+      }`}
+    >
+      {isHidden && (
+        <span className="absolute top-2 right-2 z-10 bg-amber-500/90 text-black text-[10px] font-bold px-2 py-0.5 rounded">
+          DRAFT
+        </span>
+      )}
       <div className="grid grid-cols-[56px_1fr] gap-3.5 items-center mb-4">
         <img
           src={entry.logo}

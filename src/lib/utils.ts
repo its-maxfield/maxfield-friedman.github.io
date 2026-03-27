@@ -13,3 +13,9 @@ export function formatDate(dateStr: string) {
     day: "numeric",
   });
 }
+
+export function visibleOnly<T extends { visible?: boolean }>(items: T[]): T[] {
+  return items.filter((item) => item.visible !== false);
+}
+
+export const isDev = process.env.NODE_ENV === "development";
