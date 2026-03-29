@@ -3,11 +3,12 @@
     "blog": true,
     "projects": true,
     "experience": true,
+    "education": true,
     "hobbies": true,
     "contact": true
   },
   "name": "Maxfield Friedman",
-  "tag": "Software Engineer- AR/VR, Games, and more!",
+  "tag": "Software Engineer- AR/VR, games, and more!",
   "bio": "I should tell you a bit about myself… My lifelong passion for puzzles and building led me to computer science and game development in college. Initially, my goal was simply to build cool stuff. I later realized the greater potential: creating meaningful learning and storytelling platforms. This motivated me to build projects in the XR space and take on new gaming designs via contracting. I thrive on hard challenges that result in unique, meaningful experiences. Currently seeking work, I’m ready to dive headfirst into new challenges and learn what’s needed to find a solution. If interested in my work or if you have an opportunity, please reach out! I look forward to hearing from you.",
   "email": "maxfield.friedman12@gmail.com",
   "resume": "/assets/MaxfieldFriedman_Resume.pdf",
@@ -17,39 +18,40 @@
       "items": [
         "C#",
         "C++",
+        "Python",
         "Verse",
-        "Blueprints"
+        "UE Blueprinting"
       ]
     },
     {
-      "group": "Tools & Engines",
+      "group": "Tools",
       "items": [
-        "Unity",
-        "Unreal Engine",
-        "UEFN",
-        "SteamVR",
+        "AWS DynamoDB",
         "OpenXR",
-        "Photon Networking"
+        "Android Studio",
+        "Git",
+        "Plastic SCM"
       ]
     },
     {
-      "group": "Disciplines",
+      "group": "General",
       "items": [
         "Multiplayer",
-        "VR/XR",
         "Gameplay Systems",
         "3D Math",
         "Game AI",
         "UI/UX",
-        "Android Mobile Dev",
-        "Game Dev"
+        "Mobile Dev",
+        "Game Development",
+        "Profiling and Performance Optimization",
+        "Debugging"
       ]
     }
   ],
   "stats": [
     {
       "label": "Experience",
-      "value": "3+ Years"
+      "value": "4+ Years"
     },
     {
       "label": "Engines",
@@ -57,7 +59,7 @@
     },
     {
       "label": "Specialty",
-      "value": "Gameplay & XR Systems"
+      "value": "Gameplay & AR/VR Systems"
     }
   ],
   "projects": [
@@ -76,7 +78,7 @@
           "src": "/assets/fidelis/Alcon_SurgicalSimulator2.png"
         }
       ],
-      "desc": "A unique surgical simulator experience taking you through the 12 main steps of cataract surgery. My role on the project was to help develop the networking interactions and take on enhancing of a few of the steps in the experience. Specifically, adding visual overlays to rotation steps, adjusting pressure, and motion behavior. On top of that, I worked in collaboration with the team to adjust the main menu flow and connection for the experience.",
+      "desc": "A surgical simulator experience taking you through the 12 main steps of cataract surgery. My role on the project was to help develop the networking interactions and take on enhancing of a few of the steps in the experience. Specifically, adding visual overlays to rotation steps, adjusting pressure, and motion behavior. On top of that, I worked in collaboration with the team to adjust the main menu flow and connection for the experience.",
       "tags": [
         "Unity",
         "XR",
@@ -201,19 +203,36 @@
       ]
     }
   ],
+  "education": [
+    {
+      "visible": true,
+      "institution": "University of California: Santa Cruz",
+      "logo": "/assets/ucsc-logo.png",
+      "degree": "Bachelor of Science",
+      "major": "Computer Science: Game Design with Honors",
+      "date": "2017 - 2021",
+      "awards": [
+        "Technical Innovation and Social Impact awards for Senior Capstone Project"
+      ],
+      "capstone": {
+        "title": "Bound 2 You",
+        "link": "https://studiofield.itch.io/bound-2-you"
+      }
+    }
+  ],
   "hobbies": [
     {
       "visible": true,
-      "hobby": "Running",
-      "description": "A new hobby to the list in 2025. My goal was to run a marathon this year. A literal couch to marathon journey. When I started I couldn't even get a mile in. The ups and downs (there's a lot of hills out there) have helped me grow both mentally and physically stronger. I've seen so much crossover into other aspects of my life that this has become less of a hobby and more of a routine. I'm looking forward to continuing to push myself in the world of endurance to see truly what the body and more importantly, my mind, is capable of! (See some of the races I've done below)",
+      "hobby": "Endurance Sports",
+      "description": "A new hobby to the list in 2025. My goal was to complete a marathon. A literal couch to marathon journey. When I started I couldn't even get a mile in. The ups and downs (there's a lot of hills out there) have helped me grow both mentally and physically stronger. I've seen so much crossover into other aspects of my life that this has become less of a hobby and more of a routine. I'm looking forward to continuing to push myself in the world of endurance to see truly what the body and more importantly, my mind, is capable of!\n\nCurrently adding biking and swimming to the schedule and training for a triathlon!",
       "img": null,
       "accomplishments": [
         {
-          "title": "SF Marathon",
+          "title": "SF Marathon 2025",
           "img": null
         },
         {
-          "title": "Berkeley Half Marathon",
+          "title": "Berkeley Half Marathon 2025",
           "img": null
         }
       ]

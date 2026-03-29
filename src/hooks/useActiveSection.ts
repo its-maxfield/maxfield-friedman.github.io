@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import { siteConfig } from "@/data/site-config";
 import { isDev } from "@/lib/utils";
 
-const ALL_SECTIONS = ["hero", "blog", "projects", "experience", "hobbies", "contact"];
+const ALL_SECTIONS = ["hero", "blog", "projects", "experience", "education", "hobbies", "contact"];
 
 export function useActiveSection() {
   const sections = useMemo(() => {

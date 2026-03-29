@@ -29,6 +29,17 @@ export interface ExperienceEntry {
   roles: Role[];
 }
 
+export interface EducationEntry {
+  visible?: boolean;
+  institution: string;
+  logo: string;
+  degree: string;
+  major: string;
+  date: string;
+  awards: string[];
+  capstone: { title: string; link: string } | null;
+}
+
 export interface Accomplishment {
   title: string;
   img: string | null;
@@ -69,6 +80,7 @@ export interface SiteConfig {
   stats: Stat[];
   projects: Project[];
   experience: ExperienceEntry[];
+  education: EducationEntry[];
   hobbies: Hobby[];
   social: SocialLink[];
 }

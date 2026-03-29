@@ -11,6 +11,7 @@ const ALL_NAV_ITEMS = [
   { id: "blog", label: "Blog" },
   { id: "projects", label: "Projects" },
   { id: "experience", label: "Experience" },
+  { id: "education", label: "Education" },
   { id: "hobbies", label: "Hobbies" },
   { id: "contact", label: "Contact" },
 ];

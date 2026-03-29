@@ -9,6 +9,7 @@ import SkillsEditor from "@/components/admin/SkillsEditor";
 import StatsEditor from "@/components/admin/StatsEditor";
 import ProjectsEditor from "@/components/admin/ProjectsEditor";
 import ExperienceEditor from "@/components/admin/ExperienceEditor";
+import EducationEditor from "@/components/admin/EducationEditor";
 import HobbiesEditor from "@/components/admin/HobbiesEditor";
 import SocialEditor from "@/components/admin/SocialEditor";
 import SectionsToggle from "@/components/admin/SectionsToggle";
@@ -160,6 +161,9 @@ export default function AdminPage() {
         )}
         {tab === "Experience" && (
           <ExperienceEditor config={config} onChange={handleConfigChange} />
+        )}
+        {tab === "Education" && (
+          <EducationEditor config={config} onChange={handleConfigChange} />
         )}
         {tab === "Hobbies" && (
           <HobbiesEditor config={config} onChange={handleConfigChange} />

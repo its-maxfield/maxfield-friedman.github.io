@@ -3,6 +3,7 @@ import Hero from "@/components/sections/Hero";
 import Blog from "@/components/sections/Blog";
 import Projects from "@/components/sections/Projects";
 import Experience from "@/components/sections/Experience";
+import Education from "@/components/sections/Education";
 import Hobbies from "@/components/sections/Hobbies";
 import Contact from "@/components/sections/Contact";
 import { siteConfig } from "@/data/site-config";
@@ -47,6 +48,9 @@ export default function Home() {
       </SectionVisible>
       <SectionVisible id="experience">
         <Experience />
+      </SectionVisible>
+      <SectionVisible id="education">
+        <Education />
       </SectionVisible>
       <SectionVisible id="hobbies">
         <Hobbies />

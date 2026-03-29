@@ -5,6 +5,7 @@ const TABS = [
   "Skills & Stats",
   "Projects",
   "Experience",
+  "Education",
   "Hobbies",
   "Social",
   "Sections",
