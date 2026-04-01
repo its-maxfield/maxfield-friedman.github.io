@@ -40,11 +40,11 @@ export default function Home() {
       <SectionWrapper id="hero" className="pt-24">
         <Hero />
       </SectionWrapper>
-      <SectionVisible id="blog">
-        <Blog />
-      </SectionVisible>
       <SectionVisible id="projects">
         <Projects />
+      </SectionVisible>
+      <SectionVisible id="blog">
+        <Blog />
       </SectionVisible>
       <SectionVisible id="experience">
         <Experience />

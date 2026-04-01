@@ -8,8 +8,8 @@ import { siteConfig } from "@/data/site-config";
 
 const ALL_NAV_ITEMS = [
   { id: "hero", label: "About" },
-  { id: "blog", label: "Blog" },
   { id: "projects", label: "Projects" },
+  { id: "blog", label: "Blog" },
   { id: "experience", label: "Experience" },
   { id: "education", label: "Education" },
   { id: "hobbies", label: "Hobbies" },

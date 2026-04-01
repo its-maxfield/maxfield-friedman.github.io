@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "admin": "node server/admin-api.mjs"
+    "admin": "node server/admin-api.mjs",
+    "new-post": "node scripts/new-post.js"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",

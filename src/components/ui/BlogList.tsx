@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { BlogPost } from "@/lib/blog";
 import BlogEntry from "./BlogEntry";
 
-const VISIBLE_COUNT = 5;
+const VISIBLE_COUNT = 3;
 
 export default function BlogList({ posts }: { posts: BlogPost[] }) {
   const [expanded, setExpanded] = useState(false);
