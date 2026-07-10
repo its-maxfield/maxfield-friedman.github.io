@@ -14,6 +14,16 @@
   --color-border: #2e3138;
   --color-border-accent: #5a6650;
 
+  /* Fantasy draft page — categorical position palette (validated for CVD on the
+     #222428 card surface; every use is paired with a text label / legend). */
+  --color-pos-qb: #c98500; /* yellow  */
+  --color-pos-rb: #3987e5; /* blue    */
+  --color-pos-wr: #d95926; /* orange  */
+  --color-pos-te: #199e70; /* aqua    */
+  /* Diverging polarity — steal/riser vs reach/faller (always shown with ↑/↓ + sign). */
+  --color-steal: #0ca30c;
+  --color-reach: #d03b3b;
+
   --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }

@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "admin": "node server/admin-api.mjs",
-    "new-post": "node scripts/new-post.js"
+    "new-post": "node scripts/new-post.js",
+    "fetch-fantasy": "node scripts/fetch-fantasy-data.mjs"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",
