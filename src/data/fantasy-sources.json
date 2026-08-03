@@ -1,0 +1,21 @@
+{
+  "rss": [
+    {
+      "name": "Google News · fantasy football",
+      "url": "https://news.google.com/rss/search?q=fantasy+football+injury+trade+depth+chart&hl=en-US&gl=US&ceid=US:en",
+      "tier": "publication"
+    },
+    {
+      "name": "Google News · NFL transactions",
+      "url": "https://news.google.com/rss/search?q=NFL+trade+signed+released+injury&hl=en-US&gl=US&ceid=US:en",
+      "tier": "publication"
+    }
+  ],
+  "blueskyQueries": ["fantasy football", "NFL injury"],
+  "xQuery": "(NFL OR \"fantasy football\") (injury OR traded OR signed OR released OR depth chart) -is:retweet lang:en",
+  "redditSubreddit": "fantasyfootball",
+  "limits": {
+    "itemsPerSource": 50,
+    "xPostsPerRun": 25
+  }
+}

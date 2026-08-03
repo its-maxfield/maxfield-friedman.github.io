@@ -27,6 +27,7 @@ const POSITIONS = ["QB", "RB", "WR", "TE"];
 // 1 QB & 1 TE per team; ~2.5 RB & ~3 WR per team once the flex is spread across RB/WR.
 const REPLACEMENT_RANK = { QB: 10, RB: 25, WR: 30, TE: 10 };
 const OUT_PATH = path.join(process.cwd(), "src", "data", "draft-analysis.json");
+const previousOutput = fs.existsSync(OUT_PATH) ? JSON.parse(fs.readFileSync(OUT_PATH, "utf8")) : {};
 
 // Injury designations that mean a player likely misses time — i.e. an IR-stash candidate.
 const IR_STATUSES = new Set(["Injured Reserve", "Physically Unable to Perform", "Non Football Injury"]);
@@ -318,6 +319,28 @@ async function main() {
   // Final sort: by ADP (draft board order).
   players.sort((a, b) => a.adp - b.adp);
 
+  // Pre-fetch the supported league-price lenses. Individual failures are soft:
+  // the client falls back to the default half-PPR ADP instead of blocking refreshes.
+  const adpVariants = {};
+  adpVariants[`half-ppr:${TEAMS}`] = Object.fromEntries(players.map((p) => [p.id, { adp: p.adp, stdev: p.stdev }]));
+  const variantRequests = ["standard", "half-ppr", "ppr"].flatMap((format) =>
+    [8, 10, 12, 14].filter((teams) => !(format === "half-ppr" && teams === TEAMS)).map((teams) => ({ format, teams })),
+  );
+  const variantResults = await Promise.allSettled(
+    variantRequests.map(({ format, teams }) => fetchJson(`https://fantasyfootballcalculator.com/api/v1/adp/${format}?teams=${teams}&year=${SEASON}`)),
+  );
+  variantResults.forEach((result, i) => {
+    if (result.status !== "fulfilled") return;
+    const { format, teams } = variantRequests[i];
+    const entries = {};
+    for (const row of result.value.players ?? []) {
+      if (!POSITIONS.includes(row.position)) continue;
+      const match = matchSleeper(row);
+      if (match && typeof row.adp === "number") entries[String(match.id)] = { adp: round1(row.adp), stdev: round1(row.stdev) };
+    }
+    if (Object.keys(entries).length) adpVariants[`${format}:${teams}`] = entries;
+  });
+
   const output = {
     meta: {
       season: SEASON,
@@ -335,10 +358,17 @@ async function main() {
     players,
     roundPositionStats,
     irStashTargets,
+    // Keep the last approved evidence set until the companion news refresh
+    // successfully replaces it. A transient social/news failure cannot erase it.
+    evidence: previousOutput.evidence ?? [],
+    signals: previousOutput.signals ?? [],
+    adpHistory: previousOutput.adpHistory ?? [],
+    sourceHealth: previousOutput.sourceHealth ?? [],
+    adpVariants,
   };
 
   fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
-  fs.writeFileSync(OUT_PATH, JSON.stringify(output));
+  fs.writeFileSync(OUT_PATH, JSON.stringify(output, null, 2) + "\n");
 
   // ─── Report ─────────────────────────────────────────────────────────────
   const sizeKb = (fs.statSync(OUT_PATH).size / 1024).toFixed(1);

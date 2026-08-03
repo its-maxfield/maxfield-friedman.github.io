@@ -10,7 +10,9 @@
     "lint": "eslint",
     "admin": "node server/admin-api.mjs",
     "new-post": "node scripts/new-post.js",
-    "fetch-fantasy": "node scripts/fetch-fantasy-data.mjs"
+    "fetch-fantasy": "node scripts/fetch-fantasy-data.mjs",
+    "fetch-fantasy-news": "node scripts/fetch-fantasy-news.mjs",
+    "refresh-fantasy": "node scripts/fetch-fantasy-data.mjs && node scripts/fetch-fantasy-news.mjs"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.19",

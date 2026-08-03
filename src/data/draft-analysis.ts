@@ -3,6 +3,20 @@
 // Mirrors the site-config.ts convention: interfaces here, raw JSON imported below.
 
 export type Position = "QB" | "RB" | "WR" | "TE";
+export type ScoringFormat = "standard" | "half_ppr" | "ppr";
+export type RiskMode = "conservative" | "balanced" | "upside";
+
+export interface LeagueConfig {
+  teams: number;
+  scoring: ScoringFormat;
+  passTd: 4 | 6;
+  starters: Record<Position, number>;
+  flex: number;
+  bench: number;
+  ir: number;
+  draftSlot: number;
+  riskMode: RiskMode;
+}
 
 export interface DraftPlayer {
   id: string;
@@ -47,6 +61,70 @@ export interface DraftPlayer {
   bustRisk: "low" | "med" | "high";
   /** Component stat projections, kept for phase-2 league-specific rescoring. */
   comp?: Record<string, number>;
+  /** Optional news-aware values produced by a refresh. Older datasets remain valid. */
+  baselineProjPts?: number;
+  adjustedProjPts?: number;
+  adjustedVor?: number;
+  adjustedRank?: number;
+  newsMultiplier?: number;
+  newsConfidence?: number;
+  momentumScore?: number;
+  adpDelta?: number;
+  evidenceIds?: string[];
+  lastImpactAt?: string | null;
+}
+
+export type NewsEventType =
+  | "trade"
+  | "signing"
+  | "release"
+  | "injury"
+  | "recovery"
+  | "suspension"
+  | "depth_chart"
+  | "usage"
+  | "momentum";
+
+export interface NewsEvidence {
+  id: string;
+  playerIds: string[];
+  source: string;
+  sourceTier: "official" | "reporter" | "publication" | "social";
+  title: string;
+  url: string;
+  author?: string;
+  publishedAt: string;
+  eventType: NewsEventType;
+  direction: -1 | 0 | 1;
+  confidence: number;
+  summary: string;
+}
+
+export interface PlayerSignal {
+  playerId: string;
+  evidenceIds: string[];
+  eventType: NewsEventType;
+  direction: -1 | 0 | 1;
+  confidence: number;
+  projectionMultiplier: number;
+  momentumScore: number;
+  approved: boolean;
+  lastImpactAt: string;
+  expiresAt: string;
+}
+
+export interface AdpSnapshot {
+  capturedAt: string;
+  scoring: ScoringFormat;
+  teams: number;
+  ranks: Record<string, number>;
+}
+
+export interface SourceHealth {
+  source: string;
+  status: "ok" | "skipped" | "stale" | "error";
+  checkedAt: string;
+  detail?: string;
 }
 
 export interface PosStat {
@@ -95,6 +173,11 @@ export interface DraftAnalysis {
   players: DraftPlayer[];
   roundPositionStats: RoundPositionStat[];
   irStashTargets: IRStashTarget[];
+  evidence?: NewsEvidence[];
+  signals?: PlayerSignal[];
+  adpHistory?: AdpSnapshot[];
+  sourceHealth?: SourceHealth[];
+  adpVariants?: Record<string, Record<string, { adp: number; stdev: number | null }>>;
 }
 
 export type BustRisk = "low" | "med" | "high";
@@ -106,6 +189,18 @@ import raw from "./draft-analysis.json";
 export const draftAnalysis = raw as unknown as DraftAnalysis;
 
 export const POSITIONS: Position[] = ["QB", "RB", "WR", "TE"];
+
+export const DEFAULT_LEAGUE_CONFIG: LeagueConfig = {
+  teams: 10,
+  scoring: "half_ppr",
+  passTd: 4,
+  starters: { QB: 1, RB: 2, WR: 2, TE: 1 },
+  flex: 1,
+  bench: 8,
+  ir: 2,
+  draftSlot: 1,
+  riskMode: "balanced",
+};
 
 /** CSS custom properties for each position color (defined in globals.css @theme). */
 export const POS_COLOR: Record<Position, string> = {

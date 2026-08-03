@@ -3,6 +3,9 @@
 import { POS_COLOR, type IRStashTarget } from "@/data/draft-analysis";
 
 export default function IRStashTargets({ targets, irSlots }: { targets: IRStashTarget[]; irSlots: number }) {
+  if (irSlots === 0) {
+    return <p className="font-mono text-sm text-text-muted">This league has no IR slots, so injured-player stashes are excluded from the strategy.</p>;
+  }
   if (!targets.length) {
     return (
       <p className="font-mono text-sm text-text-muted">

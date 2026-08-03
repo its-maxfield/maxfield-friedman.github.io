@@ -1,110 +1,121 @@
 "use client";
 
+import { useMemo, useSyncExternalStore } from "react";
 import SectionWrapper from "@/components/ui/SectionWrapper";
 import StatTiles from "./StatTiles";
-import PositionValueByRound from "./PositionValueByRound";
 import ValueGapChart from "./ValueGapChart";
 import RiserFallerChart from "./RiserFallerChart";
 import IRStashTargets from "./IRStashTargets";
 import DraftBoard from "./DraftBoard";
 import DraftSimulator from "./DraftSimulator";
-import type { DraftAnalysis } from "@/data/draft-analysis";
+import LeagueSettings from "./LeagueSettings";
+import RoundStrategy from "./RoundStrategy";
+import NewsImpactFeed from "./NewsImpactFeed";
+import { buildStrategyPlayers } from "@/lib/draft-strategy";
+import { DEFAULT_LEAGUE_CONFIG, type DraftAnalysis, type LeagueConfig } from "@/data/draft-analysis";
+
+const LEAGUE_KEY = "draft_league_v2";
+const leagueListeners = new Set<() => void>();
+function subscribeLeague(callback: () => void) {
+  leagueListeners.add(callback);
+  window.addEventListener("storage", callback);
+  return () => { leagueListeners.delete(callback); window.removeEventListener("storage", callback); };
+}
+const leagueSnapshot = () => localStorage.getItem(LEAGUE_KEY) ?? "";
+const serverLeagueSnapshot = () => "";
+
+function parseLeague(raw: string): LeagueConfig {
+  try {
+    const saved = raw ? JSON.parse(raw) : null;
+    return saved ? { ...DEFAULT_LEAGUE_CONFIG, ...saved, starters: { ...DEFAULT_LEAGUE_CONFIG.starters, ...saved.starters } } : DEFAULT_LEAGUE_CONFIG;
+  } catch { return DEFAULT_LEAGUE_CONFIG; }
+}
 
 function ChartCard({ title, blurb, children }: { title: string; blurb: string; children: React.ReactNode }) {
   return (
     <div className="bg-surface border border-border rounded-xl p-4 md:p-6">
       <h2 className="text-lg font-bold text-text-primary">{title}</h2>
-      <p className="text-sm text-text-muted mb-5 max-w-2xl">{blurb}</p>
+      <p className="text-sm text-text-muted mb-5 max-w-3xl">{blurb}</p>
       {children}
     </div>
   );
 }
 
 export default function DraftDashboard({ data }: { data: DraftAnalysis }) {
-  const { meta, players, roundPositionStats, irStashTargets } = data;
+  const { meta, irStashTargets } = data;
+  const leagueRaw = useSyncExternalStore(subscribeLeague, leagueSnapshot, serverLeagueSnapshot);
+  const league = useMemo(() => parseLeague(leagueRaw), [leagueRaw]);
+  const players = useMemo(() => buildStrategyPlayers(data, league), [data, league]);
+
+  const updateLeague = (next: LeagueConfig) => {
+    localStorage.setItem(LEAGUE_KEY, JSON.stringify({ ...next, draftSlot: Math.min(next.draftSlot, next.teams) }));
+    leagueListeners.forEach((listener) => listener());
+  };
 
   return (
     <div className="min-h-screen">
       <SectionWrapper id="header" className="py-10 md:py-12">
         <h1 className="text-3xl md:text-4xl font-bold text-text-primary">Draft War Room</h1>
         <p className="font-mono text-sm text-accent-text mt-2">
-          Half-PPR · {meta.teams}-team · {meta.rounds} rounds · {meta.season} season
+          {league.scoring.replace("_", "-").toUpperCase()} · {league.teams}-team · {meta.rounds} rounds · {meta.season} season
         </p>
         <p className="font-mono text-xs text-text-muted mt-1">
-          {meta.playerCount} players · ADP {meta.adpMatched} · generated {meta.generatedAt} · sources: Sleeper + FantasyFootballCalculator
+          {meta.playerCount} players · ADP {meta.adpMatched} · generated {meta.generatedAt} · news-aware, human approved
         </p>
-        {meta.stale && (
-          <p className="font-mono text-xs text-amber-500 mt-2">
-            ⚠ Upcoming-season projections were unavailable — showing prior-season data.
-          </p>
-        )}
+        {meta.stale && <p className="font-mono text-xs text-amber-500 mt-2">⚠ Upcoming-season projections were unavailable—showing prior-season data.</p>}
       </SectionWrapper>
 
-      <SectionWrapper id="summary" className="py-4">
-        <StatTiles players={players} />
+      <SectionWrapper id="league" className="py-4">
+        <LeagueSettings value={league} onChange={updateLeague} />
       </SectionWrapper>
+
+      <SectionWrapper id="summary" className="py-4"><StatTiles players={players} /></SectionWrapper>
 
       <SectionWrapper id="simulator" className="py-4">
-        <ChartCard
-          title="Live draft assistant"
-          blurb="Set your draft slot, then mark players as they come off the board. Your snake picks are computed, others are simulated by ADP, and the best available (by VOR, with sane roster caps) is recommended at each of your picks. Progress saves in your browser."
-        >
-          <DraftSimulator players={players} meta={meta} />
+        <ChartCard title="Live draft assistant" blurb="Mark picks as they happen. Recommendations combine league-specific VOR, positional drop-off, roster need, ADP uncertainty, and the probability a target survives to your next pick.">
+          <DraftSimulator players={players} meta={{ ...meta, teams: league.teams }} config={league} />
         </ChartCard>
       </SectionWrapper>
 
       <SectionWrapper id="positional" className="py-4">
-        <ChartCard
-          title="Positional value by draft round"
-          blurb="Average (or median) projected half-PPR points for each position, bucketed by the round they're actually drafted in. The callout shows which position holds the scoring edge in each round — i.e. when one position is worth taking over another. Switch positions and metric with the pills."
-        >
-          <PositionValueByRound stats={roundPositionStats} />
+        <ChartCard title="Best position and targets by round" blurb="Expected marginal value over replacement for players likely to be available in each round. This identifies positional scarcity instead of simply rewarding positions with more raw points.">
+          <RoundStrategy players={players} config={league} />
+        </ChartCard>
+      </SectionWrapper>
+
+      <SectionWrapper id="news" className="py-4">
+        <ChartCard title="News and market signals" blurb="Approved roster, injury, reporting, and social evidence behind ranking changes. Every impact keeps its baseline visible and links back to its source.">
+          <NewsImpactFeed evidence={data.evidence ?? []} health={data.sourceHealth ?? []} />
         </ChartCard>
       </SectionWrapper>
 
       <SectionWrapper id="value" className="py-4">
-        <ChartCard
-          title="Draft cost vs. true value — steals & busts"
-          blurb="Where a player is drafted (ADP rank) vs. where their Value Over Replacement says they should go. Steals are valued above their draft cost; reaches the opposite. Ringed ⚠ marks are high bust-risk (volatile ADP, age, or injury) — reaches you especially want to avoid. Filter by position. Replacement baselines: QB10 / RB25 / WR30 / TE10."
-        >
-          <ValueGapChart players={players} />
+        <ChartCard title="Draft priority vs. market price" blurb="Players must provide positive starter value before they can be called targets. Priority is driven mainly by league-adjusted VOR, then by how much better a player is than the alternatives normally available at the same draft cost.">
+          <ValueGapChart players={players} teams={league.teams} />
         </ChartCard>
       </SectionWrapper>
 
       <SectionWrapper id="movers" className="py-4">
-        <ChartCard
-          title="Risers & fallers: 2025 → 2026"
-          blurb="Last season's actual half-PPR points vs. this year's projection — the biggest movers, filterable by position. Ringed dots changed NFL teams this offseason, which often drives the swing. Rookies are excluded (no prior season)."
-        >
+        <ChartCard title={`${meta.priorSeason} actuals vs. ${meta.season} adjusted outlook`} blurb="Prior-season production compared with league-adjusted projections. Team changes are marked and rookies are excluded.">
           <RiserFallerChart players={players} />
         </ChartCard>
       </SectionWrapper>
 
       <SectionWrapper id="ir" className="py-4">
-        <ChartCard
-          title={`IR-stash targets (${meta.teams}-team, 2 IR slots)`}
-          blurb="Players whose talent says draft them high, but who are starting the season hurt — so their ADP craters. With two IR slots you can draft them late, stash them on IR, and get a starter back mid-season."
-        >
-          <IRStashTargets targets={irStashTargets} irSlots={2} />
+        <ChartCard title={`IR-stash targets (${league.teams}-team, ${league.ir} IR slots)`} blurb="Injured players with enough projected value to justify a late pick and an IR slot.">
+          <IRStashTargets targets={irStashTargets} irSlots={league.ir} />
         </ChartCard>
       </SectionWrapper>
 
       <SectionWrapper id="board" className="py-4">
-        <ChartCard
-          title="Draft board"
-          blurb="The full board, filterable by position and sortable by any metric. Risk = bust risk; injury tags and team-changes are flagged inline. Tap a column header to sort."
-        >
+        <ChartCard title="Draft board" blurb="The full board with baseline and adjusted value, news confidence, injury status, and team changes.">
           <DraftBoard players={players} />
         </ChartCard>
       </SectionWrapper>
 
-      <footer className="max-w-2xl mx-auto text-center mt-4 mb-16 px-4">
+      <footer className="max-w-3xl mx-auto text-center mt-4 mb-16 px-4">
         <p className="font-mono text-xs text-text-dim leading-relaxed">
-          VOR (Value Over Replacement) = projected points minus the last startable player at that position, so scarce
-          RB/WR points count for more than abundant QB points in a 1-QB league. Bust risk blends ADP volatility, age,
-          injury, and regression. Projections and prior-year stats from Sleeper; ADP from real half-PPR mock drafts
-          (FantasyFootballCalculator). For entertainment — not betting advice. Refresh with{" "}
-          <span className="text-text-muted">npm run fetch-fantasy</span>.
+          VOR is recalculated from this league&apos;s starter and FLEX demand. News adjustments are confidence-weighted, capped, source-linked, and never replace the baseline projection. For entertainment—not betting advice. Refresh with <span className="text-text-muted">npm run fetch-fantasy</span>.
         </p>
       </footer>
     </div>
