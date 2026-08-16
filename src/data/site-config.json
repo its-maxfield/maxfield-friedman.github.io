@@ -1,6 +1,6 @@
 {
   "sections": {
-    "blog": true,
+    "blog": false,
     "projects": true,
     "experience": true,
     "education": true,

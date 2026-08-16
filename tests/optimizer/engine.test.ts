@@ -142,4 +142,16 @@ describe("day-state transitions", () => {
     expect(state.days.disneyland.nextLightningLaneEligibleAt).toBe(now.toISOString());
     expect(state.days.disneyland.reservations[0].status).toBe("redeemed");
   });
+
+  it("loads live queues atomically and keeps personal trip state", () => {
+    let state = createInitialState(false);
+    state = disneyReducer(state, { type: "SET_TIER", parkId: "disneyland", attractionId: "space-mountain", tier: "must" });
+    state = disneyReducer(state, { type: "TOGGLE_PIN", parkId: "disneyland", attractionId: "space-mountain" });
+    state = disneyReducer(state, { type: "LOAD_LIVE", parkId: "disneyland", fetchedAt: now.toISOString(), statuses: [{ attractionId: "space-mountain", standbyMinutes: 35, lightningLaneReturnStart: new Date(now.getTime() + 60 * 60000).toISOString(), lastUpdatedAt: now.toISOString(), source: "live", operatingStatus: "operating", temporarilyUnavailable: false }] });
+    expect(state.preferences.disneyland[0].tier).toBe("must");
+    expect(state.days.disneyland.pinnedAttractionIds).toEqual(["space-mountain"]);
+    expect(state.days.disneyland.attractionStates["space-mountain"].standbyMinutes).toBe(35);
+    expect(state.days.disneyland.lastLiveRefreshAt).toBe(now.toISOString());
+    expect(state.days.disneyland.llObservations).toHaveLength(1);
+  });
 });

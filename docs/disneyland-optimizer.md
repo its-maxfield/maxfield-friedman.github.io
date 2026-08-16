@@ -15,10 +15,10 @@ The trip passphrase is `rope-drop-2026`. Change it by replacing the SHA-256 hash
 
 ## Worker
 
-Deploy from `worker/wrangler.toml`, then route `maxfieldfriedman.com/api/*` to the Worker. The MVP exposes only `GET /api/health`; live data is intentionally not required by the optimizer.
+Deploy from `worker/wrangler.toml`, then route `maxfieldfriedman.com/api/*` to the Worker. The Worker exposes `GET /api/health` and `GET /api/parks/{parkId}/queues`. Queue data is normalized from ThemeParks.wiki and cached upstream for five minutes. The client refreshes it only when requested.
 
 ## Reliability
 
-The Disneyland app is authoritative. Confirm park closing times, attraction availability, waits, return windows, and the next-booking timer manually. The PWA stores trip data in the browser and continues from cached data offline.
+The Disneyland app remains authoritative for transactions and eligibility. Live waits, availability, and advertised return windows can be refreshed through the Queues tab, while bookings and corrections remain manually editable. The PWA stores personal trip data in the browser and continues from cached data offline; separate devices do not share personal trip state.
 
 The Map tab is a bundled schematic based on approximate attraction coordinates. It requires no map tiles or network connection and is intended for relative positioning, not turn-by-turn navigation.

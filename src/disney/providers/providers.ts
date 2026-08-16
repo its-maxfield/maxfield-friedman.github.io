@@ -1,5 +1,5 @@
 import { attractionsForPark } from "../data/attractions";
-import type { AttractionStatus, DisneylandDataProvider, ParkId } from "../types";
+import type { AttractionStatus, DisneylandDataProvider, ParkId, ParkQueuesResponse } from "../types";
 
 export class ManualDataProvider implements DisneylandDataProvider {
   constructor(private readonly states: Record<string, AttractionStatus>) {}
@@ -27,5 +27,37 @@ export class MockDataProvider implements DisneylandDataProvider {
         source: "mock",
       };
     });
+  }
+}
+
+export class LiveDataProvider implements DisneylandDataProvider {
+  async getParkQueues(parkId: ParkId) {
+    const response = await fetch(`/api/parks/${parkId}/queues/`, { headers: { accept: "application/json" }, cache: "no-store" });
+    if (!response.ok) {
+      const body = await response.json().catch(() => undefined) as { error?: string } | undefined;
+      throw new Error(body?.error ?? `Live queue refresh failed (${response.status})`);
+    }
+    const payload = await response.json() as ParkQueuesResponse;
+    const byExternalId = new Map(attractionsForPark(parkId).filter((ride) => ride.externalEntityId).map((ride) => [ride.externalEntityId, ride]));
+    const statuses = payload.items.flatMap((item): AttractionStatus[] => {
+      const attraction = byExternalId.get(item.sourceEntityId);
+      if (!attraction) return [];
+      return [{
+        attractionId: attraction.id,
+        standbyMinutes: item.standbyMinutes ?? undefined,
+        lightningLaneReturnStart: item.returnTime?.start ?? undefined,
+        lightningLaneReturnEnd: item.returnTime?.end ?? undefined,
+        lightningLaneAvailability: item.returnTime?.state,
+        temporarilyUnavailable: item.operatingStatus !== "operating",
+        operatingStatus: item.operatingStatus,
+        lastUpdatedAt: item.lastUpdatedAt,
+        source: "live",
+      }];
+    });
+    return { statuses, fetchedAt: payload.fetchedAt };
+  }
+
+  async getAttractionStatus(parkId: ParkId) {
+    return (await this.getParkQueues(parkId)).statuses;
   }
 }

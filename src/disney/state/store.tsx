@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useMemo, useReducer, useState } from "react";
 import { attractionsForPark } from "../data/attractions";
-import { MockDataProvider } from "../providers/providers";
+import { LiveDataProvider, MockDataProvider } from "../providers/providers";
 import type { AppState, AttractionPreference, AttractionStatus, FatigueLevel, LightningLaneReservation, ParkId, PriorityTier, ScheduledPlan } from "../types";
 
 const STORAGE_KEY = "park-day-optimizer:v1";
@@ -42,13 +42,15 @@ function emptyDay(parkId: ParkId) {
     scheduledPlans: [],
     history: [],
     simulatedTime: undefined,
+    pinnedAttractionIds: [],
+    lastLiveRefreshAt: undefined,
   };
 }
 
 export function createInitialState(simulation = false): AppState {
   const today = new Date().toISOString().slice(0, 10);
   return {
-    version: 1,
+    version: 2,
     activeParkId: today === "2026-08-19" ? "california-adventure" : "disneyland",
     setupComplete: { disneyland: false, "california-adventure": false },
     preferences: { disneyland: [], "california-adventure": [] },
@@ -76,6 +78,8 @@ export type Action =
   | { type: "REMOVE_PLAN"; parkId: ParkId; id: string }
   | { type: "SET_SIM_TIME"; parkId: ParkId; at: string }
   | { type: "LOAD_MOCK"; parkId: ParkId; statuses: AttractionStatus[] }
+  | { type: "LOAD_LIVE"; parkId: ParkId; statuses: AttractionStatus[]; fetchedAt: string }
+  | { type: "TOGGLE_PIN"; parkId: ParkId; attractionId: string }
   | { type: "RESET_DAY"; parkId: ParkId };
 
 const historyEntry = (label: string, at: string, estimatedMinutesSaved?: number) => ({ id: globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`, at, label, estimatedMinutesSaved });
@@ -136,18 +140,28 @@ export function disneyReducer(state: AppState, action: Action): AppState {
   if (action.type === "REMOVE_PLAN") next = { ...day, scheduledPlans: day.scheduledPlans.filter((plan) => plan.id !== action.id) };
   if (action.type === "SET_SIM_TIME") next = { ...day, simulatedTime: action.at };
   if (action.type === "LOAD_MOCK") next = { ...day, attractionStates: Object.fromEntries(action.statuses.map((status) => [status.attractionId, status])), llObservations: action.statuses.flatMap((status) => status.lightningLaneReturnStart ? [{ attractionId: status.attractionId, observedAt: status.lastUpdatedAt ?? new Date().toISOString(), returnTime: status.lightningLaneReturnStart }] : []) };
+  if (action.type === "LOAD_LIVE") {
+    const attractionStates = { ...day.attractionStates };
+    const newObservations = action.statuses.flatMap((status) => status.lightningLaneReturnStart
+      ? [{ attractionId: status.attractionId, observedAt: status.lastUpdatedAt ?? action.fetchedAt, returnTime: status.lightningLaneReturnStart }]
+      : []);
+    for (const status of action.statuses) attractionStates[status.attractionId] = { ...attractionStates[status.attractionId], ...status };
+    next = { ...day, attractionStates, llObservations: [...day.llObservations, ...newObservations].slice(-150), lastLiveRefreshAt: action.fetchedAt };
+  }
+  if (action.type === "TOGGLE_PIN") next = { ...day, pinnedAttractionIds: day.pinnedAttractionIds.includes(action.attractionId) ? day.pinnedAttractionIds.filter((id) => id !== action.attractionId) : [...day.pinnedAttractionIds, action.attractionId] };
   return { ...state, days: { ...state.days, [action.parkId]: next } };
 }
 
-type StoreValue = { state: AppState; dispatch: React.Dispatch<Action>; hydrated: boolean; loadMock: (parkId: ParkId, now: Date) => Promise<void> };
+type StoreValue = { state: AppState; dispatch: React.Dispatch<Action>; hydrated: boolean; loadMock: (parkId: ParkId, now: Date) => Promise<void>; refreshLive: (parkId: ParkId) => Promise<number> };
 const StoreContext = createContext<StoreValue | undefined>(undefined);
 
 function safeParse(raw: string | null, simulation: boolean): AppState | undefined {
   if (!raw) return;
   try {
-    const parsed = JSON.parse(raw) as AppState;
-    if (parsed.version !== 1) return;
-    return { ...parsed, simulation };
+    const parsed = JSON.parse(raw) as Omit<AppState, "version"> & { version: number };
+    if (parsed.version !== 1 && parsed.version !== 2) return;
+    const migrateDay = (day: AppState["days"][ParkId]) => ({ ...day, pinnedAttractionIds: day.pinnedAttractionIds ?? [], lastLiveRefreshAt: day.lastLiveRefreshAt });
+    return { ...parsed, version: 2, simulation, days: { disneyland: migrateDay(parsed.days.disneyland), "california-adventure": migrateDay(parsed.days["california-adventure"]) } };
   } catch { return; }
 }
 
@@ -173,7 +187,13 @@ export function DisneyStoreProvider({ children }: { children: React.ReactNode })
     const statuses = await new MockDataProvider(now).getAttractionStatus(parkId);
     dispatch({ type: "LOAD_MOCK", parkId, statuses });
   };
-  const value = useMemo(() => ({ state, dispatch, hydrated, loadMock }), [state, hydrated]);
+  const refreshLive = async (parkId: ParkId) => {
+    const provider = new LiveDataProvider();
+    const result = await provider.getParkQueues(parkId);
+    dispatch({ type: "LOAD_LIVE", parkId, statuses: result.statuses, fetchedAt: result.fetchedAt });
+    return result.statuses.length;
+  };
+  const value = useMemo(() => ({ state, dispatch, hydrated, loadMock, refreshLive }), [state, hydrated]);
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }
 

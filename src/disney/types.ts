@@ -1,7 +1,9 @@
 export type ParkId = "disneyland" | "california-adventure";
 export type PriorityTier = "must" | "nice" | "convenient" | "dont-care";
 export type FatigueLevel = "good" | "normal" | "tired";
-export type DataSource = "manual" | "mock";
+export type DataSource = "manual" | "mock" | "live";
+export type OperatingStatus = "operating" | "down" | "closed" | "refurbishment" | "unknown";
+export type LightningLaneAvailability = "available" | "temp-full" | "finished" | "unknown";
 export type ReservationStatus = "held" | "redeemed" | "expired" | "cancelled";
 export type ActionType =
   | "BOOK_LIGHTNING_LANE"
@@ -24,6 +26,7 @@ export type Attraction = {
   historicalDemand: "very-high" | "high" | "medium" | "low";
   expectedLlQueueMinutes: number;
   durationMinutes: number;
+  externalEntityId?: string;
 };
 
 export type AttractionPreference = {
@@ -40,6 +43,8 @@ export type AttractionStatus = {
   temporarilyUnavailable?: boolean;
   lastUpdatedAt?: string;
   source?: DataSource;
+  operatingStatus?: OperatingStatus;
+  lightningLaneAvailability?: LightningLaneAvailability;
 };
 
 export type LightningLaneReservation = {
@@ -97,10 +102,12 @@ export type DayState = {
   scheduledPlans: ScheduledPlan[];
   history: HistoryEntry[];
   simulatedTime?: string;
+  pinnedAttractionIds: string[];
+  lastLiveRefreshAt?: string;
 };
 
 export type AppState = {
-  version: 1;
+  version: 2;
   activeParkId: ParkId;
   setupComplete: Record<ParkId, boolean>;
   preferences: Record<ParkId, AttractionPreference[]>;
@@ -136,3 +143,19 @@ export type ScoredAction = {
 export interface DisneylandDataProvider {
   getAttractionStatus(parkId: ParkId): Promise<AttractionStatus[]>;
 }
+
+export type ParkQueueItem = {
+  sourceEntityId: string;
+  name: string;
+  operatingStatus: OperatingStatus;
+  standbyMinutes: number | null;
+  returnTime: { state: LightningLaneAvailability; start: string | null; end: string | null } | null;
+  lastUpdatedAt: string;
+};
+
+export type ParkQueuesResponse = {
+  parkId: ParkId;
+  source: "themeparks-wiki";
+  fetchedAt: string;
+  items: ParkQueueItem[];
+};
