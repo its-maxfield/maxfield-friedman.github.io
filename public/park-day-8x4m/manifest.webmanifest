@@ -1,0 +1,14 @@
+{
+  "name": "Park Day Optimizer",
+  "short_name": "Park Day",
+  "description": "A private two-day Disneyland Resort companion.",
+  "start_url": "/park-day-8x4m/",
+  "scope": "/park-day-8x4m/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#07110f",
+  "theme_color": "#07110f",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "any", "type": "image/x-icon", "purpose": "any maskable" }
+  ]
+}
