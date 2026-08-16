@@ -70,10 +70,6 @@
       "img": "/assets/alcon.png",
       "media": [
         {
-          "type": "video",
-          "src": "/assets/fidelis/Fidelis_PromoVideo_v3.mp4"
-        },
-        {
           "type": "image",
           "src": "/assets/fidelis/Alcon_SurgicalSimulator2.png"
         }
@@ -142,16 +138,7 @@
       "title": "Alcon CS/VCS Experience",
       "subtitle": "Worked on at Launchvox.",
       "img": "/assets/cs_vcs/thumbnail1.png",
-      "media": [
-        {
-          "type": "video",
-          "src": "/assets/cs_vcs/vcscsDemo.mp4"
-        },
-        {
-          "type": "video",
-          "src": "/assets/cs_vcs/CS Pops.mp4"
-        }
-      ],
+      "media": [],
       "desc": "This experience for Alcon expanded on the base framework for the Fidelis Cataract Simulator. On this project we focused on a new device from Alcon and showing all of the interactions and device attachments that came with it. My job was to implement the networking system using Photon for Unity to allow voice chat and real-time interactions for users. I also worked on the intents and extras system which allow users to view animations build and published in the Unreal Engine while maintaining group networked connection going in and out of the main experience. Check out some of the videos for an idea of what it's like!",
       "tags": [
         "Unity",
