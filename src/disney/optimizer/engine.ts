@@ -213,3 +213,15 @@ export function estimateRemainingMustDoMinutes(day: DayState, preferences: Attra
     return total + wait + attraction.durationMinutes + 6;
   }, 0);
 }
+
+export function estimateRemainingPriorityMinutes(day: DayState, preferences: AttractionPreference[]) {
+  return preferences
+    .filter((preference) => preference.tier !== "dont-care" && !day.completedAttractionIds.includes(preference.attractionId))
+    .reduce((total, preference) => {
+      const attraction = attractionById(preference.attractionId);
+      if (!attraction) return total;
+      const fallbackWait = attraction.historicalDemand === "very-high" ? 60 : attraction.historicalDemand === "high" ? 40 : attraction.historicalDemand === "medium" ? 25 : 15;
+      const wait = day.attractionStates[attraction.id]?.standbyMinutes ?? fallbackWait;
+      return total + wait + attraction.durationMinutes + 6;
+    }, 0);
+}

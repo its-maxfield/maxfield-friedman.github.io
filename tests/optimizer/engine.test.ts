@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createInitialState, disneyReducer } from "../../src/disney/state/store";
-import { recommendBookNext, recommendNow, scarcityVelocity } from "../../src/disney/optimizer/engine";
+import { estimateRemainingPriorityMinutes, recommendBookNext, recommendNow, scarcityVelocity } from "../../src/disney/optimizer/engine";
 import type { AttractionPreference, DayState } from "../../src/disney/types";
 
 const now = new Date("2026-08-18T10:00:00-07:00");
@@ -11,6 +11,15 @@ function day(): DayState {
 }
 
 describe("current-action optimizer", () => {
+  it("estimates all unfinished priority rides and excludes skipped rides", () => {
+    const state = day();
+    state.attractionStates["indiana-jones"] = { attractionId: "indiana-jones", standbyMinutes: 20 };
+    const preferences = [pref("indiana-jones", "must"), pref("space-mountain", "dont-care")];
+    expect(estimateRemainingPriorityMinutes(state, preferences)).toBe(40);
+    state.completedAttractionIds.push("indiana-jones");
+    expect(estimateRemainingPriorityMinutes(state, preferences)).toBe(0);
+  });
+
   it("asks for data when no candidate has a known wait", () => {
     expect(recommendNow(day(), [pref("indiana-jones", "must")], now).type).toBe("WAIT");
   });
@@ -141,6 +150,9 @@ describe("day-state transitions", () => {
     state = disneyReducer(state, { type: "SET_RESERVATION_STATUS", parkId: "disneyland", id: "one", status: "redeemed", at: now.toISOString() });
     expect(state.days.disneyland.nextLightningLaneEligibleAt).toBe(now.toISOString());
     expect(state.days.disneyland.reservations[0].status).toBe("redeemed");
+    const correctedAt = new Date(now.getTime() + 45 * 60000).toISOString();
+    state = disneyReducer(state, { type: "CORRECT_TIMER", parkId: "disneyland", at: correctedAt });
+    expect(state.days.disneyland.nextLightningLaneEligibleAt).toBe(correctedAt);
   });
 
   it("loads live queues atomically and keeps personal trip state", () => {

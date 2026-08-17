@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import AccessGate from "./AccessGate";
 import { attractionById, attractionsForPark, landsForPark } from "../data/attractions";
-import { formatTime, freshnessLabel, recommendBookNext, recommendNow, recommendNowOptions } from "../optimizer/engine";
+import { estimateRemainingPriorityMinutes, formatTime, freshnessLabel, recommendBookNext, recommendNow, recommendNowOptions } from "../optimizer/engine";
 import { DisneyStoreProvider, useDisneyStore } from "../state/store";
 import type { Attraction, FatigueLevel, ParkId, PriorityTier, ScoredAction } from "../types";
 
@@ -107,9 +107,13 @@ function SetupScreen({ parkId, onDone }: { parkId: ParkId; onDone: () => void })
   </div>;
 }
 
-function ActionCard({ action, onComplete }: { action: ScoredAction; onComplete: (id: string) => void }) {
+function actionKey(action: ScoredAction) {
+  return `${action.type}:${action.attractionId ?? action.planId ?? action.title}`;
+}
+
+function ActionCard({ action, selected, onComplete }: { action: ScoredAction; selected: boolean; onComplete: (id: string) => void }) {
   return <section className="rounded-[28px] border border-amber-300/40 bg-gradient-to-br from-amber-200 to-orange-300 p-5 text-[#25180b] shadow-2xl shadow-amber-950/25">
-    <p className="text-xs font-black uppercase tracking-[0.24em]">Best action now</p>
+    <p className="text-xs font-black uppercase tracking-[0.24em]">{selected ? "Your selected action" : "Best action now"}</p>
     <h2 className="mt-4 text-3xl font-black leading-none">{action.title}</h2>
     <p className="mt-3 text-sm font-black">{action.subtitle}</p>
     <p className="mt-5 border-t border-black/15 pt-4 text-sm leading-5"><span className="font-black">Why: </span>{action.reason}</p>
@@ -159,12 +163,31 @@ function BookingModal({ parkId, now, onClose, reservationId, initialAttractionId
 }
 
 function TimerCard({ parkId, now }: { parkId: ParkId; now: Date }) {
-  const { state } = useDisneyStore();
+  const { state, dispatch } = useDisneyStore();
   const eligibleAt = state.days[parkId].nextLightningLaneEligibleAt;
   const seconds = eligibleAt ? Math.max(0, Math.ceil((new Date(eligibleAt).getTime() - now.getTime()) / 1000)) : 0;
   const label = seconds <= 0 ? "READY" : `${String(Math.floor(seconds / 3600)).padStart(2, "0")}:${String(Math.floor((seconds % 3600) / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
+  const [editing, setEditing] = useState(false);
+  const [hours, setHours] = useState(String(Math.floor(seconds / 3600)));
+  const [minutes, setMinutes] = useState(String(Math.floor((seconds % 3600) / 60)));
+
+  function openEditor() {
+    setHours(String(Math.floor(seconds / 3600)));
+    setMinutes(String(Math.floor((seconds % 3600) / 60)));
+    setEditing(true);
+  }
+
+  function saveTimer(event: React.FormEvent) {
+    event.preventDefault();
+    const duration = Math.max(0, Number(hours) * 60 + Number(minutes));
+    dispatch({ type: "CORRECT_TIMER", parkId, at: duration > 0 ? new Date(now.getTime() + duration * 60000).toISOString() : undefined });
+    setEditing(false);
+  }
+
   return <section className="rounded-2xl border border-sky-300/25 bg-sky-300/10 p-4">
     <div className="flex items-center justify-between"><div><p className="text-[10px] font-black uppercase tracking-[0.18em] text-sky-200">Next LL booking</p><p className="mt-1 text-3xl font-black tabular-nums">{label}</p></div><Clock3 className="text-sky-200" /></div>
+    <button onClick={openEditor} className="mt-3 min-h-11 w-full rounded-xl border border-sky-200/15 bg-sky-950/20 text-sm font-black text-sky-100">Adjust countdown</button>
+    {editing && <div className="fixed inset-0 z-[80] grid items-end bg-black/70 p-3 sm:items-center"><form onSubmit={saveTimer} className="mx-auto w-full max-w-md rounded-[28px] border border-white/10 bg-[#10221d] p-5"><div className="flex items-center justify-between"><div><p className="text-xs font-black uppercase tracking-wider text-sky-200">LL eligibility</p><h2 className="mt-1 text-xl font-black">Adjust countdown</h2></div><button type="button" aria-label="Close countdown editor" onClick={() => setEditing(false)} className="grid size-11 place-items-center rounded-xl bg-white/5"><X /></button></div><p className="mt-3 text-sm text-white/50">Set how much time remains on the current two-hour booking clock.</p><div className="mt-4 grid grid-cols-2 gap-3"><label className="text-xs font-black uppercase tracking-wider text-white/45">Hours<input aria-label="Countdown hours" type="number" inputMode="numeric" min="0" max="23" value={hours} onChange={(event) => setHours(event.target.value)} className={`${input} mt-2`} /></label><label className="text-xs font-black uppercase tracking-wider text-white/45">Minutes<input aria-label="Countdown minutes" type="number" inputMode="numeric" min="0" max="59" value={minutes} onChange={(event) => setMinutes(event.target.value)} className={`${input} mt-2`} /></label></div><button className="mt-5 min-h-12 w-full rounded-xl bg-emerald-300 font-black text-emerald-950">Save countdown</button><button type="button" onClick={() => { dispatch({ type: "CORRECT_TIMER", parkId }); setEditing(false); }} className={`${button} mt-2 w-full`}>Ready now</button></form></div>}
   </section>;
 }
 
@@ -292,11 +315,28 @@ function SettingsView({ parkId, onSetup }: { parkId: ParkId; onSetup: () => void
   </div>;
 }
 
+function DaySnapshot({ parkId }: { parkId: ParkId }) {
+  const { state, dispatch } = useDisneyStore();
+  const day = state.days[parkId];
+  const completed = day.completedAttractionIds.flatMap((id) => { const ride = attractionById(id); return ride ? [ride] : []; });
+  const prioritiesLeft = state.preferences[parkId].filter((preference) => preference.tier !== "dont-care" && !day.completedAttractionIds.includes(preference.attractionId)).length;
+  const held = day.reservations.filter((reservation) => reservation.status === "held").sort((a, b) => new Date(a.returnStart).getTime() - new Date(b.returnStart).getTime());
+
+  return <section className="rounded-2xl border border-white/10 bg-white/5 p-4">
+    <div className="flex items-center justify-between gap-3"><div><p className="text-xs font-black uppercase tracking-wider text-white/45">Your position</p><p className="mt-1 text-sm text-white/50">Updates walking and LL guidance.</p></div><MapPin size={20} className="text-emerald-300" /></div>
+    <select aria-label="Current position" className={`${input} mt-3`} value={day.currentLand ?? ""} onChange={(event) => dispatch({ type: "SET_LOCATION", parkId, land: event.target.value })}><option value="">Choose current land</option>{landsForPark(parkId).map((land) => <option className="bg-[#10221d]" key={land}>{land}</option>)}</select>
+    <div className="mt-4 grid grid-cols-2 gap-2"><div className="rounded-xl bg-black/15 p-3"><p className="text-[10px] font-black uppercase tracking-wider text-white/40">Done</p><p className="mt-1 text-xl font-black">{completed.length}</p></div><div className="rounded-xl bg-black/15 p-3"><p className="text-[10px] font-black uppercase tracking-wider text-white/40">Priorities left</p><p className="mt-1 text-xl font-black">{prioritiesLeft}</p></div></div>
+    <div className="mt-4"><p className="text-xs font-black uppercase tracking-wider text-sky-200">LL hopper</p>{held.length === 0 ? <p className="mt-2 text-sm text-white/40">No held bookings.</p> : <div className="mt-2 space-y-2">{held.map((reservation) => <div key={reservation.id} className="flex items-center justify-between gap-3 rounded-xl bg-sky-300/10 px-3 py-2"><span className="text-sm font-black">{attractionById(reservation.attractionId)?.name}</span><span className="shrink-0 text-xs font-bold text-sky-100">{formatTime(reservation.returnStart)}</span></div>)}</div>}</div>
+    {completed.length > 0 && <details className="mt-4 border-t border-white/10 pt-3"><summary className="min-h-10 cursor-pointer py-2 text-sm font-black">See completed rides</summary><p className="mt-1 text-sm leading-6 text-white/50">{completed.map((ride) => ride.name).join(" · ")}</p></details>}
+  </section>;
+}
+
 function Dashboard() {
   const { state, dispatch, hydrated, loadMock } = useDisneyStore();
   const [view, setView] = useState<"now" | "queues" | "map" | "settings">("now");
   const [setupOverride, setSetupOverride] = useState(false);
   const [booking, setBooking] = useState<{ open: boolean; id?: string; attractionId?: string }>({ open: false });
+  const [selectedActionKey, setSelectedActionKey] = useState<string>();
   const [, setTick] = useState(0);
   const online = useOnline();
   const parkId = state.activeParkId;
@@ -312,9 +352,12 @@ function Dashboard() {
   }, [day.reservations, day.simulatedTime, dispatch, parkId]);
 
   const now = day.simulatedTime ? new Date(day.simulatedTime) : new Date();
-  const recommendation = recommendNow(day, state.preferences[parkId], now);
-  const alternatives = recommendNowOptions(day, state.preferences[parkId], now).slice(1, 3);
+  const actionOptions = recommendNowOptions(day, state.preferences[parkId], now);
+  const selectedAction = actionOptions.find((action) => actionKey(action) === selectedActionKey);
+  const recommendation = selectedAction ?? recommendNow(day, state.preferences[parkId], now);
+  const alternatives = actionOptions.filter((action) => actionKey(action) !== actionKey(recommendation)).slice(0, 2);
   const bookNext = recommendBookNext(day, state.preferences[parkId], now);
+  const remainingPriorityMinutes = estimateRemainingPriorityMinutes(day, state.preferences[parkId]);
   if (!hydrated) return <div className="grid min-h-dvh place-items-center"><RefreshCw className="animate-spin text-emerald-300" /></div>;
   if (!state.setupComplete[parkId] || setupOverride) return <SetupScreen parkId={parkId} onDone={() => { setSetupOverride(false); setView("queues"); }} />;
 
@@ -322,7 +365,7 @@ function Dashboard() {
   return <main className="min-h-dvh bg-[#07110f] text-[#f7f2e7]"><RegisterPwa /><div className="mx-auto max-w-md px-4 pb-28 pt-[max(1.25rem,env(safe-area-inset-top))]">
     <header className="mb-5"><div className="flex items-center justify-between"><div><p className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-300">{state.simulation ? "Simulation mode" : day.config.date}</p><h1 className="mt-1 text-2xl font-black">Park Day Optimizer</h1></div><div className={`flex items-center gap-1 rounded-full border px-2.5 py-1.5 text-[10px] font-black ${online ? "border-emerald-700/50 bg-emerald-950 text-emerald-200" : "border-amber-300/30 bg-amber-300/10 text-amber-200"}`}>{online ? <Wifi size={12} /> : <CloudOff size={12} />}{online ? "ONLINE" : "OFFLINE"}</div></div><div className="mt-4 grid grid-cols-2 rounded-2xl bg-white/5 p-1">{(["disneyland", "california-adventure"] as ParkId[]).map((id) => <button key={id} onClick={() => { dispatch({ type: "SET_ACTIVE_PARK", parkId: id }); setView("now"); }} className={`min-h-11 rounded-xl px-2 text-xs font-black ${parkId === id ? "bg-emerald-300 text-emerald-950" : "text-white/45"}`}>{state.days[id].config.shortLabel}</button>)}</div></header>
     {state.simulation && <section className="mb-4 rounded-2xl border border-violet-300/30 bg-violet-300/10 p-3"><div className="flex items-center justify-between"><div><p className="text-[10px] font-black uppercase tracking-wider text-violet-200">Simulated time</p><p className="font-black">{formatTime(now)}</p></div><button onClick={() => loadMock(parkId, now)} className={`${button} text-xs`}>Refresh crowd</button></div><div className="mt-2 grid grid-cols-3 gap-2">{[[15, "+15m"], [30, "+30m"], [60, "+1h"]].map(([amount, label]) => <button key={label} onClick={() => dispatch({ type: "SET_SIM_TIME", parkId, at: new Date(now.getTime() + Number(amount) * 60000).toISOString() })} className={button}>{label}</button>)}</div></section>}
-    {view === "now" && <div className="space-y-4"><ActionCard action={recommendation} onComplete={(attractionId) => dispatch({ type: "COMPLETE_ATTRACTION", parkId, attractionId, at: now.toISOString() })} />{alternatives.length > 0 && <section className="rounded-2xl border border-white/10 bg-white/5 p-4"><p className="text-xs font-black uppercase tracking-wider text-white/45">Next best</p><div className="mt-2 divide-y divide-white/10">{alternatives.map((action, index) => <div key={`${action.attractionId ?? action.planId}-${index}`} className="flex justify-between gap-3 py-3"><div><p className="font-black">{action.title}</p><p className="mt-1 text-xs text-white/45">{action.subtitle}</p></div><span className="text-sm font-black text-white/35">#{index + 2}</span></div>)}</div></section>}<section className="rounded-2xl border border-emerald-300/20 bg-emerald-300/5 p-4"><p className="text-xs font-black uppercase tracking-wider text-emerald-300">Book next</p><h2 className="mt-2 text-lg font-black">{bookNext?.title ?? "No booking needed yet"}</h2><p className="mt-1 text-sm text-white/55">{bookNext?.subtitle ?? "Use the countdown, then check again."}</p>{bookNext && <button onClick={() => setBooking({ open: true, attractionId: bookNext.attractionId })} className="mt-3 min-h-11 w-full rounded-xl bg-emerald-300 font-black text-emerald-950">Record this LL</button>}</section><TimerCard parkId={parkId} now={now} /></div>}
+    {view === "now" && <div className="space-y-4"><ActionCard action={recommendation} selected={Boolean(selectedAction)} onComplete={(attractionId) => { dispatch({ type: "COMPLETE_ATTRACTION", parkId, attractionId, at: now.toISOString() }); setSelectedActionKey(undefined); }} /><DaySnapshot parkId={parkId} />{alternatives.length > 0 && <section className="rounded-2xl border border-white/10 bg-white/5 p-4"><p className="text-xs font-black uppercase tracking-wider text-white/45">Other good options</p><div className="mt-2 divide-y divide-white/10">{alternatives.map((action) => <button type="button" aria-label={`Choose ${action.title}`} onClick={() => setSelectedActionKey(actionKey(action))} key={actionKey(action)} className="flex min-h-16 w-full items-center justify-between gap-3 py-3 text-left"><div><p className="font-black">{action.title}</p><p className="mt-1 text-xs text-white/45">{action.subtitle}</p></div><span className="shrink-0 rounded-lg bg-white/10 px-2 py-1 text-xs font-black text-emerald-200">Choose</span></button>)}</div></section>}<section className="rounded-2xl border border-emerald-300/20 bg-emerald-300/5 p-4"><p className="text-xs font-black uppercase tracking-wider text-emerald-300">Book next</p><h2 className="mt-2 text-lg font-black">{bookNext?.title ?? "No booking needed yet"}</h2><p className="mt-1 text-sm text-white/55">{bookNext?.subtitle ?? "Use the countdown, then check again."}</p>{bookNext && <button onClick={() => setBooking({ open: true, attractionId: bookNext.attractionId })} className="mt-3 min-h-11 w-full rounded-xl bg-emerald-300 font-black text-emerald-950">Record this LL</button>}</section><TimerCard parkId={parkId} now={now} /><section className="rounded-2xl border border-white/10 bg-white/5 p-4"><p className="text-xs font-black uppercase tracking-wider text-white/45">Estimated time to finish priorities</p><p className="mt-2 text-2xl font-black">{remainingPriorityMinutes === 0 ? "All done" : `~${Math.floor(remainingPriorityMinutes / 60)}h ${remainingPriorityMinutes % 60}m`}</p><p className="mt-1 text-xs text-white/40">Uses current waits when available, plus ride and walking time.</p></section></div>}
     {view === "queues" && <QueuesView parkId={parkId} now={now} online={online} onBook={(id, attractionId) => setBooking({ open: true, id, attractionId })} />}
     {view === "map" && <MapView parkId={parkId} now={now} />}
     {view === "settings" && <SettingsView parkId={parkId} onSetup={() => setSetupOverride(true)} />}
