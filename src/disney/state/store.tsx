@@ -171,7 +171,9 @@ export function DisneyStoreProvider({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     const simulation = new URLSearchParams(window.location.search).get("simulate") === "true";
-    const stored = safeParse(localStorage.getItem(simulation ? SIM_STORAGE_KEY : STORAGE_KEY), simulation);
+    let stored: AppState | undefined;
+    try { stored = safeParse(localStorage.getItem(simulation ? SIM_STORAGE_KEY : STORAGE_KEY), simulation); }
+    catch { stored = undefined; }
     queueMicrotask(() => {
       dispatch({ type: "HYDRATE", state: stored ?? createInitialState(simulation) });
       setHydrated(true);
@@ -180,7 +182,8 @@ export function DisneyStoreProvider({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     if (!hydrated) return;
-    localStorage.setItem(state.simulation ? SIM_STORAGE_KEY : STORAGE_KEY, JSON.stringify(state));
+    try { localStorage.setItem(state.simulation ? SIM_STORAGE_KEY : STORAGE_KEY, JSON.stringify(state)); }
+    catch { /* Storage can be unavailable in private or restricted mobile browsing. */ }
   }, [state, hydrated]);
 
   const loadMock = async (parkId: ParkId, now: Date) => {

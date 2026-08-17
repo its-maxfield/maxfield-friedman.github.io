@@ -1,4 +1,4 @@
-const CACHE = "park-day-v2";
+const CACHE = "park-day-v3";
 const CORE = ["/park-day-8x4m/", "/park-day-8x4m/manifest.webmanifest", "/favicon.ico"];
 
 self.addEventListener("install", (event) => {

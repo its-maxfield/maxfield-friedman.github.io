@@ -148,7 +148,7 @@ function scheduledCandidates(day: DayState, now: Date): ScoredAction[] {
   });
 }
 
-export function recommendNow(day: DayState, preferences: AttractionPreference[], now: Date): ScoredAction {
+export function recommendNowOptions(day: DayState, preferences: AttractionPreference[], now: Date): ScoredAction[] {
   const candidates = [
     ...reservationCandidates(day, preferences, now),
     ...scheduledCandidates(day, now),
@@ -159,7 +159,11 @@ export function recommendNow(day: DayState, preferences: AttractionPreference[],
       return candidate ? [candidate] : [];
     }),
   ].sort((a, b) => b.score - a.score || (a.attractionId ?? a.planId ?? "").localeCompare(b.attractionId ?? b.planId ?? ""));
-  return candidates[0] ?? { type: "WAIT", score: 0, title: "Update nearby waits", subtitle: "No reliable action yet", reason: "Add a few current standby waits so the optimizer can compare real opportunities.", breakdown: emptyBreakdown() };
+  return candidates;
+}
+
+export function recommendNow(day: DayState, preferences: AttractionPreference[], now: Date): ScoredAction {
+  return recommendNowOptions(day, preferences, now)[0] ?? { type: "WAIT", score: 0, title: "Refresh priority waits", subtitle: "No reliable action yet", reason: "Refresh live queues or add a current wait so the optimizer can compare your priority rides.", breakdown: emptyBreakdown() };
 }
 
 export function recommendBookNext(day: DayState, preferences: AttractionPreference[], now: Date): ScoredAction | undefined {

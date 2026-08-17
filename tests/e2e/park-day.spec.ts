@@ -13,13 +13,13 @@ test("private route unlocks into the two-day setup", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Held Lightning Lanes" })).toBeVisible();
   await page.getByRole("button", { name: "Map", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Interactive park map" })).toBeVisible();
-  await expect(page.getByText("Preloaded · works offline")).toBeVisible();
+  await expect(page.getByText("Live geographic view")).toBeVisible();
   await page.evaluate(() => navigator.serviceWorker.ready.then(() => true));
   await page.reload();
   await expect(page.getByRole("heading", { name: "Park Day Optimizer" })).toBeVisible();
 });
 
-test("refreshes live queues and persists a pinned shortlist", async ({ page }) => {
+test("refreshes live queues and persists a manual mobile wait", async ({ page }) => {
   await page.addInitScript((payload) => {
     const nativeFetch = window.fetch.bind(window);
     window.fetch = (input, init) => String(input).includes("/api/parks/disneyland/queues")
@@ -45,11 +45,16 @@ test("refreshes live queues and persists a pinned shortlist", async ({ page }) =
   await page.getByRole("button", { name: "Start optimizing" }).click();
   await page.getByRole("button", { name: "Refresh live" }).click();
   await expect(page.getByText("Updated 1 attractions")).toBeVisible();
-  const space = page.locator("section").filter({ has: page.getByRole("heading", { name: "Space Mountain" }) }).filter({ hasText: "25m" }).first();
-  await expect(space).toBeVisible();
-  await page.getByRole("button", { name: "Pin Space Mountain" }).click();
-  await expect(page.getByRole("heading", { name: "Pinned shortlist" })).toBeVisible();
+  await page.getByText(/Other rides/).click();
+  const space = page.locator("section").filter({ has: page.getByRole("heading", { name: "Space Mountain" }) }).first();
+  await expect(space.getByText("25m")).toBeVisible();
+  await page.getByLabel("Wait minutes for Space Mountain").fill("13");
+  await page.getByRole("button", { name: "Save wait for Space Mountain" }).click();
+  await expect(space.getByText("NO LINE", { exact: true })).toBeVisible();
   await page.reload();
   await page.getByRole("button", { name: "Queues", exact: true }).click();
-  await expect(page.getByRole("heading", { name: "Pinned shortlist" })).toBeVisible();
+  await page.getByText(/Other rides/).click();
+  const savedSpace = page.locator("section").filter({ has: page.getByRole("heading", { name: "Space Mountain" }) }).first();
+  await expect(savedSpace.getByText("13m")).toBeVisible();
+  await expect(savedSpace.getByText("NO LINE", { exact: true })).toBeVisible();
 });
